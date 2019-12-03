@@ -54,21 +54,22 @@ std_stars['sky_coords'] = std_stars.apply(lambda x: sky_coords(x['RA'], x['Dec']
 Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
 
 midnight = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+utcoffset = 5.5*u.hour
 
-midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))
+midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
 
-delta_midnight = np.linspace(-12, 12, 100)*u.hour
-
+delta_midnight = np.linspace(-12, 12, 1000)*u.hour
 
 frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
+
+
 
 std_stars['altaz_night'] = std_stars['sky_coords'].apply(lambda x: transform(x, frame_tonight))
 
 sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
 moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
-
-test = std_stars['altaz_night'][3]
+test = std_stars['altaz_night'][2]
 plt.plot(delta_midnight, sunaltazs_tonight.alt, color='r', label='Sun')
 plt.plot(delta_midnight, moonaltazs_tonight.alt, color=[0.75]*3, ls='--', label='Moon')
 plt.scatter(delta_midnight, test.alt,
@@ -87,5 +88,6 @@ plt.xlabel('Hours from EDT Midnight')
 plt.ylabel('Altitude [deg]')
 plt.show()
 
+std_stars.head(20)
 
-std_stars.head()
+std_stars.loc[np.where(std_stars.Star == 'RU 149G')]
