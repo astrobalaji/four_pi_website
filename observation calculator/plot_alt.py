@@ -3,9 +3,6 @@ import matplotlib.pyplot as plt
 from astropy.visualization import astropy_mpl_style
 plt.style.use(astropy_mpl_style)
 
-import os
-os.chdir('/Users/astrobalaji/Documents/four_pi_live/four_pi_website/observation calculator')
-
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz, ICRS, get_sun, get_moon
@@ -87,7 +84,3 @@ plt.ylim(0, 90)
 plt.xlabel('Hours from EDT Midnight')
 plt.ylabel('Altitude [deg]')
 plt.show()
-
-std_stars.head(20)
-
-std_stars.loc[np.where(std_stars.Star == 'RU 149G')]
