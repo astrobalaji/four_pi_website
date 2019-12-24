@@ -22,12 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
-#SECRET_KEY = 'pgfer-3^1ctbt7oaixb6x+aln7+o940z$n1lw0(2k(y72!6(_9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.4pi-astro.com']
+ALLOWED_HOSTS = ['.4pi-astro.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
