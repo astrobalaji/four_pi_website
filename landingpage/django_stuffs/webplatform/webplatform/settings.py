@@ -122,3 +122,12 @@ LOGIN_REDIRECT_URL = '/landingpage'
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
