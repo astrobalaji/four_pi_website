@@ -26,7 +26,7 @@ with open('webplatform/secret_key.txt', 'r') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['4pi-astro.com']
 
 
 # Application definition
