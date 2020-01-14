@@ -4,6 +4,8 @@ from astropy.io import fits
 import os
 from tqdm import tqdm
 
+os.chdir('/Users/astrobalaji/Documents/four_pi_live/four_pi_website/cr2fitsconverter')
+
 def convert(filename):
     data = rawpy.imread(open(filename, 'rb'))
     meta_data = exifread.process_file(open(filename, 'rb'))
@@ -14,25 +16,31 @@ def convert(filename):
     img_b = img[:,:,2]
 
     fits_img = fits.PrimaryHDU(img_r)
-    fits_img.header['Exposure'] = str(meta_data['EXIF ExposureTime'].values[0])
+    exposure = meta_data['EXIF ExposureTime'].values[0]
+    exp_time = float(exposure.num/exposure.den)
+    fits_img.header['Exposure'] = exp_time
     fits_img.header['Date'] = str(meta_data['Image DateTime'].values)
     fits_img.header['Camera'] = str(meta_data['Image Model'].values)
     fits_img.header['Channel'] = 'Red'
-    fits_img.writeto(filename.replace('.CR2', '_r.fits'))
+    fits_img.writeto(filename.replace('.CR2', '_{0}_r.fits'.format(exp_time)))
 
     fits_img = fits.PrimaryHDU(img_g)
-    fits_img.header['Exposure'] = str(meta_data['EXIF ExposureTime'].values[0])
+    exposure = meta_data['EXIF ExposureTime'].values[0]
+    exp_time = float(exposure.num/exposure.den)
+    fits_img.header['Exposure'] = exp_time
     fits_img.header['Date'] = str(meta_data['Image DateTime'].values)
     fits_img.header['Camera'] = str(meta_data['Image Model'].values)
     fits_img.header['Channel'] = 'Green'
-    fits_img.writeto(filename.replace('.CR2', '_g.fits'))
+    fits_img.writeto(filename.replace('.CR2', '_{0}_g.fits'.format(exp_time)))
 
     fits_img = fits.PrimaryHDU(img_b)
-    fits_img.header['Exposure'] = str(meta_data['EXIF ExposureTime'].values[0])
+    exposure = meta_data['EXIF ExposureTime'].values[0]
+    exp_time = float(exposure.num/exposure.den)
+    fits_img.header['Exposure'] = exp_time
     fits_img.header['Date'] = str(meta_data['Image DateTime'].values)
     fits_img.header['Camera'] = str(meta_data['Image Model'].values)
     fits_img.header['Channel'] = 'Blue'
-    fits_img.writeto(filename.replace('.CR2', '_b.fits'))
+    fits_img.writeto(filename.replace('.CR2', '_{0}_b.fits'.format(exp_time)))
 
 os.chdir('/Users/astrobalaji/Desktop/4pi_data/lights')
 filenames = os.listdir()
