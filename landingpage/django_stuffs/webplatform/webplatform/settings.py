@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'signup',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,14 @@ LOGIN_REDIRECT_URL = '/landingpage'
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = '4pi-astro.com'
+EMAIL_HOST_USER = 'hello@4pi-astro.com'
+EMAIL_HOST_PASSWORD = 'Ad_Astra_42'
+EMAIL_PORT = 587
 
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
