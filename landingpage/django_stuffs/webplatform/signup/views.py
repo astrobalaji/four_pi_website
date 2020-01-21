@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, UpdateView
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileForm
 from django.contrib.auth.models import User
 
 from django.contrib import messages
