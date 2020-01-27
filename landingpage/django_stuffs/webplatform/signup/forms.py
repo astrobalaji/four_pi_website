@@ -17,4 +17,5 @@ class SignUpForm(UserCreationForm):
             'email',
             'password1',
             'password2',
+            #'user_dir'
             ]
