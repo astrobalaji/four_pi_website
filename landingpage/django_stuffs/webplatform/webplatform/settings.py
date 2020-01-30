@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'webplatform.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql_cymysql',#'django.db.backends.mysql',
         'NAME': 'astronom441453_bruno',
         'USER': 'astro_centaur',
         'PASSWORD': 'Ad_Astra_42',
