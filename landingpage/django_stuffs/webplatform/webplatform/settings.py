@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'astro_centaur',
         'PASSWORD': 'Ad_Astra_42',
         'HOST': 'localhost',
-        'PORT': '3306'
+        'PORT': ''
     }
 }
 
