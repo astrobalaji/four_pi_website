@@ -79,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'astronom441453_bruno',
-        'USER': 'astro_centaur',
+        'USER': 'astronom441453_astro_centaur',
         'PASSWORD': 'Ad_Astra_42',
         'HOST': 'localhost',
         'PORT': '3306'
