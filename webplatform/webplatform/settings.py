@@ -87,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'astronom441453_bruno',
-        'USER': 'root',
-        'PASSWORD': 'AdAstra42',
+        'USER': os.environ.get("FOURPIDBUSER"),
+        'PASSWORD': os.environ.get("FOURPIDBPASS"),
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -142,7 +142,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = '4pi-astro.com'
 EMAIL_HOST_USER = 'hello@4pi-astro.com'
 DEFAULT_FROM_EMAIL = 'hello@4pi-astro.com'
-EMAIL_HOST_PASSWORD = 'Ad_Astra_42'
+EMAIL_HOST_PASSWORD = os.environ.get("HELLOPASS")
 EMAIL_PORT = 587
 
 
