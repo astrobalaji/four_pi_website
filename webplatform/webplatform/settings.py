@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'signup',
+    'coming_soon',
+    'confirm_reg',
+    'homepage',
+
 ]
 
 MIDDLEWARE = [
