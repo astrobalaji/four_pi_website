@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'coming_soon',
     'confirm_reg',
     'homepage',
+    'amateurOnboarding',
 
 ]
 
