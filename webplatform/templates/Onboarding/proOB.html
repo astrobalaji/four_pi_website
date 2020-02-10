@@ -1,0 +1,23 @@
+{% extends 'gen_base.html' %}
+{% block content %}
+<div class="container align-center">
+    <div class="row justify-content-md-center">
+        <div class="mbr-white col-md-10">
+            <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
+              Hello {{full_name}}! :)</h1>
+              <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                  Welcome to our Network! The amateurs are armed and ready for your targets</p>
+              <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                  But before that, please tell us more about you</p>
+        </div>
+    </div>
+</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+    <br><br>
+</form>
+{% endblock content %}
