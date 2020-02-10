@@ -17,7 +17,7 @@ class proOBViews(View):
             lname = request.user.last_name
             full_name = fname+' '+lname
             context = {'form':form, 'full_name':full_name}
-            return render(request, 'Onboarding/proOb.html', context)
+            return render(request, 'Onboarding/proOB.html', context)
         else:
             return redirect('/accounts/login')
 

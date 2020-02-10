@@ -10,4 +10,4 @@ class eduOBViews(View):
             lname = request.user.last_name
             full_name = fname+' '+lname
             context = {'full_name':full_name}
-            return render(request, 'Onboarding/eduOb.html', context)
+            return render(request, 'Onboarding/eduOB.html', context)
