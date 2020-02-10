@@ -20,7 +20,7 @@ urlpatterns = [
     path('signup/activate/confirm_email', conf_email_views.index),
     path('activate/dir_sel/', conf_email_views.init_sel),
     path('onboarding/amateur/', AmaOBViews.as_view()),
+    path('onboarding/professional/', proOBViews.as_view()),
+    path('onboarding/educators/', eduOBViews.as_view()),
     path('user/home/', home_view.index),
-    path('onboarding_professional/', proOBViews.as_view()),
-    path('onboarding_educators/', eduOBViews.as_view())
 ]

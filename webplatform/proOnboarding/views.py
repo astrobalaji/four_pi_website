@@ -13,13 +13,14 @@ class proOBViews(View):
 
     def get(self, request):
         form = self.form_class()
-
         if request.user.is_authenticated:
             fname = request.user.first_name
             lname = request.user.last_name
             full_name = fname+' '+lname
             context = {'form':form, 'full_name':full_name}
             return render(request, 'Onboarding/proOb.html', context)
+        else:
+            return redirect('/accounts/login')
 
     def post(self, request):
         form = self.form_class(request.POST)
