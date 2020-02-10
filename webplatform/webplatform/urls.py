@@ -6,7 +6,9 @@ from signup.views import SignUpView, ActivateAccount
 from confirm_reg import views as conf_email_views
 from amateurOnboarding.views import AmaOBViews
 from proOnboarding.views import proOBViews
+from eduOnboarding.views import eduOBViews
 from user_home import views as home_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,4 +22,5 @@ urlpatterns = [
     path('onboarding/amateur/', AmaOBViews.as_view()),
     path('user/home/', home_view.index),
     path('onboarding/professional/', proOBViews.as_view()),
+    path('onboarding/educators/', eduOBViews.as_view())
 ]
