@@ -16,4 +16,4 @@ class AmaOB(models.Model):
     user_id = models.CharField(max_length=200)
     fov = models.FloatField()
     credits = models.CharField(max_length = 20000)
-    total_credits = model.FloatField(default = 0.)
+    total_credits = models.FloatField(default = 0.)
