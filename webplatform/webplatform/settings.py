@@ -24,10 +24,10 @@ with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = ['4pi-astro.com', 'www.4pi-astro.com', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'homepage',
     'amateurOnboarding',
     'proOnboarding',
+    'obs_propose'
 
 ]
 
@@ -153,6 +154,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("HELLOPASS")
 EMAIL_PORT = 587
 
 
+'''
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
@@ -162,3 +164,4 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = True
+'''

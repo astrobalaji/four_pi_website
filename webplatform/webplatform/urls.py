@@ -8,7 +8,13 @@ from amateurOnboarding.views import AmaOBViews
 from proOnboarding.views import proOBViews
 from eduOnboarding.views import eduOBViews
 from user_home import views as home_view
-
+from obs_propose.views import ObsPropViews
+from prof_obs_sel import views as prof_obs_sel_views
+from prof_obs_sel.views import SelectObservatory
+from prof_obs_overview.views import Obs_Overview_views
+from prof_obs_overview.views import ReqObservatory
+from observability_calc.views import obs_calc_views
+from ama_obs_overview.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +29,13 @@ urlpatterns = [
     path('onboarding/professional/', proOBViews.as_view()),
     path('onboarding/educators/', eduOBViews.as_view()),
     path('user/home/', home_view.index),
+    path('obsprop/', ObsPropViews.as_view()),
+    path('obs_sel/',prof_obs_sel_views.index),
+    path(r'obs_sel/<slug>-<pk>/', SelectObservatory.as_view(), name='blog_post'),
+    path('obs/overview/<pk>', Obs_Overview_views.as_view()),
+    path(r'obsreq/<slug>-<pk>',ReqObservatory.as_view(), name = 'request_obs'),
+    path(r'obs_calc/<slug>-<pk>', obs_calc_views.as_view(), name = 'obs_calc'),
+    path(r'obs_rev_ama/<pk>', ama_overview_views.as_view()),
+    path(r'accept/<slug>-<pk>', accept_obs.as_view()),
+    path(r'reject/<slug>-<pk>', reject_obs.as_view())
 ]

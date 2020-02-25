@@ -33,3 +33,5 @@ class AmaOBViews(View):
             observatory.fov = fov
             observatory.save()
             return redirect('/user/home/')
+        else:
+            return redirect('/landingpage')
