@@ -136,12 +136,15 @@
                     Ongoing Observation</h2>
                 {% for obs in selobs %}
                 <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5">
-                    <a href="https://localhost:8000/obs_rev_ama/{{obs.pk}}">{{obs.title}}</a><br>{{obs.description}}</h3>
+                    <a href="https://4pi-astro.com/obs_rev_ama/{{obs.pk}}">{{obs.title}}</a><br>{{obs.description}}</h3>
                 {% endfor %}
             </div>
         </div>
     </div>
-
+    {% else %}
+    <p class="mbr-text pb-3 mbr-fonts-style display-5">
+        You have no ongoing observations yet.</p>
+    {% endif %}
 </section>
 
 <section class="pricing-table3 cid-rRvXzOtINx" id="pricing-tables3-1x">
@@ -186,54 +189,6 @@
 <section class="section-table cid-rQTtMXQbmi" id="table1-m">
 
 
-
-  <div class="container container-table">
-
-      {% if compobsdisp %}
-      <div class="table-wrapper">
-        <div class="container">
-
-        </div>
-
-        <div class="container scroll">
-          <table class="table" cellspacing="0">
-            <thead>
-              <tr class="table-heads ">
-
-
-
-
-              <th class="head-item mbr-fonts-style display-7">
-                      Observation Title</th><th class="head-item mbr-fonts-style display-7">
-                      Status</th><th class="head-item mbr-fonts-style display-7">
-                      Date</th><th class="head-item mbr-fonts-style display-7">
-                      Credits</th></tr>
-            </thead>
-
-            <tbody>
-
-
-
-
-            <tr>
-
-
-
-              {% for obs in selobs %}
-              <td class="body-item mbr-fonts-style display-7">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.status}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.credits}}</td></tr><tr>
-              {% endfor %}
-          </table>
-        </div>
-        <div class="container table-info-container">
-
-        </div>
-      </div>
-      {% else %}
-      <p class="mbr-text pb-3 mbr-fonts-style display-5">
-          You have no observations yet. Review your requested observations. :)</p>
-      {% endif %}
-    </div>
-</section>
 
 <section class="features7 cid-rQWKbHUJHc" id="features7-p">
 
