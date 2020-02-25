@@ -98,8 +98,8 @@ def index(request):
         elif dir == 'ama':
             res = AmaOB.objects.filter(user_id = uname).iterator()
             AmaData = next(res)
-            Ama_Credits = ast.literal_eval(AmaData.credits)
-            Ama_total_credits = AmaData.total_credits
+            #Ama_Credits = ast.literal_eval(AmaData.credits)
+            #Ama_total_credits = AmaData.total_credits
             newobs = get_ama_new_obs(uname)
             selobs = get_ama_sel_obs(uname)
             compobs = get_ama_comp_obs(uname)
