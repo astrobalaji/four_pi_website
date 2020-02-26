@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import View
 from obs_propose.models import Obs_Prop
+from amateurOnboarding.models import AmaOB
+
+from datetime import datetime, timedelta
+
 
 # Create your views here.
 class ama_overview_views(View):
@@ -41,30 +45,50 @@ class ama_overview_views(View):
 class accept_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
         res = Obs_Prop.objects.filter(pk=pk).iterator()
+        user_res = next(AmaOB.objects.filter(user_id=slug).iterator())
         Proposal = next(res)
-        if Proposal.requested_users != slug:
-            Proposal.requested_users = Proposal.requested_users.replace(slug+',', '')
+        req_users = Proposal.requested_users.split(',')
+        if len(req_users)!=1:
+            req_users.remove(slug)
+            Proposal.requested_users = ','.join(req_users)
         else:
             Proposal.requested_users = ''
-        if Proposal.requested_users == '':
-            Proposal.requested_users = slug
+        if Proposal.accepted_users == '':
+            Proposal.accepted_users = slug
         else:
             acc_users = Proposal.accepted_users.split(',')
             acc_users.append(slug)
             Proposal.accepted_users = ','.join(acc_users)
             Proposal.save()
+
+        start_date = Proposal.start_date
+        days = []
+        for i in range(Proposal.no_of_nights):
+            temp_date = start_date+timedelta(days=i)
+            days.append(temp_date.strftime('%Y-%m-%d'))
+
+        if user_res.booked_dates == '':
+            user_res.booked_dates = ','.join(days)
+        else:
+            booked_dates = user_res.booked_dates.split(',')
+            booked_dates += days
+            user_res.booked_dates = booked_dates
+        user_res.save()
+
         return render(request, 'autoclose.html')
 
 class reject_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
         res = Obs_Prop.objects.filter(pk=pk).iterator()
         Proposal = next(res)
-        if Proposal.requested_users != slug:
-            Proposal.requested_users = Proposal.requested_users.replace(slug+',', '')
+        req_users = Proposal.requested_users.split(',')
+        if len(req_users)!=1:
+            req_users.remove(slug)
+            Proposal.requested_users = ','.join(req_users)
         else:
             Proposal.requested_users = ''
-        if Proposal.requested_users == '':
-            Proposal.requested_users = slug
+        if Proposal.rejected_users == '':
+            Proposal.rejected_users = slug
         else:
             rej_users = Proposal.rejected_users.split(',')
             rej_users.append(slug)

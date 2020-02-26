@@ -7,6 +7,8 @@ import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz, ICRS, get_sun, get_moon
 
+
+
 import pandas as pd
 import re
 import pytz
@@ -14,6 +16,7 @@ import requests
 import json
 
 from datetime import datetime
+
 
 def reformat_str(coords, RA):
     fiiter = re.finditer('\:', coords)
@@ -48,6 +51,9 @@ std_stars = std_stars[['Star', 'RA', 'Dec']]
 
 std_stars['sky_coords'] = std_stars.apply(lambda x: sky_coords(x['RA'], x['Dec']), axis = 1)
 
+
+std_stars
+
 Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
 
 midnight = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -66,6 +72,24 @@ std_stars['altaz_night'] = std_stars['sky_coords'].apply(lambda x: transform(x, 
 sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
 moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
+altaz = test.altaz
+
+test = altaz.az[0]
+
+azs = [a.deg for a in altaz.az]
+sunazs = [a.deg for a in sunaltazs_tonight.az]
+moonazs = [a.deg for a in moonaltazs_tonight.az]
+
+deltsunazs = [suna-a for a in azs for suna in sunazs]
+
+list(np.array(sunazs)-np.array(azs))
+
+len(azs)
+
+len(deltsunazs)
+
+test.deg
+
 test = std_stars['altaz_night'][2]
 plt.plot(delta_midnight, sunaltazs_tonight.alt, color='r', label='Sun')
 plt.plot(delta_midnight, moonaltazs_tonight.alt, color=[0.75]*3, ls='--', label='Moon')
@@ -81,6 +105,6 @@ plt.legend(loc='upper left')
 plt.xlim(-12, 12)
 plt.xticks(np.arange(13)*2 -12)
 plt.ylim(0, 90)
-plt.xlabel('Hours from EDT Midnight')
+plt.xlabel('Hours from Midnight')
 plt.ylabel('Altitude [deg]')
 plt.show()

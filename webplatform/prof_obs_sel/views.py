@@ -3,12 +3,15 @@ from bokeh.plotting import figure, ColumnDataSource
 from bokeh.models.callbacks import CustomJS
 from bokeh.models import HoverTool, TapTool, OpenURL
 from bokeh.embed import components
-from datetime import datetime
+from bokeh.layouts import row
+from datetime import datetime, timedelta
 import numpy as np
 import math
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz, ICRS, get_sun, get_moon
+
+from ast import literal_eval
 
 from amateurOnboarding.models import AmaOB
 from obs_propose.models import Obs_Prop
@@ -17,9 +20,90 @@ from bokeh.tile_providers import get_provider, Vendors
 
 from django.views.generic import View
 
+
+
 sel_users = []
 
 tile_provider = get_provider(Vendors.CARTODBPOSITRON)
+
+def sky_coords(RA_str, Dec_str):
+    return SkyCoord(RA_str, Dec_str, frame = ICRS)
+
+def transform(skcoords, frame_tonight):
+    return skcoords.transform_to(frame_tonight)
+
+
+def check_threshold(arr, threshold):
+    check = False
+    if threshold<=max(arr):
+        check = True
+    return check
+
+def check_dates(booked_dates, start_date, no_of_nights):
+    check = False
+    if booked_dates == '':
+        return False
+    dates = [datetime.strptime(d, '%Y-%m-%d') for d in booked_dates.split(',')]
+    req_nights = []
+    for i in range(no_of_nights):
+        req_nights.append(start_date+timedelta(days=i))
+    for d in dates:
+        if d in req_nights:
+            check = True
+            break
+    return check
+
+def check_observability(prop_pk, user_id):
+    data = Obs_Prop.objects.filter(pk=prop_pk).iterator()
+    Proposal = next(data)
+    data = AmaOB.objects.filter(user_id=user_id).iterator()
+    Observer = next(data)
+    latitude = Observer.lat
+    longitude = Observer.lon
+
+    time_zone = Observer.tz
+
+    RA = Proposal.coords_ra
+    dec = Proposal.coords_dec
+
+    skycoord = sky_coords(RA, dec)
+
+    Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
+
+    midnight = Proposal.start_date
+    utcoffset = time_zone*u.hour
+
+    midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
+
+    delta_midnight = np.linspace(-12, 12, 1000)*u.hour
+
+    frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
+
+    altaz = transform(skycoord, frame_tonight).altaz
+
+    sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight).altaz
+    moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight).altaz
+
+    azs = [a.deg for a in altaz.az]
+    sunazs = [a.deg for a in sunaltazs_tonight.az]
+    moonazs = [a.deg for a in moonaltazs_tonight.az]
+
+    deltsunaz = [abs(a) for a in list(np.array(azs)-np.array(sunazs))]
+    deltmoonaz = [abs(a) for a in list(np.array(azs)-np.array(moonazs))]
+
+
+    alts = [a.deg for a in altaz.alt]
+
+    checksunaz = check_threshold(deltsunaz, 60)
+    checkmoonaz = check_threshold(deltmoonaz, 60)
+    checkalt = check_threshold(alts, 30)
+
+    if checksunaz and checkmoonaz and checkalt:
+        return True
+    else:
+        return False
+
+
 
 
 def coords2merc(lat, lon):
@@ -78,6 +162,10 @@ def index(request):
     user_id = []
     pklist = []
     for data in it:
+        if check_dates(data.booked_dates, proposal.start_date, proposal.no_of_nights):
+            continue
+        if not check_observability(proposal.pk, data.user_id):
+            continue
         temp_lat, temp_lon = coords2merc(data.lat, data.lon)
         lat.append(temp_lat)
         lon.append(temp_lon)

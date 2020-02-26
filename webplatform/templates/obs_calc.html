@@ -68,7 +68,14 @@
                 <h2 class="align-center pb-3 mbr-fonts-style display-2"><br>{{obs_title}}<br></h2>
                 <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5">
                     Location:{{loc}}<br>Coords:{{coords}}<br>Date:{{date}}</h3>
-
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.errors }}
+                        {{ form.non_field_errors }}
+                        {{ form.as_p }}
+                        <button type="submit">Submit</button>
+                        <br><br>
+                    </form>
             </div>
         </div>
     </div>

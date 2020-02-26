@@ -15,10 +15,10 @@ class AmaOnboarding(forms.ModelForm):
     det_mod = forms.CharField(label = 'Model name of the detector/Camera', required = True)
     det_pix_scale = forms.FloatField(label = 'pixel scale of the detector (microns)', min_value = 0., required = True)
     detector_dimensions = forms.CharField(label = 'dimensions of the detector pixels (# of pixels)', help_text = 'required format: 0000x0000 pixels', required = True)
-
+    read_noise = forms.FloatField(label = 'Read Noise of the Detector (in electrons)', required = True)
     class Meta:
         model = AmaOB
-        exclude = ['user_id', 'fov']
+        exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates']
 
     ## Check for the detector dimensions data
     def clean_det_dim(self):
