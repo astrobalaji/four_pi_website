@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from obs_propose.models import Obs_Prop
 from amateurOnboarding.models import AmaOB
-
+from ast import literal_eval
 from datetime import datetime, timedelta
 
 
@@ -21,9 +21,10 @@ class ama_overview_views(View):
         prop_data['mag'] = Proposal.magnitude
         prop_data['ra'] = Proposal.coords_ra
         prop_data['dec'] = Proposal.coords_dec
-        prop_data['settings'] = Proposal.settings
+        prop_data['settings'] = literal_eval(Proposal.settings)[request.user.username]
         prop_data['req_users'] = Proposal.requested_users
         prop_data['accepted_users'] = Proposal.accepted_users
+        prop_data['exps'] = literal_eval(Proposal.settings)[request.user.username]
 
         if request.user.username in prop_data['req_users']:
             req = True
