@@ -34,4 +34,4 @@ class AmaOBViews(View):
             observatory.save()
             return redirect('/user/home/')
         else:
-            return redirect('/landingpage')
+            return redirect('/onboarding/amateur/')
