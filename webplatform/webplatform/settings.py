@@ -24,7 +24,7 @@ with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['*']
@@ -165,7 +165,6 @@ EMAIL_PORT = 587
 
 BACKGROUND_TASK_RUN_ASYNC = True
 
-'''
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
@@ -173,6 +172,3 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
-'''

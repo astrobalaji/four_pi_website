@@ -16,8 +16,8 @@ class AmaOnboarding(forms.ModelForm):
     det_mod = forms.CharField(label = 'Model name of the detector/Camera', required = True)
     chip_name = forms.CharField(label = 'Manufacturer / Model of the detector chip', required = False, help_text='optional but highly desired')
     det_pix_scale = forms.FloatField(label = 'Physical pixel size of the detector (microns)', min_value = 0., required = True, help_text = 'average if pixel is not a square')
-    detector_dimensions = forms.CharField(label = 'dimensions of the detector pixels (# of pixels)', help_text = 'required format: 0000x0000 pixels', required = True)
-    read_noise = forms.FloatField(label = 'Read Noise of the Detector (in electrons)', required = True)
+    detector_dimensions = forms.CharField(label = 'Dimensions of the detector (# of pixels)', help_text = 'required format: 0000x0000 pixels', required = True)
+    read_noise = forms.FloatField(label = 'Read Noise of the Detector (in electrons)', required = False)
     class Meta:
         model = AmaOB
         exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates']
