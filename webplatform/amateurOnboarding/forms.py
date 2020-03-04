@@ -9,7 +9,7 @@ class AmaOnboarding(forms.ModelForm):
     lat = forms.FloatField(label = 'Latitude (decimals)', required = True, min_value = -90., max_value = 90.)
     lon = forms.FloatField(label = 'Latitude (decimals)', required = True, min_value = -180., max_value = 180.)
     tz = forms.FloatField(label = 'Time zone +/- hours in decimals from UTC', required = True, min_value = -12., max_value = 12.)
-    avail = forms.BooleanField(label = 'Available for Observation', help_text = 'Would you be interested in observing scientific data?')
+    obs_img = forms.ImageField(label = 'Upload a picture of your setup (preferrably a jpg)', required = True)
     telescope_aper = forms.FloatField(label = 'Telescope Aperture (mm)', required = True, min_value = 0.)
     telescope_flength = forms.FloatField(label = 'Telescope Focal Length (mm)', required = True, min_value = 0.)
     det_mod = forms.CharField(label = 'Model name of the detector/Camera', required = True)
@@ -19,19 +19,3 @@ class AmaOnboarding(forms.ModelForm):
     class Meta:
         model = AmaOB
         exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates']
-
-    ## Check for the detector dimensions data
-    def clean_det_dim(self):
-        data = self.cleaned_data['detector_dimensions']
-        data = data.lower()
-        strpd_data = data.split('x')
-
-        ## Check if the data has been entered in the right format
-        if len(strpd_data) != 2:
-            raise ValidationError(_('Wrong dimensions (please check the values)'))
-
-        ## Check if the data has two integer detector_dimensions
-        if (not strpd_data[0].isdigit()) and (not strpd_data[1].isdigit()):
-            raise ValidationError(_('Dimensions are not numeric.'))
-
-        return data

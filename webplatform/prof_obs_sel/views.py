@@ -129,14 +129,14 @@ def plot_world_map(source):
            x_axis_type="mercator", y_axis_type="mercator", plot_width = 1135, plot_height = 600, tools = 'tap')
     p.add_tile(tile_provider)
 
-    p.circle(x='x',y='y', alpha = 0.5, size = 7, source=source)
+    p.circle(x='x',y='y', alpha = 0.5, size = 10, source=source)
 
 
     p.add_tools(hovert)
     taptool = p.select(type=TapTool)
     p.toolbar.logo = None
     p.toolbar_location = None
-    url = "http://localhost:8000/obs_sel/@uid-@pid"
+    url = "https://4pi-astro.com/obs_sel/@uid-@pid"
     taptool.callback = OpenURL(url=url)
 
     script, div = components(p)

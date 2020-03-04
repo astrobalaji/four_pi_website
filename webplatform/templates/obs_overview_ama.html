@@ -200,12 +200,17 @@
             </div>
         </div>
     </div>
-    {% endif %}
-    {% if accepted %}
+    {% elif accepted %}
     <div class="container">
         <div class="media-container-row title">
             <div class="col-12 col-md-8">
-                <div class="mbr-section-btn align-center"><a class="btn btn-primary display-4" href="https://mobirise.co">Submit Data</a>
+              <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                  Upload your final zip file here.</p>
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Upload</button>
+              </form>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ class AmaOB(models.Model):
     lat = models.FloatField()
     lon = models.FloatField()
     tz = models.FloatField()
-    avail = models.BooleanField()
+    obs_img = models.ImageField(upload_to='obs_images')
     telescope_aper = models.FloatField()
     telescope_flength = models.FloatField()
     det_mod = models.CharField(max_length=200)

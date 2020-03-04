@@ -24,7 +24,7 @@ with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['*']
@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'background_task',
     'signup',
     'coming_soon',
     'confirm_reg',
     'homepage',
     'amateurOnboarding',
     'proOnboarding',
-    'obs_propose'
+    'obs_propose',
+    'ama_obs_overview',
 
 ]
 
@@ -121,6 +123,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -153,8 +163,9 @@ DEFAULT_FROM_EMAIL = 'hello@4pi-astro.com'
 EMAIL_HOST_PASSWORD = os.environ.get("HELLOPASS")
 EMAIL_PORT = 587
 
+BACKGROUND_TASK_RUN_ASYNC = True
 
-
+'''
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
@@ -164,3 +175,4 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = True
+'''

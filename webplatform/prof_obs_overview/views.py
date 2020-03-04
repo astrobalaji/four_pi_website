@@ -62,7 +62,7 @@ class Obs_Overview_views(View):
             ob_data['det'] = obs.det_mod
             ob_data['fov'] = "{:.2f}".format(obs.fov/60.)
             ob_data['uname'] = u
-            ob_data['obs_link'] = 'http://localhost:8000/obs_calc/'+u+'-'+pk
+            ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
             lp = get_SQM_reading(obs.lat, obs.lon)
             if lp == 0.:
                 ob_data['lp'] = 'NA'
@@ -71,17 +71,3 @@ class Obs_Overview_views(View):
             obs_data.append(ob_data)
         context['observatories'] = obs_data
         return render(request, 'obs_overview_prof.html', context)
-
-class ReqObservatory(View):
-    def get(self, request, slug, pk, *args, **kwargs):
-        obj = Obs_Prop.objects.filter(pk=pk)
-        proposal = next(obj.iterator())
-        if proposal.requested_users == '':
-            proposal.requested_users = slug
-        else:
-            req_users = proposal.requested_users.split(',')
-            req_users.append(slug)
-            proposal.requested_users = ','.join(req_users)
-        proposal.status = 'Requested'
-        proposal.save()
-        return render(request, 'autoclose.html')

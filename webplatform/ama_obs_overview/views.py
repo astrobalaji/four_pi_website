@@ -1,15 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from obs_propose.models import Obs_Prop
 from amateurOnboarding.models import AmaOB
 from ast import literal_eval
 from datetime import datetime, timedelta
+from .forms import File_Upload
+from .models import FileUpload, File_Details
+import os
+import shutil
+import zipfile
+import subprocess
+import sys
+from background_task import background
 
 
 # Create your views here.
 class ama_overview_views(View):
+    form_class = File_Upload
     def get(self, request, pk, *args, **kwargs):
-
         res = Obs_Prop.objects.filter(pk=pk).iterator()
         Proposal = next(res)
         prop_data = {}
@@ -24,7 +32,7 @@ class ama_overview_views(View):
         prop_data['settings'] = literal_eval(Proposal.settings)[request.user.username]
         prop_data['req_users'] = Proposal.requested_users
         prop_data['accepted_users'] = Proposal.accepted_users
-        prop_data['exps'] = literal_eval(Proposal.settings)[request.user.username]
+        prop_data['exps'] = literal_eval(Proposal.exps)[request.user.username]
 
         if request.user.username in prop_data['req_users']:
             req = True
@@ -41,7 +49,32 @@ class ama_overview_views(View):
         prop_data['pk'] = pk
         prop_data['uname'] = request.user.username
 
+        if accept:
+            form = self.form_class()
+            prop_data['form'] = form
         return render(request, 'obs_overview_ama.html', prop_data)
+    def post(self, request, pk, *args, **kwargs):
+        data = next(Obs_Prop.objects.filter(pk=pk).iterator())
+        form = self.form_class(request.POST, request.FILES)
+        filename = request.FILES['data']
+        file_det = File_Details(prof_id = data.user_id,
+                                ama_id = request.user.username,
+                                obs_id = pk,
+                                filename = filename)
+        if data.completed_users == '':
+            data.completed_users = request.user.username
+        else:
+            comp_users = data.completed_users.split(',')
+            comp_users.append(request.user.username)
+            data.completed_users = ','.join(comp_users)
+        acc_users = data.accepted_users.split(',')
+        acc_users.remove(request.user.username)
+        data.accepted_users = ','.join(acc_users)
+        data.save()
+        form.save()
+        file_det.save()
+        extract_files(pk, request.user.username, filename.name)
+        return redirect('/user/home')
 
 class accept_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
@@ -60,7 +93,7 @@ class accept_obs(View):
             acc_users = Proposal.accepted_users.split(',')
             acc_users.append(slug)
             Proposal.accepted_users = ','.join(acc_users)
-            Proposal.save()
+        Proposal.save()
 
         start_date = Proposal.start_date
         days = []
@@ -96,3 +129,123 @@ class reject_obs(View):
             Proposal.rejected_users = ','.join(rej_users)
             Proposal.save()
         return render(request, 'autoclose.html')
+
+
+@background(schedule=1)
+def extract_files(pk, ama_id, filename):
+    base_path = 'media/data_files/'
+    if not os.path.exists(base_path+pk):
+        os.mkdir(base_path+pk)
+
+    if not os.path.exists(base_path+pk+'/'+ama_id):
+        os.mkdir(base_path+pk+'/'+ama_id)
+
+    shutil.move(base_path+filename, base_path+pk+'/'+ama_id+'/'+filename)
+
+    with zipfile.ZipFile(base_path+pk+'/'+ama_id+'/'+filename, 'r') as zip_ref:
+         zip_ref.extractall(base_path+pk+'/'+ama_id+'/')
+
+    cr2check = [f for f in os.listdir(base_path+pk+'/'+ama_id+'/lights/') if (f.endswith('.CR2')) or (f.endswith('.cr2'))]
+
+    if len(cr2check)!=0:
+        cr2 = 1
+    else:
+        cr2 = 0
+
+    if cr2==1:
+
+        os.mkdir(base_path+pk+'/'+ama_id+'fits_files')
+        os.mkdir(base_path+pk+'/'+ama_id+'fits_files/lights')
+        os.mkdir(base_path+pk+'/'+ama_id+'fits_files/darks')
+        os.mkdir(base_path+pk+'/'+ama_id+'fits_files/bias')
+        os.mkdir(base_path+pk+'/'+ama_id+'fits_files/flats')
+
+
+
+        lights_files = os.listdir(base_path+pk+'/'+ama_id+'/lights/')
+        darks_files = os.listdir(base_path+pk+'/'+ama_id+'/darks/')
+        bias_files = os.listdir(base_path+pk+'/'+ama_id+'/bias/')
+        flats_files = os.listdir(base_path+pk+'/'+ama_id+'/flats/')
+
+        for f in lights_files:
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/lights/'+f, '0'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/lights/'+f, '1'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/lights/'+f, '2'])
+
+        lights_fits = [f for f in os.listdir(base_path+pk+'/'+ama_id+'/lights/') if f.endswith('.fits')]
+
+
+        for f in lights_fits:
+            data = fits.open(base_path+pk+'/'+ama_id+'/lights/'+f)
+            head = data[0].header
+            exposure = head['EXPTIME'].replace(' ', '').replace('/', '&')
+            filt = head['FILTER'].replace(' ', '')
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/lights/'+exposure):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/lights/'+exposure)
+                #os.mkdir('fits_files/lights/'+exposure+'/'+filt)
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/lights/'+exposure+'/'+filt):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/lights/'+exposure+'/'+filt)
+            shutil.move(base_path+pk+'/'+ama_id+'/lights/'+f, base_path+pk+'/'+ama_id+'/fits_files/lights/'+exposure+'/'+filt+'/')
+
+
+        for f in tqdm(darks_files):
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/darks/'+f, '0'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/darks/'+f, '1'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/darks/'+f, '2'])
+
+        darks_fits = [f for f in os.listdir(base_path+pk+'/'+ama_id+'/darks/') if f.endswith('.fits')]
+
+
+        for f in darks_fits:
+            data = fits.open(base_path+pk+'/'+ama_id+'/darks/'+f)
+            head = data[0].header
+            exposure = head['EXPTIME'].replace(' ', '').replace('/', '&')
+            filt = head['FILTER'].replace(' ', '')
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/darks/'+exposure):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/darks/'+exposure)
+                #os.mkdir('fits_files/darks/'+exposure+'/'+filt)
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/darks/'+exposure+'/'+filt):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/darks/'+exposure+'/'+filt)
+            shutil.move(base_path+pk+'/'+ama_id+'/darks/'+f, base_path+pk+'/'+ama_id+'/fits_files/darks/'+exposure+'/'+filt+'/')
+
+
+        for f in flats_files:
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/flats/'+f, '0'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/flats/'+f, '1'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/flats/'+f, '2'])
+
+        flats_fits = [f for f in os.listdir(base_path+pk+'/'+ama_id+'/flats/') if f.endswith('.fits')]
+
+
+        for f in flats_fits:
+            data = fits.open(base_path+pk+'/'+ama_id+'/flats/'+f)
+            head = data[0].header
+            exposure = head['EXPTIME'].replace(' ', '').replace('/', '&')
+            filt = head['FILTER'].replace(' ', '')
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/flats/'+exposure):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/flats/'+exposure)
+                #os.mkdir('fits_files/flats/'+exposure+'/'+filt)
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/flats/'+exposure+'/'+filt):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/flats/'+exposure+'/'+filt)
+            shutil.move(base_path+pk+'/'+ama_id+'/flats/'+f, base_path+pk+'/'+ama_id+'/fits_files/flats/'+exposure+'/'+filt+'/')
+
+
+        for f in bias_files:
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/bias/'+f, '0'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/bias/'+f, '1'])
+            sp.call(['python', 'aux_scripts/cr2fits/cr2fits.py', base_path+pk+'/'+ama_id+'/bias/'+f, '2'])
+
+        bias_fits = [f for f in os.listdir(base_path+pk+'/'+ama_id+'/bias/') if f.endswith('.fits')]
+
+
+        for f in bias_fits:
+            data = fits.open(base_path+pk+'/'+ama_id+'/bias/'+f)
+            head = data[0].header
+            exposure = head['EXPTIME'].replace(' ', '').replace('/', '&')
+            filt = head['FILTER'].replace(' ', '')
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/bias/'+exposure):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/bias/'+exposure)
+                #os.mkdir('fits_files/bias/'+exposure+'/'+filt)
+            if not os.path.exists(base_path+pk+'/'+ama_id+'/fits_files/bias/'+exposure+'/'+filt):
+                os.mkdir(base_path+pk+'/'+ama_id+'/fits_files/bias/'+exposure+'/'+filt)
+            shutil.move(base_path+pk+'/'+ama_id+'/bias/'+f, base_path+pk+'/'+ama_id+'/fits_files/bias/'+exposure+'/'+filt+'/')

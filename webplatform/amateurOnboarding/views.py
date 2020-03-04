@@ -24,7 +24,7 @@ class AmaOBViews(View):
             return render(request, 'Onboarding/AmaOb.html', context)
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST ,request.FILES)
         if form.is_valid():
             observatory = form.save(commit=False)
             uname = request.user.username

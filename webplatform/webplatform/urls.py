@@ -1,5 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 from homepage import views as home_v
 from coming_soon import views as cs_views
 from signup.views import SignUpView, ActivateAccount
@@ -12,7 +16,7 @@ from obs_propose.views import ObsPropViews
 from prof_obs_sel import views as prof_obs_sel_views
 from prof_obs_sel.views import SelectObservatory
 from prof_obs_overview.views import Obs_Overview_views
-from prof_obs_overview.views import ReqObservatory
+#from observability_calc.views import ReqObservatory
 from observability_calc.views import obs_calc_views
 from ama_obs_overview.views import *
 
@@ -33,9 +37,12 @@ urlpatterns = [
     path('obs_sel/',prof_obs_sel_views.index),
     path(r'obs_sel/<slug>-<pk>/', SelectObservatory.as_view(), name='blog_post'),
     path('obs/overview/<pk>', Obs_Overview_views.as_view()),
-    path(r'obsreq/<slug>-<pk>',ReqObservatory.as_view(), name = 'request_obs'),
+    #path(r'obsreq/<slug>-<pk>',ReqObservatory.as_view(), name = 'request_obs'),
     path(r'obs_calc/<slug>-<pk>', obs_calc_views.as_view(), name = 'obs_calc'),
     path(r'obs_rev_ama/<pk>', ama_overview_views.as_view()),
     path(r'accept/<slug>-<pk>', accept_obs.as_view()),
-    path(r'reject/<slug>-<pk>', reject_obs.as_view())
+    path(r'reject/<slug>-<pk>', reject_obs.as_view()),
 ]
+
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

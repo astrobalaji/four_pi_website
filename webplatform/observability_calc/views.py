@@ -3,6 +3,9 @@ from django.views.generic import View
 from datetime import datetime
 import numpy as np
 import math
+import requests as req
+
+
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz, ICRS, get_sun, get_moon
@@ -18,9 +21,12 @@ from bokeh.models import HoverTool, TapTool, OpenURL, BoxAnnotation, Range1d
 from bokeh.embed import components
 from bokeh.layouts import row
 
+
 from prof_obs_overview.views import get_SQM_reading
 
 from .forms import ObsSettings
+
+
 
 def magtoflux(mag, tel_aper):
     zero_mag = 3953 #Jy for V band
@@ -51,6 +57,17 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN):
          snr.append(SNR)
     return exp_times, snr
 
+def get_weather(lat,lon):
+    url = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=metric&appid=8b502954a629d709d6ec5d52e5e54722".format(lat,lon)
+    data = req.get(url)
+    res = data.json()
+    temp_min = res['main']['temp_min']
+    temp_max = res['main']['temp_max']
+    hum = res['main']['humidity']
+    clouds = res['clouds']['all']
+
+    return str(temp_min)+'°c', str(temp_max)+'°c', str(hum)+'%', str(clouds)+'%'
+
 # Create your views here.
 class obs_calc_views(View):
     form_class = ObsSettings
@@ -59,6 +76,19 @@ class obs_calc_views(View):
 
     def transform(self,skcoords, frame_tonight):
         return skcoords.transform_to(frame_tonight)
+
+    def req_obs(self, request, slug, pk):
+        obj = Obs_Prop.objects.filter(pk=pk)
+        proposal = next(obj.iterator())
+        if proposal.requested_users == '':
+            proposal.requested_users = slug
+        else:
+            req_users = proposal.requested_users.split(',')
+            req_users.append(slug)
+            proposal.requested_users = ','.join(req_users)
+        proposal.status = 'Requested'
+        proposal.save()
+
 
     def get(self, request, slug, pk, *args, **kwargs):
         data = Obs_Prop.objects.filter(pk=pk).iterator()
@@ -116,7 +146,25 @@ class obs_calc_views(View):
 
         form = self.form_class()
 
-        return render(request, 'obs_calc.html', {'script':script, 'div':div, 'obs_title':Observer.obs_name, 'coords':coords, 'date':midnight, 'loc':Observer.location, 'form':form})
+        min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
+        context = {'script':script,
+                    'div':div,
+                    'obs_title':Observer.obs_name,
+                    'obs_img':Observer.obs_img,
+                    'coords':coords,
+                    'date':midnight,
+                    'loc':Observer.location,
+                    'tel_aper':Observer.telescope_aper,
+                    'tel_flen':Observer.telescope_flength,
+                    'det_name':Observer.det_mod,
+                    'fov':Observer.fov,
+                    'min_temp':min_temp,
+                    'max_temp':max_temp,
+                    'hum':hum,
+                    'clouds':clouds,
+                    'form':form}
+
+        return render(request, 'obs_home.html', context)
     def post(self, request, slug, pk, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -138,6 +186,7 @@ class obs_calc_views(View):
                 exps[slug] = obs_settings.get('exposure_time')
                 Proposal.exps = str(exps)
             Proposal.save()
+            self.req_obs(request, slug, pk)
             return redirect('/obs/overview/'+pk)
         else:
             return redirect('/obs_calc/'+slug+'-'+pk)
