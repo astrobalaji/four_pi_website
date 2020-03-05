@@ -29,3 +29,5 @@ class proOBViews(View):
             pro_user.user_id = uname
             pro_user.save()
             return redirect('/user/home/')
+        else:
+            return redirect('/onboarding/professional/')

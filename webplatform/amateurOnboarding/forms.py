@@ -9,7 +9,7 @@ class AmaOnboarding(forms.ModelForm):
     lat = forms.FloatField(label = 'Latitude (decimals) (*)', required = True, min_value = -90., max_value = 90.)
     lon = forms.FloatField(label = 'Longitude (decimals) (*)', required = True, min_value = -180., max_value = 180.)
     tz = forms.FloatField(label = 'Time zone +/- hours in decimals from UTC (*)', help_text = 'UTC: Coordinated Universal Time (GMT)' , required = True, min_value = -12., max_value = 12.)
-    obs_img = forms.ImageField(label = 'Upload a picture of your setup (*)', required = True, help_text = 'Preferrably in jpeg format')
+    obs_img = forms.ImageField(label = 'Upload a picture of your observatory (*)', required = True, help_text = 'Preferrably in jpg/jpeg format')
     telescope_mod = forms.CharField(label=' Manufacturer / Model of the telescope (*)', required = True)
     telescope_aper = forms.FloatField(label = 'Telescope Aperture (mm) (*)', required = True, min_value = 0.)
     telescope_flength = forms.FloatField(label = 'Telescope Focal Length (mm) (*)', required = True, min_value = 0.)
