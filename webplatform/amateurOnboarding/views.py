@@ -25,10 +25,13 @@ class AmaOBViews(View):
 
     def post(self, request):
         form = self.form_class(request.POST ,request.FILES)
-        observatory = form.save(commit=False)
-        uname = request.user.username
-        observatory.user_id = uname
-        fov = calc_fov(observatory.telescope_flength, observatory.det_pix_scale, observatory.detector_dimensions)
-        observatory.fov = fov
-        observatory.save()
-        return redirect('/user/home/')
+        if form.is_valid():
+            observatory = form.save(commit=False)
+            uname = request.user.username
+            observatory.user_id = uname
+            fov = calc_fov(observatory.telescope_flength, observatory.det_pix_scale, observatory.detector_dimensions)
+            observatory.fov = fov
+            observatory.save()
+            return redirect('/user/home/')
+        else:
+            return redirect('/onboarding/amateur')
