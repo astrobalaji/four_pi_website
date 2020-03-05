@@ -28,7 +28,7 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
     path('signup/activate/confirm_email', conf_email_views.index),
     path('activate/dir_sel/', conf_email_views.init_sel),
-    path('onboarding_amateur/', AmaOBViews.as_view(), name = 'amateur_onboarding'),
+    path('onboarding_amateur/', AmaOBViews.as_view(), name = 'onboarding_amateur'),
     path('onboarding_professional/', proOBViews.as_view(), name = 'professional_onboarding'),
     path('onboarding_educators/', eduOBViews.as_view(), name = 'educator_onboarding'),
     path('user/home/', home_view.index),
