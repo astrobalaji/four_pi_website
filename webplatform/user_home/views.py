@@ -115,7 +115,8 @@ def index(request):
                 compobsdisp = False
             else:
                 compobsdisp = True
-            context = {'fname':full_name, 'newobsdisp':newobsdisp, 'selobsdisp':selobsdisp, 'compobsdisp':compobsdisp, 'newobs':newobs, 'selobs':selobs, 'compobs':compobs}
+            obs_home_link = 'https://4pi-astro.com/obs_calc/'+uname+'-0'
+            context = {'fname':full_name, 'newobsdisp':newobsdisp, 'selobsdisp':selobsdisp, 'compobsdisp':compobsdisp, 'newobs':newobs, 'selobs':selobs, 'compobs':compobs, 'obs_home_link':obs_home_link}
             return render(request, 'user_home_ama.html', context)
         else:
             return render(request, 'temphome.html', {'full_name':full_name})
