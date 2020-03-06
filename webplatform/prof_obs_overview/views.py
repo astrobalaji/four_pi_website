@@ -60,8 +60,9 @@ class Obs_Overview_views(View):
             ob_data['aper'] = obs.telescope_aper
             ob_data['flen'] = obs.telescope_flength
             ob_data['det'] = obs.det_mod
-            ob_data['fov'] = "{:.2f}".format(obs.fov/60.)
+            ob_data['fov'] = "{:.2f}".format(obs.fov)
             ob_data['uname'] = u
+            ob_data['obs_img'] = obs.obs_img
             ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
             lp = get_SQM_reading(obs.lat, obs.lon)
             if lp == 0.:
