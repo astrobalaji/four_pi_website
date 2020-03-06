@@ -8,7 +8,7 @@ from .models import AmaOB
 def calc_fov(flen, pixscale, dims):
     dims = [int(x) for x in dims.split('x')]
     arc_per_pix = 200.*pixscale/flen
-    return np.sqrt((dims[0]**2.)+(dims[1]**2.))*arc_per_pix
+    return np.sqrt((dims[0]**2.)+(dims[1]**2.))*arc_per_pix/60.
 
 class AmaOBViews(View):
     form_class = AmaOnboarding
