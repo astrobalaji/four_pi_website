@@ -195,15 +195,20 @@
             <div class="card col-12 col-md-6 p-3 col-lg-4">
                 <div class="card-wrapper">
                     <div class="card-img">
-                        <img src="{{obs_img.url}}" alt="Mobirise" title="">
+                        <img src="{{obs_img.url}}" alt="4pi" title="">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-5">
                             {{obs.obs_name}}</h4>
                         <p class="mbr-text mbr-fonts-style display-7">
-                            Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}}<br>SQM Reading (mag/arcsec^2): {{obs.lp}} &nbsp;</p>
+                            Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}}<br>SQM Reading (mag/arcsec^2): {{obs.lp}} <br>Status: {{obs.status}}&nbsp;</p>
                         <!--Btn-->
+                        {% if obs.req %}
                         <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} target="_newtab" class="btn btn-warning-outline display-4">Check Observatory</a></div>
+                        {% elif obs.comp %}
+                        <div class="mbr-section-btn align-left"><a href="http://localhost:8000/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a></div>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>

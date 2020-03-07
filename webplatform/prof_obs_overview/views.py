@@ -2,6 +2,10 @@ from django.shortcuts import render
 from obs_propose.models import Obs_Prop
 from amateurOnboarding.models import AmaOB
 from django.views.generic import View
+from ama_obs_overview.models import File_Details
+from django.core.files import File
+
+import mimetypes
 import pandas as pd
 from math import sin, cos, sqrt, atan2
 
@@ -31,7 +35,6 @@ def get_SQM_reading(lat, lon):
         return 0.
 
 
-
 class Obs_Overview_views(View):
     def get(self, request, pk, *args, **kwargs):
         obj = Obs_Prop.objects.filter(pk=pk)
@@ -48,13 +51,27 @@ class Obs_Overview_views(View):
         context['description'] = proposal.description
         context['settings'] = proposal.settings
         context['obs_id'] = proposal.pk
+        acc_users = proposal.accepted_users
+        comp_users = proposal.completed_users
 
         sel_users = proposal.selected_users.split(',')
         obs_data = []
+
         for u in sel_users:
             obj = AmaOB.objects.filter(user_id=u)
             obs = next(obj.iterator())
             ob_data = {}
+            if u in comp_users:
+                ob_data['comp'] = True
+                ob_data['req'] = False
+                data_download = next(File_Details.objects.filter(obs_id=pk, ama_id=u).iterator())
+                #ob_data['data'] = data_download.filename
+                some_file  = open('media/data_files/'+data_download.filename, "r")
+                django_file = File(some_file)
+                ob_data['data'] = django_file
+            else:
+                ob_data['comp'] = False
+                ob_data['req'] = True
             ob_data['obs_name'] = obs.obs_name
             ob_data['location'] = obs.location
             ob_data['aper'] = obs.telescope_aper
