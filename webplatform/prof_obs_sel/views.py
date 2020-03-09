@@ -176,7 +176,7 @@ def index(request):
         aper.append(data.telescope_aper)
         focal_length.append(data.telescope_flength)
         det_name.append(data.det_mod)
-        fov.append(data.fov/60)
+        fov.append(data.fov)
         user_id.append(data.user_id)
         pklist.append(proposal.pk)
     ds = ColumnDataSource(data = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist))
