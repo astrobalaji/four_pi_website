@@ -18,6 +18,7 @@ from prof_obs_sel.views import SelectObservatory
 from prof_obs_overview.views import Obs_Overview_views
 from observability_calc.views import obs_calc_views
 from ama_obs_overview.views import *
+from logout_account import views as logoutview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,6 +42,7 @@ urlpatterns = [
     path(r'obs_rev_ama/<pk>', ama_overview_views.as_view()),
     path(r'accept/<slug>-<pk>', accept_obs.as_view()),
     path(r'reject/<slug>-<pk>', reject_obs.as_view()),
+    path(r'accounts/logout', logoutview.logout_view)
 ]
 
 

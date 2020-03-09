@@ -13,7 +13,7 @@ class ObsProp(forms.ModelForm):
     field_type = forms.ChoiceField(choices = field_choices, required = True)
     coords_ra = forms.CharField(label = 'RA of the target/center of field in decimals (00h00m00s)', required = True)
     coords_dec = forms.CharField(label = 'Dec of the target/center of field in decimals (00d00m00s)', required = True)
-    fov = forms.FloatField(label = 'Desired maximum field of view in arc_minutes', required = True)
+    fov = forms.FloatField(label = 'Desired minimum field of view in arc_minutes', required = True)
     magnitude = forms.FloatField(label = 'Expected V band magnitude of the Object', required = True)
     start_date = forms.DateField(label = 'Enter your start date', required = True, widget = forms.SelectDateWidget)
     no_of_nights = forms.IntegerField(label = 'Number of nights', required = True)

@@ -14,6 +14,11 @@ import sys
 from background_task import background
 
 
+
+obs_choices = {'r':'Regular', 'sos':'SOS'}
+field_choices = {'s': 'Single Object', 'm': 'Multiple Object/Crowded Field', 'chance': 'Chance of Discovery'}
+
+
 # Create your views here.
 class ama_overview_views(View):
     form_class = File_Upload
@@ -23,8 +28,8 @@ class ama_overview_views(View):
         prop_data = {}
         prop_data['title'] = Proposal.obs_title
         prop_data['description'] = Proposal.description
-        prop_data['obs_type'] = Proposal.obs_type
-        prop_data['field_type'] = Proposal.field_type
+        prop_data['obs_type'] = obs_choices[Proposal.obs_type]
+        prop_data['field_type'] = field_choices[Proposal.field_type]
         prop_data['fov'] = Proposal.fov
         prop_data['mag'] = Proposal.magnitude
         prop_data['ra'] = Proposal.coords_ra
