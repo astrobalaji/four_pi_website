@@ -51,8 +51,9 @@ class Obs_Overview_views(View):
         context['description'] = proposal.description
         context['settings'] = proposal.settings
         context['obs_id'] = proposal.pk
-        acc_users = proposal.accepted_users
-        comp_users = proposal.completed_users
+        acc_users = proposal.accepted_users.split(',')
+        comp_users = proposal.completed_users.split(',')
+        req_users = proposal.requested_users.split(',')
 
         sel_users = proposal.selected_users.split(',')
         obs_data = []
@@ -72,6 +73,14 @@ class Obs_Overview_views(View):
             else:
                 ob_data['comp'] = False
                 ob_data['req'] = True
+            if u in req_users:
+                obs_status = 'Requested'
+            elif u in acc_users:
+                obs_status = 'Accepted'
+            elif u in comp_users:
+                obs_status = 'Completed'
+            else:
+                obs_status = 'Selected'
             ob_data['obs_name'] = obs.obs_name
             ob_data['location'] = obs.location
             ob_data['aper'] = obs.telescope_aper
@@ -80,6 +89,7 @@ class Obs_Overview_views(View):
             ob_data['fov'] = "{:.2f}".format(obs.fov)
             ob_data['uname'] = u
             ob_data['obs_img'] = obs.obs_img
+            ob_data['status'] = obs_status
             ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
             lp = get_SQM_reading(obs.lat, obs.lon)
             if lp == 0.:
