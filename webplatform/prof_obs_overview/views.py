@@ -45,7 +45,8 @@ class Obs_Overview_views(View):
         context['field_type'] = field_choices[proposal.field_type]
         context['coords_ra'] = proposal.coords_ra
         context['coords_dec'] = proposal.coords_dec
-        context['fov'] = proposal.fov
+        context['min_fov'] = proposal.min_fov
+        context['max_fov'] = proposal.min_fov
         context['mag'] = proposal.magnitude
         context['des_exp'] = 'min: '+str(proposal.exp_min)+'s'+' max: '+str(proposal.exp_max)
         context['description'] = proposal.description

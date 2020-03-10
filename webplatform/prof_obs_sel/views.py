@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.models.callbacks import CustomJS
-from bokeh.models import HoverTool, TapTool, OpenURL
+from bokeh.models import HoverTool, TapTool, OpenURL, WheelZoomTool, PanTool
 from bokeh.embed import components
 from bokeh.layouts import row
 from datetime import datetime, timedelta
@@ -123,9 +123,9 @@ def callback_func(attr, old, new):
 
 def plot_world_map(source):
     selected_src = ColumnDataSource(dict(indices=[]))
-    hovert = HoverTool(tooltips = [('lat', '@lat'), ('lon', '@lon'), ('city', '@name'), ('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
+    hovert = HoverTool(tooltips = [('city', '@name'), ('timezone':'@tz')('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
 
-    p = figure(x_range=(-180000, 180000), y_range=(-20000000, 20000000),
+    p = figure(x_range=(-120000, 190000), y_range=(-12000000, 12000000),
            x_axis_type="mercator", y_axis_type="mercator", plot_width = 1135, plot_height = 600, tools = 'tap')
     p.add_tile(tile_provider)
 
@@ -133,9 +133,11 @@ def plot_world_map(source):
 
 
     p.add_tools(hovert)
+    p.add_tools(WheelZoomTool())
+    p.add_tools(PanTool())
     taptool = p.select(type=TapTool)
     p.toolbar.logo = None
-    p.toolbar_location = None
+    #p.toolbar_location = None
     url = "https://4pi-astro.com/obs_sel/@uid-@pid"
     taptool.callback = OpenURL(url=url)
 
@@ -148,7 +150,7 @@ def index(request):
     proposal = next(obj.iterator())
     ra = proposal.coords_ra
     dec = proposal.coords_dec
-    it = AmaOB.objects.filter(fov__gte=proposal.fov).iterator()
+    it = AmaOB.objects.filter(fov__gte=proposal.min_fov, fov__lte=proposal.max_fov).iterator()
     lat = []
     lon = []
     lat_n = []
@@ -179,6 +181,10 @@ def index(request):
         fov.append(data.fov)
         user_id.append(data.user_id)
         pklist.append(proposal.pk)
+    if tz>0:
+        tz = 'UTC+{0}'.format(tz)
+    else:
+        tz = 'UTC-{0}'.format(tz)
     ds = ColumnDataSource(data = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist))
     plt = plot_world_map(ds)
     plt['pk'] = proposal.pk

@@ -6,8 +6,8 @@ from .models import AmaOB
 class AmaOnboarding(forms.ModelForm):
     obs_name = forms.CharField(label = 'Name of your observatory (*)',strip = True, required = True, help_text = 'Give any name to your setup. You can be creative ;)')
     location = forms.CharField(label = 'City and Country of the observatory (*)',strip = True, required = True, help_text = 'Format: City, Country')
-    lat = forms.FloatField(label = 'Latitude (decimals) (*)', required = True, min_value = -90., max_value = 90.)
-    lon = forms.FloatField(label = 'Longitude (decimals) (*)', required = True, min_value = -180., max_value = 180.)
+    lat = forms.FloatField(label = 'Latitude (decimals) (*)', required = True, min_value = -90., max_value = 90., help_text = 'Use negative values for Southern hemisphere.')
+    lon = forms.FloatField(label = 'Longitude (decimals) (*)', required = True, min_value = -180., max_value = 180., help_text = 'Use negative values for Western hemisphere')
     tz = forms.FloatField(label = 'Time zone +/- hours in decimals from UTC (*)', help_text = 'UTC: Coordinated Universal Time (GMT)' , required = True, min_value = -12., max_value = 12.)
     obs_img = forms.ImageField(label = 'Upload a picture of your observatory (*)', required = True, help_text = 'Preferrably in jpg/jpeg format')
     telescope_mod = forms.CharField(label=' Manufacturer / Model of the telescope (*)', required = True)

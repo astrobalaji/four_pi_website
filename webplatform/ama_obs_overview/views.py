@@ -30,7 +30,8 @@ class ama_overview_views(View):
         prop_data['description'] = Proposal.description
         prop_data['obs_type'] = obs_choices[Proposal.obs_type]
         prop_data['field_type'] = field_choices[Proposal.field_type]
-        prop_data['fov'] = Proposal.fov
+        prop_data['min_fov'] = Proposal.min_fov
+        prop_data['max_fov'] = Proposal.max_fov
         prop_data['mag'] = Proposal.magnitude
         prop_data['ra'] = Proposal.coords_ra
         prop_data['dec'] = Proposal.coords_dec
