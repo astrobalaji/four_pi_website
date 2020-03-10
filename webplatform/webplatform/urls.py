@@ -35,7 +35,7 @@ urlpatterns = [
     path('onboarding/educators/', eduOBViews.as_view(), name = 'educator_onboarding'),
     path('user/home/', home_view.index),
     path('obsprop/', ObsPropViews.as_view()),
-    path('obs_sel/',prof_obs_sel_views.index),
+    path('obs_sel/<pk>',prof_obs_sel_views.index),
     path(r'obs_sel/<slug>-<pk>/', SelectObservatory.as_view(), name='obs_sel'),
     path('obs/overview/<pk>', Obs_Overview_views.as_view()),
     path(r'obs_calc/<slug>-<pk>', obs_calc_views.as_view(), name = 'obs_calc'),

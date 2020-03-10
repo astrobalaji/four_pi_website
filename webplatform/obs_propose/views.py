@@ -29,6 +29,6 @@ class ObsPropViews(View):
             obs_req.status = 'Submitted'
             obs_req.selected_users = ''
             obs_req.save()
-            return redirect('/obs_sel')
+            return redirect('/obs_sel/'+str(obs_req.pk))
         else:
             return redirect('/obsprop')

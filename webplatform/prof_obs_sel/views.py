@@ -145,8 +145,8 @@ def plot_world_map(source):
 
     return {'script':script, 'div':div}
 
-def index(request):
-    obj = Obs_Prop.objects.filter(user_id=request.user.username).order_by('id')
+def index(request, pk, *args, **kwargs):
+    obj = Obs_Prop.objects.filter(pk=pk)#filter(user_id=request.user.username).order_by('id')
     proposal = next(obj.iterator())
     ra = proposal.coords_ra
     dec = proposal.coords_dec
