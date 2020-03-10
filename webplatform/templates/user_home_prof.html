@@ -85,6 +85,7 @@ https://4pi-astro.com{% load static %}
     </div>
 </section>
 
+
 <section class="section-table cid-rQtqnWyONe" id="table1-f">
 
 
@@ -108,8 +109,7 @@ https://4pi-astro.com{% load static %}
               <th class="head-item mbr-fonts-style display-7">
                       Observation title</th><th class="head-item mbr-fonts-style display-7">
                       Submitted on</th><th class="head-item mbr-fonts-style display-7">
-                      Status</th><th class="head-item mbr-fonts-style display-7">
-                      Data link</th></tr>
+                      Description</th></tr>
             </thead>
 
             <tbody>
@@ -122,7 +122,7 @@ https://4pi-astro.com{% load static %}
 
 
               {% for obs in obs_res %}
-              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.status}}</td><td class="body-item mbr-fonts-style display-7">---</td></tr><tr>
+              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td></tr><tr>
               {% endfor %}
           </table>
         </div>

@@ -26,6 +26,7 @@ def get_obs(uname):
         obs['submitted_on'] = i.submitted_on
         obs['status'] = i.status
         obs['pk'] = i.pk
+        obs['desc'] = i.description
         obsers.append(obs)
     return obsers
 

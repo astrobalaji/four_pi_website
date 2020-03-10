@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from obs_propose.models import Obs_Prop
 from amateurOnboarding.models import AmaOB
 from django.views.generic import View
@@ -58,45 +58,47 @@ class Obs_Overview_views(View):
 
         sel_users = proposal.selected_users.split(',')
         obs_data = []
-
-        for u in sel_users:
-            obj = AmaOB.objects.filter(user_id=u)
-            obs = next(obj.iterator())
-            ob_data = {}
-            if u in comp_users:
-                ob_data['comp'] = True
-                ob_data['req'] = False
-                data_download = next(File_Details.objects.filter(obs_id=pk, ama_id=u).iterator())
-                #ob_data['data'] = data_download.filename
-                some_file  = open('media/data_files/'+data_download.filename, "r")
-                django_file = File(some_file)
-                ob_data['data'] = django_file
-            else:
-                ob_data['comp'] = False
-                ob_data['req'] = True
-            if u in req_users:
-                obs_status = 'Requested'
-            elif u in acc_users:
-                obs_status = 'Accepted'
-            elif u in comp_users:
-                obs_status = 'Completed'
-            else:
-                obs_status = 'Selected'
-            ob_data['obs_name'] = obs.obs_name
-            ob_data['location'] = obs.location
-            ob_data['aper'] = obs.telescope_aper
-            ob_data['flen'] = obs.telescope_flength
-            ob_data['det'] = obs.det_mod
-            ob_data['fov'] = "{:.2f}".format(obs.fov)
-            ob_data['uname'] = u
-            ob_data['obs_img'] = obs.obs_img
-            ob_data['status'] = obs_status
-            ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
-            lp = get_SQM_reading(obs.lat, obs.lon)
-            if lp == 0.:
-                ob_data['lp'] = 'NA'
-            else:
-                ob_data['lp'] = str("{:.2f}".format(lp))
-            obs_data.append(ob_data)
-        context['observatories'] = obs_data
-        return render(request, 'obs_overview_prof.html', context)
+        if sel_users == ['']:
+            return redirect('http://localhost:8000/obs_sel/'+str(pk))
+        else:
+            for u in sel_users:
+                obj = AmaOB.objects.filter(user_id=u)
+                obs = next(obj.iterator())
+                ob_data = {}
+                if u in comp_users:
+                    ob_data['comp'] = True
+                    ob_data['req'] = False
+                    data_download = next(File_Details.objects.filter(obs_id=pk, ama_id=u).iterator())
+                    #ob_data['data'] = data_download.filename
+                    some_file  = open('media/data_files/'+data_download.filename, "r")
+                    django_file = File(some_file)
+                    ob_data['data'] = django_file
+                else:
+                    ob_data['comp'] = False
+                    ob_data['req'] = True
+                if u in req_users:
+                    obs_status = 'Requested'
+                elif u in acc_users:
+                    obs_status = 'Accepted'
+                elif u in comp_users:
+                    obs_status = 'Completed'
+                else:
+                    obs_status = 'Selected'
+                ob_data['obs_name'] = obs.obs_name
+                ob_data['location'] = obs.location
+                ob_data['aper'] = obs.telescope_aper
+                ob_data['flen'] = obs.telescope_flength
+                ob_data['det'] = obs.det_mod
+                ob_data['fov'] = "{:.2f}".format(obs.fov)
+                ob_data['uname'] = u
+                ob_data['obs_img'] = obs.obs_img
+                ob_data['status'] = obs_status
+                ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
+                lp = get_SQM_reading(obs.lat, obs.lon)
+                if lp == 0.:
+                    ob_data['lp'] = 'NA'
+                else:
+                    ob_data['lp'] = str("{:.2f}".format(lp))
+                obs_data.append(ob_data)
+            context['observatories'] = obs_data
+            return render(request, 'obs_overview_prof.html', context)

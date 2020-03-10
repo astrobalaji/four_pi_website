@@ -3033,6 +3033,39 @@ body {
 .cid-rQjne06J8N {
   background-image: url("../../../coming_soon/images/mbr-1920x1276.jpg");
 }
+.cid-rSS5qHuse1 {
+  padding-top: 90px;
+  padding-bottom: 90px;
+  background-color: #efefef;
+}
+.cid-rSS5qHuse1 h4 {
+  text-align: left;
+  font-weight: 500;
+}
+.cid-rSS5qHuse1 p {
+  color: #767676;
+  text-align: left;
+  margin-bottom: 0;
+}
+.cid-rSS5qHuse1 .card-img {
+  text-align: left;
+  background-color: #ffffff;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 3rem 2.5rem 0 2.5rem;
+}
+.cid-rSS5qHuse1 .card-img span {
+  font-size: 72px;
+  color: #707070;
+}
+.cid-rSS5qHuse1 .card-box {
+  padding: 0rem 2.5rem 3rem 2.5rem;
+  background-color: #ffffff;
+}
+.cid-rSS5qHuse1 .card-title,
+.cid-rSS5qHuse1 .card-img {
+  text-align: center;
+}
 .cid-rQtqnWyONe {
   padding-top: 90px;
   padding-bottom: 90px;
@@ -6772,12 +6805,4 @@ body {
 .cid-rSd19rqXHW .mbr-iconfont {
   font-size: 80px;
   color: #149dcc;
-}
-.cid-rRpOrhEg9x {
-  padding-top: 90px;
-  padding-bottom: 90px;
-  background-color: #efefef;
-}
-.cid-rRpOrhEg9x P {
-  color: #767676;
 }

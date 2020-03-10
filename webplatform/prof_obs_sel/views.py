@@ -138,7 +138,7 @@ def plot_world_map(source):
     taptool = p.select(type=TapTool)
     p.toolbar.logo = None
     #p.toolbar_location = None
-    url = "https://4pi-astro.com/obs_sel/@uid-@pid"
+    url = "https://4pi-astro.com/obssel/@uid-@pid"
     taptool.callback = OpenURL(url=url)
 
     script, div = components(p)
