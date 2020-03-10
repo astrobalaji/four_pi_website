@@ -123,7 +123,7 @@ def callback_func(attr, old, new):
 
 def plot_world_map(source):
     selected_src = ColumnDataSource(dict(indices=[]))
-    hovert = HoverTool(tooltips = [('city', '@name'), ('timezone','@tz')('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
+    hovert = HoverTool(tooltips = [('city', '@name'), ('timezone','@tz'), ('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
 
     p = figure(x_range=(-120000, 190000), y_range=(-12000000, 12000000),
            x_axis_type="mercator", y_axis_type="mercator", plot_width = 1135, plot_height = 600, tools = 'tap')
@@ -181,10 +181,7 @@ def index(request):
         fov.append(data.fov)
         user_id.append(data.user_id)
         pklist.append(proposal.pk)
-    if tz>0:
-        tz = 'UTC+{0}'.format(tz)
-    else:
-        tz = 'UTC-{0}'.format(tz)
+    tz = ['UTC+{0}'.format(t) if t>0 else 'UTC{0}'.format(t) for t in tz]
     ds = ColumnDataSource(data = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist))
     plt = plot_world_map(ds)
     plt['pk'] = proposal.pk
