@@ -59,7 +59,7 @@ class Obs_Overview_views(View):
         sel_users = proposal.selected_users.split(',')
         obs_data = []
         if sel_users == ['']:
-            return redirect('http://localhost:8000/obs_sel/'+str(pk))
+            return redirect('https://4pi-astro.com/obs_sel/'+str(pk))
         else:
             for u in sel_users:
                 obj = AmaOB.objects.filter(user_id=u)
