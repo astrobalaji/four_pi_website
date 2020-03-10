@@ -123,7 +123,7 @@ def callback_func(attr, old, new):
 
 def plot_world_map(source):
     selected_src = ColumnDataSource(dict(indices=[]))
-    hovert = HoverTool(tooltips = [('city', '@name'), ('timezone':'@tz')('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
+    hovert = HoverTool(tooltips = [('city', '@name'), ('timezone','@tz')('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
 
     p = figure(x_range=(-120000, 190000), y_range=(-12000000, 12000000),
            x_axis_type="mercator", y_axis_type="mercator", plot_width = 1135, plot_height = 600, tools = 'tap')
