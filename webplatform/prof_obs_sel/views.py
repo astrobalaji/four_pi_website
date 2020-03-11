@@ -126,9 +126,6 @@ def callback_func(attr, old, new):
 
 
 def plot_world_map(ds):
-    bokeh.io.curdoc().clear()
-    bokeh.io.state.State().reset()
-    bokeh.io.reset_output()
     tile_provider = get_provider(Vendors.CARTODBPOSITRON)
     selected_src = ColumnDataSource(dict(indices=[]))
     source = ColumnDataSource(ds)
