@@ -4,6 +4,7 @@ from amateurOnboarding.models import AmaOB
 from django.views.generic import View
 from ama_obs_overview.models import File_Details
 from django.core.files import File
+from datetime import datetime, timedelta
 
 import mimetypes
 import pandas as pd
@@ -46,12 +47,14 @@ class Obs_Overview_views(View):
         context['coords_ra'] = proposal.coords_ra
         context['coords_dec'] = proposal.coords_dec
         context['min_fov'] = proposal.min_fov
-        context['max_fov'] = proposal.min_fov
+        context['max_fov'] = proposal.max_fov
         context['mag'] = proposal.magnitude
-        context['des_exp'] = 'min: '+str(proposal.exp_min)+'s'+' max: '+str(proposal.exp_max)
+        context['des_exp'] = 'min: '+str(proposal.exp_min)+' s'+', max: '+str(proposal.exp_max)+' s'
         context['description'] = proposal.description
         context['settings'] = proposal.settings
         context['obs_id'] = proposal.pk
+        context['start_date'] = proposal.start_date
+        context['end_date'] = proposal.start_date+timedelta(days = proposal.no_of_nights)
         acc_users = proposal.accepted_users.split(',')
         comp_users = proposal.completed_users.split(',')
         req_users = proposal.requested_users.split(',')
