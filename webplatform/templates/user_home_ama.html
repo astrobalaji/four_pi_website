@@ -125,6 +125,41 @@
     </div>
 </section>
 
+<section class="features7 cid-rQWKbHUJHc" id="features7-p">
+
+
+  {% if newobsdisp %}
+      <h2 class="align-center pb-3 mbr-fonts-style display-2">
+          Requested Observation</h2>
+
+  {% for obs in newobs %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="card p-3 col-12 col-md-6 col-lg-4">
+                <div class="media">
+                    <div class="card-img pr-2">
+                        <span class="mbr-iconfont mbri-rocket"></span>
+                    </div>
+                    <div class="card-box media-body">
+                        <h4 class="card-title py-3 mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs_rev_ama/{{obs.pid}}" target="_blank">
+                            {{obs.title}}</a></h4>
+                        <p class="mbr-text mbr-fonts-style display-7">
+                           {{obs.summary}}&nbsp;<br></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  {% endfor %}
+  {% else %}
+  <p class="mbr-text pb-3 mbr-fonts-style display-5">
+      You have no requests yet. hold on to your seats. :)</p>
+  {% endif %}
+</section>
+
 <section class="mbr-section content4 cid-rRpwE3fJVn" id="content4-1m">
 
     {% if selobsdisp %}
@@ -190,37 +225,7 @@
 
 
 
-<section class="features7 cid-rQWKbHUJHc" id="features7-p">
 
-
-  {% if newobsdisp %}
-  {% for obs in newobs %}
-
-    <div class="container">
-        <div class="row justify-content-center">
-
-            <div class="card p-3 col-12 col-md-6 col-lg-4">
-                <div class="media">
-                    <div class="card-img pr-2">
-                        <span class="mbr-iconfont mbri-rocket"></span>
-                    </div>
-                    <div class="card-box media-body">
-                        <h4 class="card-title py-3 mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs_rev_ama/{{obs.pid}}" target="_blank">
-                            {{obs.title}}</a></h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                           {{obs.summary}}&nbsp;<br></p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-  {% endfor %}
-  {% else %}
-  <p class="mbr-text pb-3 mbr-fonts-style display-5">
-      You have no requests yet. hold on to your seats. :)</p>
-  {% endif %}
-</section>
 
 <section class="services2 cid-rQX2Xb6Q1j" id="services2-r">
     <!---->
