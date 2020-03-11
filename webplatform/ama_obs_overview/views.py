@@ -114,8 +114,8 @@ class accept_obs(View):
             booked_dates += days
             user_res.booked_dates = booked_dates
         user_res.save()
-
-        return render(request, 'autoclose.html')
+        render(request, 'autoclose.html')
+        return redirect('https://4pi-astro.com/user/home')
 
 class reject_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
