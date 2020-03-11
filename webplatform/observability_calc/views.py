@@ -114,7 +114,8 @@ class obs_calc_views(View):
             Proposal = next(data)
 
             req_obs = Proposal.requested_users.split(',')
-            if slug in req_obs:
+            acc_obs = Proposal.accepted_users.split(',')
+            if (slug in req_obs) or (slug in acc_obs):
                 requested = True
                 req_exp = literal_eval(Proposal.exps)[slug]
                 req_sets = literal_eval(Proposal.settings)[slug]
