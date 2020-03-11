@@ -112,6 +112,17 @@ class obs_calc_views(View):
         else:
             data = Obs_Prop.objects.filter(pk=pk).iterator()
             Proposal = next(data)
+
+            req_obs = Proposal.requested_users.split(',')
+            if slug in req_obs:
+                requested = True
+                req_exp = literal_eval(Proposal.exps)[slug]
+                req_sets = literal_eval(Proposal.settings)[slug]
+            else:
+                requested = False
+                req_exp = 0
+                req_sets = ''
+
             data = AmaOB.objects.filter(user_id=slug).iterator()
             Observer = next(data)
             latitude = Observer.lat
@@ -181,7 +192,10 @@ class obs_calc_views(View):
                         'max_temp':max_temp,
                         'hum':hum,
                         'clouds':clouds,
-                        'form':form}
+                        'form':form,
+                        'requested':requested,
+                        'req_exp': req_exp,
+                        'req_sets': req_sets}
 
             return render(request, 'obs_home.html', context)
     def post(self, request, slug, pk, *args, **kwargs):
