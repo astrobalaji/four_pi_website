@@ -156,7 +156,7 @@ class obs_calc_views(View):
 
             exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise)
 
-            p1 = figure(x_axis_label='Hours to midnight',y_axis_label='Altitude')
+            p1 = figure(x_axis_label='Hours to midnight',y_axis_label='Altitude (degs)')
             p1.line(delta_midnight, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
             p1.line(delta_midnight, moonaltazs_tonight.alt, line_color = 'green', legend_label = 'Moon')
             p1.line(delta_midnight, altaz.alt, line_color = 'blue', legend_label = 'Object')
