@@ -108,7 +108,7 @@ class obs_calc_views(View):
                         'clouds':clouds,
                         }
 
-            return render(request, 'obs_home.html', context)
+            return render(request, 'obs_home_ama.html', context)
         else:
             data = Obs_Prop.objects.filter(pk=pk).iterator()
             Proposal = next(data)
