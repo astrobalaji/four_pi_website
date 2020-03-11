@@ -53,8 +53,7 @@ def check_dates(booked_dates, start_date, no_of_nights):
         req_nights.append(start_date+timedelta(days=i))
     for d in dates:
         if d in req_nights:
-            check = True
-            break
+            return True
     return check
 
 def check_observability(prop_pk, user_id):
@@ -135,7 +134,7 @@ def plot_world_map(ds):
            x_axis_type="mercator", y_axis_type="mercator", plot_width = 1135, plot_height = 600, tools = 'tap')
     p.add_tile(tile_provider)
 
-    p.circle(x='x',y='y', alpha = 0.5, size = 10, source=source)
+    p.circle(x='x',y='y', alpha = 0.5, size = 10,color = "red", source=source)
 
 
     p.add_tools(hovert)
