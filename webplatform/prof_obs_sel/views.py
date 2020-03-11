@@ -1,9 +1,13 @@
 from django.shortcuts import render, render_to_response
+
+import bokeh
+
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.models.callbacks import CustomJS
 from bokeh.models import HoverTool, TapTool, OpenURL, WheelZoomTool, PanTool
 from bokeh.embed import components
 from bokeh.layouts import row
+
 from datetime import datetime, timedelta
 import numpy as np
 import math
@@ -24,7 +28,7 @@ from django.views.generic import View
 
 sel_users = []
 
-tile_provider = get_provider(Vendors.CARTODBPOSITRON)
+
 
 def sky_coords(RA_str, Dec_str):
     return SkyCoord(RA_str, Dec_str, frame = ICRS)
@@ -121,8 +125,13 @@ def callback_func(attr, old, new):
     return unames
 
 
-def plot_world_map(source):
+def plot_world_map(ds):
+    bokeh.io.curdoc().clear()
+    bokeh.io.state.State().reset()
+    bokeh.io.reset_output()
+    tile_provider = get_provider(Vendors.CARTODBPOSITRON)
     selected_src = ColumnDataSource(dict(indices=[]))
+    source = ColumnDataSource(ds)
     hovert = HoverTool(tooltips = [('city', '@name'), ('timezone','@tz'), ('aperture', '@aper'), ('focal length', '@focal_length'), ('detector', '@det_name'), ('fov', '@fov')])
 
     p = figure(x_range=(-120000, 190000), y_range=(-12000000, 12000000),
@@ -133,11 +142,11 @@ def plot_world_map(source):
 
 
     p.add_tools(hovert)
-    p.add_tools(WheelZoomTool())
-    p.add_tools(PanTool())
+    #p.add_tools(WheelZoomTool())
+    #p.add_tools(PanTool())
     taptool = p.select(type=TapTool)
     p.toolbar.logo = None
-    #p.toolbar_location = None
+    p.toolbar_location = None
     url = "https://4pi-astro.com/obssel/@uid-@pid"
     taptool.callback = OpenURL(url=url)
 
@@ -182,7 +191,7 @@ def index(request, pk, *args, **kwargs):
         user_id.append(data.user_id)
         pklist.append(proposal.pk)
     tz = ['UTC+{0}'.format(t) if t>0 else 'UTC{0}'.format(t) for t in tz]
-    ds = ColumnDataSource(data = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist))
+    ds = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist)
     plt = plot_world_map(ds)
     plt['pk'] = proposal.pk
     return render(request, 'obs_sel.html', plt)

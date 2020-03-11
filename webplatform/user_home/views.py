@@ -19,7 +19,7 @@ def get_arxiv(field):
 
 def get_obs(uname):
     obsers = []
-    it = Obs_Prop.objects.filter(user_id = uname).iterator()
+    it = Obs_Prop.objects.filter(user_id = uname).order_by('submitted_on').iterator()
     for i in it:
         obs = {}
         obs['title'] = i.obs_title
