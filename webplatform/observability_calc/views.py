@@ -44,7 +44,7 @@ def calc_fov(pix, pix_scale):
     det_dim = [int(v) for v in pix.split('x')]
     return (det_dim[0]*pix_scale)*(det_dim[1]*pix_scale)
 
-def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN):
+def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE):
     exp_times = list(np.arange(exp_start, exp_end, 0.1))
     fov = calc_fov(pix, pix_scale)
     pixels = [int(p) for p in pix.split('x')]
@@ -56,7 +56,7 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN):
     for e in exp_times:
          N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
          B = (magtoflux(SQM*fov, tel_aper)*e)/(h*c/lam)
-         SNR = N/np.sqrt(N+B+(npix*(RN**2.)))
+         SNR = N/np.sqrt(N+B+(npix*((RN/QE)**2.)))
          snr.append(SNR)
     return exp_times, snr
 
@@ -157,7 +157,7 @@ class obs_calc_views(View):
 
             SQM = get_SQM_reading(latitude, longitude)
 
-            exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise)
+            exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
 
             p1 = figure(x_axis_label='Hours to midnight',y_axis_label='Altitude (degs)')
             p1.line(delta_midnight, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
