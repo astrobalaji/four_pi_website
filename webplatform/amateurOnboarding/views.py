@@ -34,7 +34,7 @@ class AmaOBViews(View):
             if observatory.read_noise == None:
                 observatory.read_noise = 0.
             if observatory.QE == None:
-                observatory.QE = 0.
+                observatory.QE = 100.
             observatory.save()
             return redirect('/user/home/')
         else:
