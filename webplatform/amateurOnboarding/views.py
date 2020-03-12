@@ -31,6 +31,10 @@ class AmaOBViews(View):
             observatory.user_id = uname
             fov = calc_fov(observatory.telescope_flength, observatory.det_pix_scale, observatory.detector_dimensions)
             observatory.fov = fov
+            if observatory.read_noise == None:
+                observatory.read_noise = 0.
+            if observatory.QE == None:
+                observatory.QE = 0.
             observatory.save()
             return redirect('/user/home/')
         else:

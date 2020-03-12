@@ -50,9 +50,12 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN):
     pixels = [int(p) for p in pix.split('x')]
     npix = pixels[0]*pixels[1]
     snr = []
+    h = 6.62e-27
+    c = 2.99e10
+    lam = 551e-9
     for e in exp_times:
-         N = magtoflux(mag, tel_aper)*e
-         B = magtoflux(SQM*fov, tel_aper)*e
+         N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
+         B = (magtoflux(SQM*fov, tel_aper)*e)/(h*c/lam)
          SNR = N/np.sqrt(N+B+(npix*(RN**2.)))
          snr.append(SNR)
     return exp_times, snr

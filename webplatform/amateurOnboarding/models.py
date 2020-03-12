@@ -16,6 +16,7 @@ class AmaOB(models.Model):
     detector_dimensions = models.CharField(max_length=200)
     chip_name = models.CharField(max_length=200, default = 'NA')
     read_noise = models.FloatField(default = 0., null=True)
+    QE = models.FloatField(default = 100., null=True)
     user_id = models.CharField(max_length=200)
     fov = models.FloatField()
     credits = models.CharField(max_length = 20000)
