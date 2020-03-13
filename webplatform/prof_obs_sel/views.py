@@ -49,7 +49,7 @@ def check_dates(booked_dates, start_date, no_of_nights):
         return False
     dates = [datetime.strptime(d, '%Y-%m-%d') for d in booked_dates.split(',')]
     req_nights = []
-    for i in range(no_of_nights)+1:
+    for i in range(no_of_nights+1):
         req_nights.append(start_date+timedelta(days=i))
     for d in dates:
         if d in req_nights:

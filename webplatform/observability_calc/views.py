@@ -47,7 +47,7 @@ def calc_fov(pix, pix_scale):
     return (det_dim[0]*pix_scale)*(det_dim[1]*pix_scale)
 
 def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE):
-    exp_times = list(np.arange(exp_start, exp_end, 0.1))
+    exp_times = list(np.arange(exp_start, exp_end, 1))
     fov = calc_fov(pix, pix_scale)
     pixels = [int(p) for p in pix.split('x')]
     npix = pixels[0]*pixels[1]
