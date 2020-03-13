@@ -22,3 +22,4 @@ class AmaOB(models.Model):
     credits = models.CharField(max_length = 20000)
     total_credits = models.FloatField(default = 0.)
     booked_dates = models.CharField(max_length = 2000)
+    SQM = models.FloatField()

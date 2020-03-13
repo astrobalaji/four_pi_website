@@ -21,4 +21,4 @@ class AmaOnboarding(forms.ModelForm):
     QE = forms.FloatField(label = 'Enter the Quantum Efficiency of the detector (in %)', min_value = 0., max_value = 100., help_text = 'Optional but highly desired', required = False, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     class Meta:
         model = AmaOB
-        exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates']
+        exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates', 'SQM']

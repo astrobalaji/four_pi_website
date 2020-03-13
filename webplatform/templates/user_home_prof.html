@@ -124,9 +124,9 @@ https://4pi-astro.com{% load static %}
 
               {% for obs in obs_res %}
               {% if obs.obs_del %}
-              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete</td></tr><tr>
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete</td></tr><tr>
               {% else %}
-              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7">Not Available</td></tr><tr>
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7">Not Available</td></tr><tr>
               {% endif %}
               {% endfor %}
           </table>

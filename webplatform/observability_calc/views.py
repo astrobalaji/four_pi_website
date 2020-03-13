@@ -22,21 +22,19 @@ from bokeh.embed import components
 from bokeh.layouts import row
 
 
-from prof_obs_overview.views import get_SQM_reading
-
 from .forms import ObsSettings
 
 
 
 def magtoflux(mag, tel_aper):
     zero_mag = 3953 #Jy for V band
-    delta_lambda = 88e-9
-    c = 3e8
-    tel_aper = tel_aper/10.
-    lam = 551e-9
-    f_jy = zero_mag*(10**(-mag/2.5))
+    delta_lambda = 88e-9 #m
+    c = 3e8 #m/s
+    tel_aper = tel_aper/10. #cm
+    lam = 551e-9 #m
+    f_jy = zero_mag*(10**(-mag/2.5)) #Jy
     f_ergs = f_jy*1e-23 # erg/cm^2/s/Hz
-    delta_hz = c/delta_lambda
+    delta_hz = c/delta_lambda # Hz
     f_ergs = f_ergs*delta_hz # erg/cm^2/s/Hz to # erg/cm^2/s
     f_ergs = f_ergs*(np.pi*((tel_aper/2.)**2.)) # ergs/s
     return f_ergs
@@ -54,11 +52,11 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE
     snr = []
     h = 6.62e-27
     c = 2.99e10
-    lam = 551e-9
+    lam = 551e-7
     for e in exp_times:
          N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
-         if SQM == 0.:
-             B = (magtoflux(SQM*fov*fov, tel_aper)*e)/(h*c/lam)
+         if SQM != 0.:
+             B = (magtoflux(SQM*fov, tel_aper)*e)/(h*c/lam)
              SNR = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
          else:
              SNR = N/np.sqrt(N+(npix*((RN/(QE/100.))**2.)))
@@ -160,7 +158,7 @@ class obs_calc_views(View):
             sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
             moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
-            SQM = get_SQM_reading(latitude, longitude)
+            SQM = Observer.SQM
 
             exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
 

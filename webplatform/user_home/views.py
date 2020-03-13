@@ -27,7 +27,7 @@ def get_obs(uname):
         obs['status'] = i.status
         obs['pk'] = i.pk
         obs['desc'] = i.description
-        if i.requested_users == '':
+        if (i.requested_users == '') and (i.accepted_users == ''):
             obs['obs_del'] = True
             obs['del_link'] = 'https://4pi-astro.com/delobs/'+str(i.pk)
         else:
