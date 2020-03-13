@@ -248,6 +248,8 @@
             <div class="col-md-10 align-center">
                 <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">Schedule your observations</h1>
 
+            </div>
+        </div>
                 <form method="post">
                     {% csrf_token %}
                     {% include 'includes/bs4_form.html' with form=form %}
@@ -255,8 +257,6 @@
                     <br><br>
                 </form>
 
-            </div>
-        </div>
     </div>
 
     {{ div | safe }}
