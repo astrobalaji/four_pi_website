@@ -57,8 +57,11 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE
     lam = 551e-9
     for e in exp_times:
          N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
-         B = (magtoflux(SQM*fov*fov, tel_aper)*e)/(h*c/lam)
-         SNR = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
+         if SQM == 0.:
+             B = (magtoflux(SQM*fov*fov, tel_aper)*e)/(h*c/lam)
+             SNR = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
+         else:
+             SNR = N/np.sqrt(N+(npix*((RN/(QE/100.))**2.)))
          snr.append(SNR)
     return exp_times, snr
 
