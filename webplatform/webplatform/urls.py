@@ -42,7 +42,8 @@ urlpatterns = [
     path(r'obs_rev_ama/<pk>', ama_overview_views.as_view()),
     path(r'accept/<slug>-<pk>', accept_obs.as_view()),
     path(r'reject/<slug>-<pk>', reject_obs.as_view()),
-    path(r'accounts/logout', logoutview.logout_view)
+    path(r'accounts/logout', logoutview.logout_view),
+    path(r'delobs/<pk>', home_view.delete_obs)
 ]
 
 

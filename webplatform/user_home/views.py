@@ -27,6 +27,12 @@ def get_obs(uname):
         obs['status'] = i.status
         obs['pk'] = i.pk
         obs['desc'] = i.description
+        if i.requested_users == '':
+            obs['obs_del'] = True
+            obs['del_link'] = 'https://4pi-astro.com/delobs/'+str(i.pk)
+        else:
+            obs['obs_del'] = False
+            obs['del_link'] = ''
         obsers.append(obs)
     return obsers
 
@@ -123,3 +129,8 @@ def index(request):
             return redirect('activate/dir_sel/')#render(request, 'temphome.html', {'full_name':full_name})
     else:
         return redirect('/accounts/login')
+
+
+def delete_obs(request, pk , *args, **kwargs):
+    ObsProp.objects.filter(pk = pk).delete()
+    return render(request, 'autoclose.html')

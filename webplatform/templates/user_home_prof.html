@@ -109,7 +109,8 @@ https://4pi-astro.com{% load static %}
               <th class="head-item mbr-fonts-style display-7">
                       Observation title</th><th class="head-item mbr-fonts-style display-7">
                       Submitted on</th><th class="head-item mbr-fonts-style display-7">
-                      Description</th></tr>
+                      Description</th><th class="head-item mbr-fonts-style display-7">
+                      Delete Observation</th></tr>
             </thead>
 
             <tbody>
@@ -122,7 +123,7 @@ https://4pi-astro.com{% load static %}
 
 
               {% for obs in obs_res %}
-              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td></tr><tr>
+              <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td>{% if obs.obs_del %}<td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete Observation</td> {% else %}<td class="body-item mbr-fonts-style display-7">Not Available</td>{% endif %}</tr><tr>
               {% endfor %}
           </table>
         </div>
