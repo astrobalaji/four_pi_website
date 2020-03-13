@@ -40,6 +40,8 @@ def magtoflux(mag, tel_aper):
     f_ergs = f_ergs*delta_hz # erg/cm^2/s/Hz to # erg/cm^2/s
     f_ergs = f_ergs*(np.pi*((tel_aper/2.)**2.)) # ergs/s
     return f_ergs
+
+
 def calc_fov(pix, pix_scale):
     det_dim = [int(v) for v in pix.split('x')]
     return (det_dim[0]*pix_scale)*(det_dim[1]*pix_scale)
@@ -55,7 +57,7 @@ def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE
     lam = 551e-9
     for e in exp_times:
          N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
-         B = (magtoflux(SQM*fov, tel_aper)*e)/(h*c/lam)
+         B = (magtoflux(SQM*fov*fov, tel_aper)*e)/(h*c/lam)
          SNR = N/np.sqrt(N+B+(npix*((RN/QE)**2.)))
          snr.append(SNR)
     return exp_times, snr

@@ -208,8 +208,8 @@
                   Upload your final zip file here.</p>
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Upload</button>
+                {% include 'includes/bs4_form.html' with form=form %}
+                <button type="submit" class="btn btn-primary">Submit</button>
               </form>
                 </div>
             </div>

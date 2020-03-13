@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'background_task',
+    'widget_tweaks',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
     'signup',
     'coming_soon',
     'confirm_reg',
@@ -80,6 +83,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'webplatform.wsgi.application'
+
+# Use BOOTSTRAP3 if you are using Bootstrap 3
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 
 # Database

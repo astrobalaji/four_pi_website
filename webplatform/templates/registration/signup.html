@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="{% static 'coming_soon/images/4pi-85x127.png' %}" type="image/x-icon">
   <meta name="description" content="Web Page Generator Description">
 
-  <title>Check Email</title>
+  <title>4Pi Astronomics</title>
   <link rel="stylesheet" href="{% static 'coming_soon/web/assets/mobirise-icons/mobirise-icons.css' %}">
   <link rel="stylesheet" href="{% static 'coming_soon/tether/tether.min.css' %}">
   <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap.min.css' %}">
@@ -65,8 +65,8 @@
             <div class="mbr-white col-md-10">
               <form method="post">
                   {% csrf_token %}
-                  {{ form.as_p }}
-                  <button type="submit">Register</button>
+                  {% include 'includes/bs4_form.html' with form=form %}
+                  <button type="submit" class="btn btn-primary">Register</button>
                   <br><br>
               </form>
             </div>

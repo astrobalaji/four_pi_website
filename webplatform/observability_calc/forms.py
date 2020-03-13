@@ -4,5 +4,5 @@ from django.utils.translation import ugettext_lazy as _
 
 class ObsSettings(forms.Form):
 
-    exposure_time = forms.FloatField(label = 'Enter your Desired Exposure time in seconds')
-    further_instructions = forms.CharField(label = 'Enter further instructions for the amateur astronomer', widget = forms.Textarea)
+    exposure_time = forms.FloatField(label = 'Enter your Desired Exposure time in seconds', widget = forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    further_instructions = forms.CharField(label = 'Enter further instructions for the amateur astronomer', widget = forms.Textarea(attrs={'style': 'width: 50%', 'cols': 200,}))

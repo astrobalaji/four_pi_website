@@ -14,10 +14,8 @@
 </div>
 <form method="post">
     {% csrf_token %}
-    {{ form.errors }}
-    {{ form.non_field_errors }}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    {% include 'includes/bs4_form.html' with form=form %}
+    <button type="submit" class="btn btn-primary">Submit</button>
     <br><br>
 </form>
 {% endblock content %}

@@ -13,9 +13,9 @@
     </div>
 </div>
 <form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {% include 'includes/bs4_form.html' with form=form %}
-  <button type="submit" class="btn btn-primary">Submit</button>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
     <br><br>
 </form>
 <div class="mbr-white col-md-10">

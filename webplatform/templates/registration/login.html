@@ -4,7 +4,7 @@
 <h2>Login</h2>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
+  {% include 'includes/bs4_form.html' with form=form %}
+  <button type="submit" class="btn btn-primary">Login</button>
 </form>
 {% endblock content %}
