@@ -7,7 +7,9 @@ import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord, EarthLocation, AltAz, ICRS, get_sun, get_moon
 
+import os
 
+os.chdir('/Users/astrobalaji/Documents/four_pi_live/four_pi_website/observation calculator')
 
 import pandas as pd
 import re
@@ -81,6 +83,15 @@ sunazs = [a.deg for a in sunaltazs_tonight.az]
 moonazs = [a.deg for a in moonaltazs_tonight.az]
 
 deltsunazs = [suna-a for a in azs for suna in sunazs]
+
+test = midnight+delta_midnight.value
+
+test_arr = [t.datetime.strftime('%H:%M:%S') for t in test]
+
+test_arr
+
+delta_midnight.astype(float)
+
 
 list(np.array(sunazs)-np.array(azs))
 

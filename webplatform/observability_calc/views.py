@@ -158,14 +158,18 @@ class obs_calc_views(View):
             sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
             moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
+            time_arr = midnight+delta_midnight.value
+
+            time_str_arr = [t.datetime.strftime('%H:%M:%S') for t in timearr]
+
             SQM = Observer.SQM
 
             exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
 
-            p1 = figure(x_axis_label='Hours to midnight',y_axis_label='Altitude (degs)')
-            p1.line(delta_midnight, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
-            p1.line(delta_midnight, moonaltazs_tonight.alt, line_color = 'green', legend_label = 'Moon')
-            p1.line(delta_midnight, altaz.alt, line_color = 'blue', legend_label = 'Object')
+            p1 = figure(x_axis_label='Time',y_axis_label='Altitude (degs)')
+            p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
+            p1.line(time_str_arr, moonaltazs_tonight.alt, line_color = 'green', legend_label = 'Moon')
+            p1.line(time_str_arr, altaz.alt, line_color = 'blue', legend_label = 'Object')
             p1.toolbar.logo = None
             p1.toolbar_location = None
             p1.y_range = Range1d(0,90)
