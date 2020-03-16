@@ -16,7 +16,7 @@ class ObsProp(forms.ModelForm):
     coords_dec = forms.CharField(label = 'Dec of the target/center of field', required = True, help_text = 'format: 00d00m00.00s', widget=forms.TextInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     min_fov = forms.FloatField(label = 'Desired Minimum field of view (arcminutes)', required = True, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     max_fov = forms.FloatField(label = 'Desired Maximum field of view (arcminutes)', required = True, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
-    magnitude = forms.FloatField(label = 'Expected V band magnitude of the object', required = True, help_text='AGNs: Prefer a magnitude with aperture close to 1-3 arcseconds', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    magnitude = forms.FloatField(label = 'Expected V band magnitude of the object', required = True, help_text='AGNs: Approximate magnitude for an aperture of ~1-3 arcseconds', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     start_date = forms.DateField(label = 'Enter the start date of the observation', required = True, widget = DatePickerInput(attrs = {'stype':'width:30%', 'cols':20}))#forms.SelectDateWidget(attrs = {'style':'width:30%', 'cols':3}))
     no_of_nights = forms.IntegerField(label = 'Number of nights', required = True, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     exp_min = forms.FloatField(label = 'Desired Minimum Integrated Exposure (seconds)', required = True, help_text = 'Used in the SNR calculation', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
