@@ -132,5 +132,5 @@ def index(request):
 
 
 def delete_obs(request, pk , *args, **kwargs):
-    ObsProp.objects.filter(pk = pk).delete()
+    Obs_Prop.objects.filter(pk = pk).delete()
     return render(request, 'autoclose.html')
