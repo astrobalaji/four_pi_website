@@ -78,7 +78,7 @@ def check_observability(prop_pk, user_id):
 
     midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
 
-    delta_midnight = np.linspace(-12, 12, 1000)*u.hour
+    delta_midnight = np.linspace(-6, 6, 1000)*u.hour
 
     frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
 

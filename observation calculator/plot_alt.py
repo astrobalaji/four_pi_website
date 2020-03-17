@@ -101,7 +101,30 @@ len(deltsunazs)
 
 test.deg
 
-test = std_stars['altaz_night'][2]
+test = sunaltazs_tonight.alt < -0*u.deg
+
+type(test)
+
+np.nonzero(test)[0].max()
+
+np.argmin(abs(test.alt)-30.*u.deg)
+
+np.where(t_arr == 30.)
+
+t_arr = np.array([round(t) for t in test.alt.deg])
+
+type(t_arr[0])
+type(t_arr)
+
+t1 = test.alt[0]
+
+t1
+
+t1.deg
+
+np.nonzero(test1).min()
+
+test = std_stars['altaz_night'][8]
 plt.plot(delta_midnight, sunaltazs_tonight.alt, color='r', label='Sun')
 plt.plot(delta_midnight, moonaltazs_tonight.alt, color=[0.75]*3, ls='--', label='Moon')
 plt.scatter(delta_midnight, test.alt,

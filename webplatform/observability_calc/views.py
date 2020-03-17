@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from datetime import datetime
+from datetime import datetime, timedelta
 import numpy as np
 import math
 import requests as req
@@ -17,7 +17,7 @@ from ast import literal_eval
 
 from bokeh.plotting import figure, ColumnDataSource
 from bokeh.models.callbacks import CustomJS
-from bokeh.models import HoverTool, TapTool, OpenURL, BoxAnnotation, Range1d
+from bokeh.models import HoverTool, TapTool, OpenURL, BoxAnnotation, Range1d, BoxAnnotation, DatetimeTickFormatter, Span, Label
 from bokeh.embed import components
 from bokeh.layouts import row
 
@@ -145,36 +145,99 @@ class obs_calc_views(View):
             Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
 
             midnight = Proposal.start_date
+            midnight_end = Proposal.start_date+timedelta(days = Proposal.no_of_nights)
             utcoffset = time_zone*u.hour
 
+            midnight_xaxis = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))
+
             midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
+            midnight_end = Time(midnight_end.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
+
+
 
             delta_midnight = np.linspace(-12, 12, 1000)*u.hour
 
             frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
+            frame_end = AltAz(obstime=midnight_end+delta_midnight,location=Locat)
+
 
             altaz = self.transform(skycoord, frame_tonight)
+            altaz_end = self.transform(skycoord, frame_end)
+
 
             sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
             moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
-            time_arr = midnight+delta_midnight.value
 
-            time_str_arr = [t.datetime.strftime('%H:%M:%S') for t in timearr]
+
+            time_arr = midnight_xaxis+delta_midnight
+            time_arr = time_arr.value
+
+
+            time_str_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr]
 
             SQM = Observer.SQM
 
             exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
 
-            p1 = figure(x_axis_label='Time',y_axis_label='Altitude (degs)')
-            p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
+            p1 = figure(x_axis_label='Local time',y_axis_label='Altitude (degs)')
+            #p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
             p1.line(time_str_arr, moonaltazs_tonight.alt, line_color = 'green', legend_label = 'Moon')
-            p1.line(time_str_arr, altaz.alt, line_color = 'blue', legend_label = 'Object')
+            p1.line(time_str_arr, altaz.alt, line_color = 'blue', legend_label = 'Obj. (starting date)')
+            p1.line(time_str_arr, altaz_end.alt, line_color = 'blue', line_dash = 'dashed', legend_label = 'Obj. (ending date)')
             p1.toolbar.logo = None
             p1.toolbar_location = None
             p1.y_range = Range1d(0,90)
 
-            p2 = figure(x_axis_label = 'exposure time (s)', y_axis_label='SNR')
+            p1.legend.label_text_font_size = '10pt'
+
+            twilight_lims_arr = sunaltazs_tonight.alt < -0*u.deg
+            night_lims_arr = sunaltazs_tonight.alt < -18*u.deg
+
+            twilight_lim_lower = np.nonzero(twilight_lims_arr)[0].min()
+            twilight_lim_upper = np.nonzero(twilight_lims_arr)[0].max()
+
+            night_lim_lower = np.nonzero(night_lims_arr)[0].min()
+            night_lim_upper = np.nonzero(night_lims_arr)[0].max()
+
+
+
+            twilight_box = BoxAnnotation(left = time_str_arr[twilight_lim_lower], right = time_str_arr[twilight_lim_upper], fill_alpha = 0.4, fill_color = 'grey')
+            night_box = BoxAnnotation(left = time_str_arr[night_lim_lower], right = time_str_arr[night_lim_upper], fill_alpha = 0.4, fill_color = 'black')
+
+            p1.add_layout(twilight_box)
+            p1.add_layout(night_box)
+            hline = Span(location=30, dimension='width', line_color='brown', line_width=3, line_dash = 'dashed')
+            my_label = Label(x=time_str_arr[0], y=30, text='30° alt.')
+
+            #my_label_2 = Label(x=time_str_arr[int(len(time_str_arr)/2)-112], y=87, text='Night time at start')
+
+
+            p1.add_layout(hline)
+            p1.add_layout(my_label)
+            #p1.add_layout(my_label_2)
+
+
+            obj_alts = np.array([round(t) for t in altaz.alt.deg])
+
+            locs = np.where(obj_alts == 30.)[0]
+
+            vline_1 = Span(location = time_str_arr[locs[0]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+            vline_2 = Span(location = time_str_arr[locs[-1]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+
+            p1.add_layout(vline_1)
+            p1.add_layout(vline_2)
+
+
+            p1.xaxis.formatter=DatetimeTickFormatter(
+                                                    hours=["%H:%M"],
+                                                    days=["%H:%M"],
+                                                    months=["%H:%M"],
+                                                    years=["%H:%M"],
+                                                    )
+
+
+            p2 = figure(x_axis_label = 'Exposure time (s)', y_axis_label='SNR')
             p2.line(exps, snr)
             p2.toolbar.logo = None
             p2.toolbar_location = None
