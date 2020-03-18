@@ -111,8 +111,7 @@ https://4pi-astro.com{% load static %}
                       Submitted on</th><th class="head-item mbr-fonts-style display-7">
                       Start date</th><th class="head-item mbr-fonts-style display-7">
                       End date</th><th class="head-item mbr-fonts-style display-7">
-                      % of Requested users</th><th class="head-item mbr-fonts-style display-7">
-                      % of Accepted users</th><th class="head-item mbr-fonts-style display-7">
+                      Description</th><th class="head-item mbr-fonts-style display-7">
                       Delete Observation</th></tr>
             </thead>
 
@@ -127,9 +126,9 @@ https://4pi-astro.com{% load static %}
 
               {% for obs in obs_res %}
               {% if obs.obs_del %}
-                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.req_frac}}</td><td class="body-item mbr-fonts-style display-7">{{obs.acc_frac}}</td><td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete</td></tr><tr>
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete</td></tr><tr>
               {% else %}
-                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.req_frac}}</td><td class="body-item mbr-fonts-style display-7">{{obs.acc_frac}}</td><td class="body-item mbr-fonts-style display-7">Not Available</td></tr><tr>
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style display-7">Not Available</td></tr><tr>
               {% endif %}
               {% endfor %}
           </table>

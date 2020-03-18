@@ -4,6 +4,7 @@ from proOnboarding.models import proOB
 from obs_propose.models import Obs_Prop
 import arxiv
 import ast
+from datetime import datetime, timedelta
 
 def get_arxiv(field):
     results = arxiv.query(query=field, sort_by='submittedDate', sort_order = 'descending', max_results = 10)
@@ -27,6 +28,16 @@ def get_obs(uname):
         obs['status'] = i.status
         obs['pk'] = i.pk
         obs['desc'] = i.description
+        obs['start_date'] = i.start_date
+        obs['end_date'] = i.start_date+timedelta(days = i.no_of_nights)
+        req_users_len = len(i.requested_users.split(','))
+        sel_users_len = len(i.selected_users.split(','))
+        acc_users_len = len(i.accepted_users.split(','))
+        obs['req_frac'] = "{:.2f}".format((req_users_len/sel_users_len)*100.)
+        if req_users_len != 0:
+            obs['acc_frac'] = "{:.2f}".format((acc_users_len/sel_users_len)*100.)
+        else:
+            obs['acc_frac'] = 0.
         if (i.requested_users == '') and (i.accepted_users == ''):
             obs['obs_del'] = True
             obs['del_link'] = 'https://4pi-astro.com/delobs/'+str(i.pk)

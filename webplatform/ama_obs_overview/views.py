@@ -112,7 +112,7 @@ class accept_obs(View):
         else:
             booked_dates = user_res.booked_dates.split(',')
             booked_dates += days
-            user_res.booked_dates = booked_dates
+            user_res.booked_dates = ','.join(booked_dates)
         user_res.save()
         render(request, 'autoclose.html')
         return redirect('https://4pi-astro.com/user/home')

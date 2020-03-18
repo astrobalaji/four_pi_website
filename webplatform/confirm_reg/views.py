@@ -1,8 +1,8 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-        return render_to_response('activation/reg_conf.html')
+        return render(request,'activation/reg_conf.html')
 def init_sel(request):
     if request.user.is_authenticated:
         fname = request.user.first_name
