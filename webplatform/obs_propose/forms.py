@@ -25,4 +25,4 @@ class ObsProp(forms.ModelForm):
 
     class Meta:
         model = Obs_Prop
-        exclude = ['user_id', 'status', 'submitted_on', 'selected_users', 'unselected_users', 'requested_users', 'accepted_users', 'completed_users', 'settings', 'exps']
+        exclude = ['user_id', 'status', 'submitted_on', 'selected_users', 'unselected_users', 'requested_users', 'accepted_users', 'completed_users', 'rejected_users', 'settings', 'exps']

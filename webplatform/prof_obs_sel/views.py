@@ -47,13 +47,14 @@ def check_dates(booked_dates, start_date, no_of_nights):
     check = False
     if booked_dates == '':
         return False
-    dates = [datetime.strptime(d, '%Y-%m-%d') for d in booked_dates.split(',')]
+    dates = booked_dates.split(',')#[datetime.strptime(d, '%Y-%m-%d') for d in booked_dates.split(',')]
     req_nights = []
     for i in range(no_of_nights+1):
         req_nights.append(start_date+timedelta(days=i))
-    for d in dates:
-        if d in req_nights:
-            return True
+    req_nights = [r_n.strftime('%Y-%m-%d') for r_n in req_nights]
+    intersect = list(set(dates).intersection(req_nights))
+    if len(intersect) != 0.:
+        check = True
     return check
 
 def check_observability(prop_pk, user_id):

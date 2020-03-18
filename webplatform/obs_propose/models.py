@@ -24,5 +24,6 @@ class Obs_Prop(models.Model):
     selected_users = models.CharField(max_length=2000)
     unselected_users = models.CharField(max_length=2000)
     requested_users = models.CharField(max_length=2000)
+    rejected_users = models.CharField(max_length = 2000)
     accepted_users = models.CharField(max_length=2000)
     completed_users = models.CharField(max_length=2000)

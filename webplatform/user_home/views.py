@@ -24,26 +24,52 @@ def get_obs(uname):
     for i in it:
         obs = {}
         obs['title'] = i.obs_title
-        obs['submitted_on'] = i.submitted_on
+        obs['submitted_on'] = i.submitted_on.strftime('%d/%m/%Y')
         obs['status'] = i.status
         obs['pk'] = i.pk
         obs['desc'] = i.description
-        obs['start_date'] = i.start_date
-        obs['end_date'] = i.start_date+timedelta(days = i.no_of_nights)
-        req_users_len = len(i.requested_users.split(','))
-        sel_users_len = len(i.selected_users.split(','))
-        acc_users_len = len(i.accepted_users.split(','))
-        obs['req_frac'] = "{:.2f}".format((req_users_len/sel_users_len)*100.)
-        if req_users_len != 0:
+        obs['start_date'] = i.start_date.strftime('%d/%m/%Y')
+        obs['end_date'] = (i.start_date+timedelta(days = i.no_of_nights)).strftime('%d/%m/%Y')
+        req_users = i.requested_users.split(',')
+        sel_users = i.selected_users.split(',')
+        acc_users = i.accepted_users.split(',')
+        rej_users = i.rejected_users.split(',')
+
+        if '' in req_users:
+            req_users.remove('')
+        if '' in sel_users:
+            sel_users.remove('')
+        if '' in acc_users:
+            acc_users.remove('')
+        if '' in rej_users:
+            rej_users.remove('')
+
+        req_users_len = len(req_users)
+        sel_users_len = len(sel_users)
+        acc_users_len = len(acc_users)
+        rej_users_len = len(rej_users)
+
+
+        if sel_users_len != 0:
+            obs['req_frac'] = "{:.2f}".format((req_users_len/sel_users_len)*100.)
             obs['acc_frac'] = "{:.2f}".format((acc_users_len/sel_users_len)*100.)
+            obs['rej_frac'] = "{:.2f}".format((rej_users_len/sel_users_len)*100.)
+
         else:
+            obs['req_frac'] = 0.
             obs['acc_frac'] = 0.
+            obs['rej_frac'] = 0.
+
+
+
         if (i.requested_users == '') and (i.accepted_users == ''):
             obs['obs_del'] = True
             obs['del_link'] = 'https://4pi-astro.com/delobs/'+str(i.pk)
         else:
             obs['obs_del'] = False
             obs['del_link'] = ''
+
+
         obsers.append(obs)
     return obsers
 
