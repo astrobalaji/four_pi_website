@@ -59,9 +59,9 @@ def calculate_SNR(mag, tel_aper, min_snr, pix, pix_scale, SQM, RN, QE):
          N = (magtoflux(mag, tel_aper)*exp_times[i])/(h*c/lam)
          if SQM != 0.:
              B = (magtoflux(SQM*fov, tel_aper)*exp_times[i])/(h*c/lam)
-             snr[i] = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
+             snr[i] = (N*(QE/100.))/np.sqrt((N*(QE/100.))+(B*(QE/100.))+(npix*(RN**2.)))
          else:
-             snr[i] = N/np.sqrt(N+(npix*((RN/(QE/100.))**2.)))
+             snr[i] = (N*(QE/100.))/np.sqrt((N*(QE/100.))+(npix*(RN**2.)))
     if np.max(snr) >= 3*min_snr:
         snr_filt = snr[np.where(np.logical_and((snr>=min_snr-2), (snr<=3*min_snr)))]
         exp_times_filt = exp_times[np.where(np.logical_and((snr>=min_snr), (snr<=3*min_snr)))[0]]
@@ -69,7 +69,7 @@ def calculate_SNR(mag, tel_aper, min_snr, pix, pix_scale, SQM, RN, QE):
         snr_filt = snr[np.where(snr>=min_snr-2)]
         exp_times_filt = exp_times[np.where(snr>=min_snr-2)]
 
-    return exp_times_filt, snr_filt
+    return list(exp_times_filt), list(snr_filt)
 
 def get_weather(lat,lon):
     url = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=metric&appid=8b502954a629d709d6ec5d52e5e54722".format(lat,lon)
