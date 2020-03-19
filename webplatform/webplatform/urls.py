@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth import views as auth_views
 
 from homepage import views as home_v
 from coming_soon import views as cs_views
@@ -43,7 +43,7 @@ urlpatterns = [
     path(r'accept/<slug>-<pk>', accept_obs.as_view()),
     path(r'reject/<slug>-<pk>', reject_obs.as_view()),
     path(r'accounts/logout', logoutview.logout_view),
-    path(r'delobs/<pk>', home_view.delete_obs)
+    path(r'delobs/<pk>', home_view.delete_obs),
 ]
 
 
