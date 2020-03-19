@@ -44,24 +44,32 @@ def calc_fov(pix, pix_scale):
     det_dim = [int(v) for v in pix.split('x')]
     return (det_dim[0]*pix_scale)*(det_dim[1]*pix_scale)
 
-def calculate_SNR(mag, tel_aper, exp_start, exp_end, pix, pix_scale, SQM, RN, QE):
-    exp_times = list(np.arange(exp_start, exp_end, 1))
+def calculate_SNR(mag, tel_aper, min_snr, pix, pix_scale, SQM, RN, QE):
+    exp_start = 0.
+    exp_end = 3600.
+    exp_times = np.arange(exp_start, exp_end, 1)
     fov = calc_fov(pix, pix_scale)
     pixels = [int(p) for p in pix.split('x')]
     npix = pixels[0]*pixels[1]
-    snr = []
+    snr = np.empty(exp_times.shape[0])
     h = 6.62e-27
     c = 2.99e10
     lam = 551e-7
-    for e in exp_times:
-         N = (magtoflux(mag, tel_aper)*e)/(h*c/lam)
+    for i in range(exp_times.shape[0]):
+         N = (magtoflux(mag, tel_aper)*exp_times[i])/(h*c/lam)
          if SQM != 0.:
-             B = (magtoflux(SQM*fov, tel_aper)*e)/(h*c/lam)
-             SNR = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
+             B = (magtoflux(SQM*fov, tel_aper)*exp_times[i])/(h*c/lam)
+             snr[i] = N/np.sqrt(N+B+(npix*((RN/(QE/100.))**2.)))
          else:
-             SNR = N/np.sqrt(N+(npix*((RN/(QE/100.))**2.)))
-         snr.append(SNR)
-    return exp_times, snr
+             snr[i] = N/np.sqrt(N+(npix*((RN/(QE/100.))**2.)))
+    if np.max(snr) >= 3*min_snr:
+        snr_filt = snr[np.where(np.logical_and((snr>=min_snr-2), (snr<=3*min_snr)))]
+        exp_times_filt = exp_times[np.where(np.logical_and((snr>=min_snr), (snr<=3*min_snr)))[0]]
+    else:
+        snr_filt = snr[np.where(snr>=min_snr-2)]
+        exp_times_filt = exp_times[np.where(snr>=min_snr-2)]
+
+    return exp_times_filt, snr_filt
 
 def get_weather(lat,lon):
     url = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=metric&appid=8b502954a629d709d6ec5d52e5e54722".format(lat,lon)
@@ -178,7 +186,7 @@ class obs_calc_views(View):
 
             SQM = Observer.SQM
 
-            exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.exp_min, Proposal.exp_max, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
+            exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.min_snr, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
 
             p1 = figure(x_axis_label='Local time',y_axis_label='Altitude (degs)')
             #p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')

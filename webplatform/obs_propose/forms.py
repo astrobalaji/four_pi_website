@@ -19,8 +19,9 @@ class ObsProp(forms.ModelForm):
     magnitude = forms.FloatField(label = 'Expected V band magnitude of the object', required = True, help_text='AGNs: Approximate magnitude for an aperture of ~1-3 arcseconds', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     start_date = forms.DateField(label = 'Enter the start date of the observation', required = True, widget = DatePickerInput(attrs = {'stype':'width:30%', 'cols':20}))#forms.SelectDateWidget(attrs = {'style':'width:30%', 'cols':3}))
     no_of_nights = forms.IntegerField(label = 'Number of nights', required = True, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
-    exp_min = forms.FloatField(label = 'Desired Minimum Integrated Exposure (seconds)', required = True, help_text = 'Used in the SNR calculation', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
-    exp_max = forms.FloatField(label = 'Desired Maximum Integrated Exposure (seconds)', required = True, help_text = 'Used in the SNR calculation', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    #exp_min = forms.FloatField(label = 'Desired Minimum Integrated Exposure (seconds)', required = True, help_text = 'Used in the SNR calculation', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    #exp_max = forms.FloatField(label = 'Desired Maximum Integrated Exposure (seconds)', required = True, help_text = 'Used in the SNR calculation', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    min_snr = forms.FloatField(label = 'Desired SNR', required = True, help_text = 'Minimum value of 10', min_value = 10., widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     description = forms.CharField(widget = forms.Textarea(attrs={'style': 'width: 50%'}), label = 'A brief description of the science case', required = True)
 
     class Meta:

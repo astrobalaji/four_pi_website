@@ -30,7 +30,7 @@ class Obs_Overview_views(View):
         context['min_fov'] = proposal.min_fov
         context['max_fov'] = proposal.max_fov
         context['mag'] = proposal.magnitude
-        context['des_exp'] = 'min: '+str(proposal.exp_min)+' s'+', max: '+str(proposal.exp_max)+' s'
+        context['des_exp'] = proposal.min_snr#'min: '+str(proposal.exp_min)+' s'+', max: '+str(proposal.exp_max)+' s'
         context['description'] = proposal.description
         context['settings'] = proposal.settings
         context['obs_id'] = proposal.pk
