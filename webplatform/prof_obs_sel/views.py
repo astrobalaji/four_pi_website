@@ -102,7 +102,9 @@ def check_observability(prop_pk, user_id):
     checkmoonaz = check_threshold(deltmoonaz, 60)
     checkalt = check_threshold(alts, 30)
 
-    if checksunaz and checkmoonaz and checkalt:
+    check_night_time = sunaltazs_tonight.alt.min() < -18.*u.deg
+
+    if checksunaz and checkmoonaz and checkalt and check_night_time:
         return True
     else:
         return False

@@ -19,6 +19,8 @@ from prof_obs_overview.views import Obs_Overview_views
 from observability_calc.views import obs_calc_views
 from ama_obs_overview.views import *
 from logout_account import views as logoutview
+from error_pages import views as err_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,3 +50,8 @@ urlpatterns = [
 
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = err_views.handler404
+handler500 = err_views.handler500
+#handler502 = err_views.handler502

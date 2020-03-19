@@ -10,7 +10,7 @@ field_choices = [('astro-ph.GA',' Astrophysics of Galaxies'),
                 ('astro-ph.SR', 'Solar and Stellar Astrophysics')]
 class proOnboard(forms.ModelForm):
     affiliation = forms.CharField(label = 'Enter your affilliated institute', required = True, widget = forms.TextInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
-    field_of_interest = forms.ChoiceField(choices = field_choices, required = True, widget = forms.Select(attrs={'style': 'width: 30%'}))
+    field_of_interest = forms.ChoiceField(label = 'Field of Interest', choices = field_choices, required = True, widget = forms.Select(attrs={'style': 'width: 30%'}))
 
     class Meta:
         model = proOB

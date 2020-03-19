@@ -229,12 +229,14 @@ class obs_calc_views(View):
             obj_alts = np.array([round(t) for t in altaz.alt.deg])
 
             locs = np.where(obj_alts == 30.)[0]
+            try:
+                vline_1 = Span(location = time_str_arr[locs[0]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+                vline_2 = Span(location = time_str_arr[locs[-1]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
 
-            vline_1 = Span(location = time_str_arr[locs[0]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
-            vline_2 = Span(location = time_str_arr[locs[-1]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
-
-            p1.add_layout(vline_1)
-            p1.add_layout(vline_2)
+                p1.add_layout(vline_1)
+                p1.add_layout(vline_2)
+            except:
+                print('not below 30degs')
 
 
             p1.xaxis.formatter=DatetimeTickFormatter(

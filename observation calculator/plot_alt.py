@@ -39,8 +39,8 @@ def sky_coords(RA_str, Dec_str):
 def transform(skcoords, frame):
     return skcoords.transform_to(frame_tonight)
 
-latitude = 13.08
-longitude = 80.27
+latitude = 67.8537518
+longitude = 20.1863908
 
 std_stars = pd.read_csv('std_stars.csv', delimiter = ';')
 
@@ -58,7 +58,7 @@ std_stars
 
 Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
 
-midnight = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+midnight = datetime(year = 2020,month = 4, day = 25).replace(hour=0, minute=0, second=0, microsecond=0)
 utcoffset = 5.5*u.hour
 
 midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
@@ -74,6 +74,19 @@ std_stars['altaz_night'] = std_stars['sky_coords'].apply(lambda x: transform(x, 
 sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
 moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
+
+night_lims_arr = sunaltazs_tonight.alt < -18*u.deg
+
+check_night_time = not sunaltazs_tonight.alt.min() < -18.*u.deg
+
+check_night_time
+
+sunaltazs_tonight.alt
+
+sunaltazs_tonight.alt.min()
+
+night_lims_arr
+
 altaz = test.altaz
 
 test = altaz.az[0]
@@ -84,9 +97,18 @@ moonazs = [a.deg for a in moonaltazs_tonight.az]
 
 deltsunazs = [suna-a for a in azs for suna in sunazs]
 
-test = midnight+delta_midnight.value
+midnight.strftime('%H:%M:%S')
 
-test_arr = [t.datetime.strftime('%H:%M:%S') for t in test]
+
+test = midnight+delta_midnight
+
+test = test.value
+
+test[0]
+
+datetime.strptime(test[0],'%Y-%m-%d %H:%M:%S.%f')
+
+test_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S') for t in test]
 
 test_arr
 
@@ -109,7 +131,9 @@ np.nonzero(test)[0].max()
 
 np.argmin(abs(test.alt)-30.*u.deg)
 
-np.where(t_arr == 30.)
+t2 = np.where(t_arr == 30.)[0]
+
+t2[-1]
 
 t_arr = np.array([round(t) for t in test.alt.deg])
 

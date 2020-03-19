@@ -18,7 +18,7 @@ class AmaOnboarding(forms.ModelForm):
     det_pix_scale = forms.FloatField(label = 'Physical pixel size of the detector (microns) (*)', min_value = 0., required = True, help_text = 'Average if pixel is not a square', widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     detector_dimensions = forms.CharField(label = 'Dimensions of the detector (# of pixels) (*)', help_text = 'Required format: 0000x0000 pixels', required = True, widget=forms.TextInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     read_noise = forms.FloatField(label = 'Read Noise of the Detector (in electrons)',min_value = 0., help_text='Optional but highly desired', required = False, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
-    QE = forms.FloatField(label = 'Enter the Quantum Efficiency of the detector (in %)', min_value = 0., max_value = 100., help_text = 'Optional but highly desired', required = False, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
+    QE = forms.FloatField(label = 'Quantum Efficiency of the detector (in %)', min_value = 0., max_value = 100., help_text = 'Optional but highly desired', required = False, widget=forms.NumberInput(attrs={'style': 'width: 30%', 'cols': 200,'rows': 1}))
     class Meta:
         model = AmaOB
         exclude = ['user_id', 'fov', 'credits', 'total_credits', 'booked_dates', 'SQM']
