@@ -47,7 +47,7 @@ def calc_fov(pix, pix_scale):
 def calculate_SNR(mag, tel_aper, min_snr, pix, pix_scale, SQM, RN, QE):
     exp_start = 0.
     exp_end = 3600.
-    exp_times = np.arange(exp_start, exp_end, 1)
+    exp_times = np.arange(exp_start, exp_end, 0.1)
     fov = calc_fov(pix, pix_scale)
     pixels = [int(p) for p in pix.split('x')]
     npix = pixels[0]*pixels[1]
@@ -62,12 +62,16 @@ def calculate_SNR(mag, tel_aper, min_snr, pix, pix_scale, SQM, RN, QE):
              snr[i] = (N*(QE/100.))/np.sqrt((N*(QE/100.))+(B*(QE/100.))+(npix*(RN**2.)))
          else:
              snr[i] = (N*(QE/100.))/np.sqrt((N*(QE/100.))+(npix*(RN**2.)))
-    if np.max(snr) >= 3*min_snr:
-        snr_filt = snr[np.where(np.logical_and((snr>=min_snr-2), (snr<=3*min_snr)))]
-        exp_times_filt = exp_times[np.where(np.logical_and((snr>=min_snr), (snr<=3*min_snr)))[0]]
+    if (3*min_snr)<=snr[1]:
+        snr_filt = snr[:20]
+        exp_times_filt = exp_times[:20]
     else:
-        snr_filt = snr[np.where(snr>=min_snr-2)]
-        exp_times_filt = exp_times[np.where(snr>=min_snr-2)]
+        if np.max(snr) >= 3*min_snr:
+            snr_filt = snr[np.where(np.logical_and((snr>=min_snr-2), (snr<=3*min_snr)))]
+            exp_times_filt = exp_times[np.where(np.logical_and((snr>=min_snr), (snr<=3*min_snr)))[0]]
+        else:
+            snr_filt = snr[np.where(snr>=min_snr-2)]
+            exp_times_filt = exp_times[np.where(snr>=min_snr-2)]
 
     return list(exp_times_filt), list(snr_filt)
 
