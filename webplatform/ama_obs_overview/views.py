@@ -13,10 +13,47 @@ import subprocess
 import sys
 from background_task import background
 
+from django.template.loader import render_to_string
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 
 obs_choices = {'r':'Regular', 'sos':'SOS'}
 field_choices = {'s': 'Single Object', 'm': 'Multiple Object/Crowded Field', 'chance': 'Chance of Discovery'}
+
+
+def send_acc_email(ama_uname,prof_uname,  obs_title, obs_pk):
+    prof_obj = next(User.objects.filter(username=prof_uname).iterator())
+    obs_obj = next(AmaOB.objects.filter(user_id = ama_uname).iterator())
+    fname = prof_obj.first_name
+    lname = prof_obj.last_name
+    full_name = fname+' '+lname
+    obs_name = obs_obj.obs_name
+    subject = '{0} has accepted your obsevation request'.format(obs_name)
+    message = render_to_string('emails/accept_email.html', {
+        'user_fname': full_name,
+        'obs_name': obs_name,
+        'obs_title': obs_title,
+        'obs_id': obs_pk,
+        'ama_id':ama_uname
+    })
+    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [prof_obs.email])
+
+def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
+    prof_obj = next(User.objects.filter(username=prof_uname).iterator())
+    obs_obj = next(AmaOB.objects.filter(user_id = ama_uname).iterator())
+    fname = prof_obj.first_name
+    lname = prof_obj.last_name
+    full_name = fname+' '+lname
+    obs_name = obs_obj.obs_name
+    subject = '{0} has rejected your obsevation request'.format(obs_name)
+    message = render_to_string('emails/reject_email.html', {
+        'user_fname': full_name,
+        'obs_name': obs_name,
+        'obs_title': obs_title,
+        'obs_id': obs_pk,
+    })
+    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [prof_obs.email])
 
 
 # Create your views here.
@@ -114,6 +151,7 @@ class accept_obs(View):
             booked_dates += days
             user_res.booked_dates = ','.join(booked_dates)
         user_res.save()
+        send_acc_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
         render(request, 'autoclose.html')
         return redirect('https://4pi-astro.com/user/home')
 
@@ -134,6 +172,7 @@ class reject_obs(View):
             rej_users.append(slug)
             Proposal.rejected_users = ','.join(rej_users)
             Proposal.save()
+        send_rej_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
         return render(request, 'autoclose.html')
 
 

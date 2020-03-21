@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.contrib.auth.models import User
+
 from datetime import datetime, timedelta
 import numpy as np
 import math
@@ -307,7 +311,23 @@ class obs_calc_views(View):
                 exps[slug] = obs_settings.get('exposure_time')
                 Proposal.exps = str(exps)
             Proposal.save()
+            send_req_email(slug, Proposal.obs_title, Proposal.description, Proposal.pk)
             self.req_obs(request, slug, pk)
             return redirect('/obs/overview/'+pk)
         else:
             return redirect('/obs_calc/'+slug+'-'+pk)
+
+def send_req_email(ama_uname, obs_title, obs_desc, obs_pk):
+    obs_obj = next(User.objects.filter(username=ama_uname).iterator())
+    subject = 'Activate Your 4pi Account'
+    fname = obs_obj.first_name
+    lname = obs_obj.last_name
+    full_name = fname+' '+lname
+    subject = 'You have received an observtion request'
+    message = render_to_string('emails/request_email.html', {
+        'user_fname': full_name,
+        'obs_title': obs_title,
+        'obs_desc': obs_desc,
+        'obs_pk': obs_pk
+    })
+    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [obs_obj.email])
