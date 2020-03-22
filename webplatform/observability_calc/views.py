@@ -334,4 +334,4 @@ def send_req_email(ama_uname, obs_title, obs_desc, obs_pk):
         'obs_desc': obs_desc,
         'obs_pk': obs_pk
     })
-    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [obs_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [obs_obj.email])

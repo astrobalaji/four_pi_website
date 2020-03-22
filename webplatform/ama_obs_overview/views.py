@@ -37,7 +37,7 @@ def send_acc_email(ama_uname,prof_uname,  obs_title, obs_pk):
         'obs_id': obs_pk,
         'ama_id':ama_uname
     })
-    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [prof_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
 
 def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
     prof_obj = next(User.objects.filter(username=prof_uname).iterator())
@@ -53,7 +53,7 @@ def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
         'obs_title': obs_title,
         'obs_id': obs_pk,
     })
-    send_mail(subject = subject, message = message, from_email = 'hello@4pi-astro.com', recipient_list = [prof_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
 
 
 # Create your views here.
