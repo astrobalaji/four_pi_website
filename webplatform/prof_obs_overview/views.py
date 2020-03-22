@@ -30,7 +30,7 @@ class Obs_Overview_views(View):
         context['min_fov'] = proposal.min_fov
         context['max_fov'] = proposal.max_fov
         context['mag'] = proposal.magnitude
-        context['des_exp'] = proposal.min_snr#'min: '+str(proposal.exp_min)+' s'+', max: '+str(proposal.exp_max)+' s'
+        context['des_snr'] = proposal.min_snr#'min: '+str(proposal.exp_min)+' s'+', max: '+str(proposal.exp_max)+' s'
         context['description'] = proposal.description
         context['settings'] = proposal.settings
         context['obs_id'] = proposal.pk
@@ -83,6 +83,7 @@ class Obs_Overview_views(View):
                     ob_data['lp'] = 'NA'
                 else:
                     ob_data['lp'] = str("{:.2f}".format(lp))
+                ob_data['pix_scale'] = "{:.2f}".format((200./obs.telescope_flength)*obs.det_pix_scale)
                 obs_data.append(ob_data)
             context['observatories'] = obs_data
             return render(request, 'obs_overview_prof.html', context)

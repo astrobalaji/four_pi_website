@@ -166,7 +166,7 @@
 
 
 
-              <td class="body-item mbr-fonts-style display-7">Exposure Time (s)</td><td class="body-item mbr-fonts-style display-7">{{des_exp}}</td></tr><tr></tbody>
+              <td class="body-item mbr-fonts-style display-7">Desired minimum SNR</td><td class="body-item mbr-fonts-style display-7">{{des_snr}}</td></tr><tr></tbody>
 
 
               <td class="body-item mbr-fonts-style display-7">Start Date</td><td class="body-item mbr-fonts-style display-7">{{start_date}}</td></tr><tr></tbody>
@@ -207,7 +207,7 @@
                         <h4 class="card-title mbr-fonts-style display-5">
                             {{obs.obs_name}}</h4>
                         <p class="mbr-text mbr-fonts-style display-7">
-                            Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}}<br>SQM Reading (mag/arcsec^2): {{obs.lp}} <br>Status: {{obs.status}}&nbsp;</p>
+                            Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}} <br> Pixel Scale (arcsec/pix): {{obs.pix_scale}} <br>Light Pollution Level (mag/arcsec^2): {{obs.lp}} <br>Status: {{obs.status}}&nbsp;</p>
                         <!--Btn-->
                         {% if obs.req %}
                         <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} target="_newtab" class="btn btn-warning-outline display-4">Check Observatory</a></div>
