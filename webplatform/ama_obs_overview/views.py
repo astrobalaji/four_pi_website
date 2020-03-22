@@ -135,6 +135,7 @@ class accept_obs(View):
         else:
             acc_users = Proposal.accepted_users.split(',')
             acc_users.append(slug)
+            acc_users = list(set(acc_users))
             Proposal.accepted_users = ','.join(acc_users)
         Proposal.save()
 
@@ -170,6 +171,7 @@ class reject_obs(View):
         else:
             rej_users = Proposal.rejected_users.split(',')
             rej_users.append(slug)
+            rej_users = list(set(rej_users))
             Proposal.rejected_users = ','.join(rej_users)
             Proposal.save()
         send_rej_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
