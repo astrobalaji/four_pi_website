@@ -176,6 +176,8 @@ def index(request, pk, *args, **kwargs):
             continue
         if not check_observability(proposal.pk, data.user_id):
             continue
+        if (data.user_id in proposal.selected_users.split(',')) or (data.user_id in proposal.unselected_users.split(',')):
+            continue
         temp_lat, temp_lon = coords2merc(data.lat, data.lon)
         lat.append(temp_lat)
         lon.append(temp_lon)

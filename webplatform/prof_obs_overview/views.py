@@ -36,6 +36,7 @@ class Obs_Overview_views(View):
         context['obs_id'] = proposal.pk
         context['start_date'] = proposal.start_date
         context['end_date'] = proposal.start_date+timedelta(days = proposal.no_of_nights)
+        context['obs_pk'] = pk
         acc_users = proposal.accepted_users.split(',')
         comp_users = proposal.completed_users.split(',')
         req_users = proposal.requested_users.split(',')
@@ -78,6 +79,7 @@ class Obs_Overview_views(View):
                 ob_data['obs_img'] = obs.obs_img
                 ob_data['status'] = obs_status
                 ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
+                ob_data['ama_id'] = obs.user_id
                 lp = obs.SQM
                 if lp == 0.:
                     ob_data['lp'] = 'NA'
@@ -87,3 +89,20 @@ class Obs_Overview_views(View):
                 obs_data.append(ob_data)
             context['observatories'] = obs_data
             return render(request, 'obs_overview_prof.html', context)
+
+
+class remove_obser(View):
+    def get(self,request, slug, pk, *args, **kwargs):
+        Proposal = next(Obs_Prop.objects.filter(pk = pk).iterator())
+        sel_users = Proposal.selected_users.split(',')
+        sel_users.remove(slug)
+        Proposal.selected_users = ','.join(sel_users)
+        if Proposal.unselected_users == '':
+            Proposal.unselected_users = slug
+        else:
+            unsel_users = Proposal.unselected_users.split(',')
+            unsel_users.append(slug)
+            unsel_users = list(set(unsel_users))
+            Proposal.unselected_users = ','.join(unsel_users)
+        Proposal.save()
+        return redirect('https://4pi-astro.com/obs/overview/{0}'.format(pk))

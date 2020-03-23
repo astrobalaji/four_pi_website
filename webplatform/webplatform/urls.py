@@ -15,11 +15,12 @@ from user_home import views as home_view
 from obs_propose.views import ObsPropViews
 from prof_obs_sel import views as prof_obs_sel_views
 from prof_obs_sel.views import SelectObservatory
-from prof_obs_overview.views import Obs_Overview_views
+from prof_obs_overview.views import Obs_Overview_views, remove_obser
 from observability_calc.views import obs_calc_views
 from ama_obs_overview.views import *
 from logout_account import views as logoutview
 from error_pages import views as err_views
+
 
 
 urlpatterns = [
@@ -46,6 +47,8 @@ urlpatterns = [
     path(r'reject/<slug>-<pk>', reject_obs.as_view()),
     path(r'accounts/logout', logoutview.logout_view),
     path(r'delobs/<pk>', home_view.delete_obs),
+    path(r'obs/overview/delete/<slug>-<pk>', remove_obser.as_view()),
+
 ]
 
 

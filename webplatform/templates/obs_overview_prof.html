@@ -210,7 +210,7 @@
                             Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}} <br> Pixel Scale (arcsec/pix): {{obs.pix_scale}} <br>Light Pollution Level (mag/arcsec^2): {{obs.lp}} <br>Status: {{obs.status}}&nbsp;</p>
                         <!--Btn-->
                         {% if obs.req %}
-                        <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} target="_newtab" class="btn btn-warning-outline display-4">Check Observatory</a></div>
+                        <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} target="_newtab" class="btn btn-warning-outline display-4">Check Observatory</a> <a href="https://4pi-astro.com/obs/overview/delete/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-secondary-outline display-4">Delete</a></div>
                         {% elif obs.comp %}
                         <div class="mbr-section-btn align-left"><a href="https://4pi-astro.com/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a></div>
                         {% endif %}
@@ -224,20 +224,24 @@
     </div>
 </section>
 
-<section class="mbr-section info1 cid-rR8Tc2QdtQ" id="info1-18">
+<section class="header1 cid-rU4Er5wfL9" id="header16-2y">
+
 
 
 
 
     <div class="container">
-        <div class="row justify-content-center content-row">
-            <div class="media-container-column col-12 col-lg-3 col-md-4">
-                <div class="mbr-section-btn align-right py-4"><a class="btn btn-primary display-4" href="https://4pi-astro.com/user/home">Go back to home</a></div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-10 align-center">
+
+
+
+                <div class="mbr-section-btn"><a class="btn btn-md btn-primary display-4" href="https://4pi-astro.com/user/home">Go back to Home</a> <a class="btn btn-md btn-primary display-4" href="https://4pi-astro.com/obs_sel/{{obs_pk}}">Add more observatories</a></div>
             </div>
         </div>
     </div>
-</section>
 
+</section>
 
   <script src="{% static 'coming_soon/web/assets/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'coming_soon/popper/popper.min.js' %}"></script>
