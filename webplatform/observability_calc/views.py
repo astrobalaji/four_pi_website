@@ -259,6 +259,11 @@ class obs_calc_views(View):
 
             p2 = figure(x_axis_label = 'Exposure time (s)', y_axis_label='SNR')
             p2.line(exps, snr)
+            hline_snr = Span(location = Proposal.min_snr, dimension = 'width', line_color = 'black', line_width = 3, line_dash = 'dashed')
+            exp_loc = np.argmin(abs(np.array(snr)-Proposal.min_snr))
+            vline_snr = Span(location = exps[exp_loc], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+            p2.add_layout(hline_snr)
+            p2.add_layout(vline_snr)
             p2.toolbar.logo = None
             p2.toolbar_location = None
 
@@ -291,7 +296,8 @@ class obs_calc_views(View):
                         'form':form,
                         'requested':requested,
                         'req_exp': req_exp,
-                        'req_sets': req_sets}
+                        'req_sets': req_sets
+                        }
 
             return render(request, 'obs_home.html', context)
     def post(self, request, slug, pk, *args, **kwargs):
