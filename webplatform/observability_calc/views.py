@@ -193,16 +193,18 @@ class obs_calc_views(View):
 
 
             time_str_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr]
-
+            time_hover = [d.strftime('%H:%M') for d in time_str_arr]
             SQM = Observer.SQM
 
             exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.min_snr, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
+            ds = dict(time_arr=time_str_arr, alt=altaz.alt, alt_end=altaz_end.alt, moon_alt=moonaltazs_tonight.alt, time_hover = time_hover)
+            source = ColumnDataSource(ds)
 
             p1 = figure(x_axis_label='Local time',y_axis_label='Altitude (degs)')
             #p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
-            p1.line(time_str_arr, moonaltazs_tonight.alt, line_color = 'green', legend_label = 'Moon')
-            p1.line(time_str_arr, altaz.alt, line_color = 'blue', legend_label = 'Obj. (starting date)')
-            p1.line(time_str_arr, altaz_end.alt, line_color = 'blue', line_dash = 'dashed', legend_label = 'Obj. (ending date)')
+            p1.line(x= 'time_arr', y = 'moon_alt', source = source, line_color = 'green', legend_label = 'Moon')
+            p1.line(x = 'time_arr', y = 'alt', source = source, line_color = 'blue', legend_label = 'Obj. (starting date)')
+            p1.line(x = 'time_arr', y = 'alt_end',source = source,  line_color = 'blue', line_dash = 'dashed', legend_label = 'Obj. (ending date)')
             p1.toolbar.logo = None
             p1.toolbar_location = None
             p1.y_range = Range1d(0,90)
@@ -235,7 +237,9 @@ class obs_calc_views(View):
             p1.add_layout(my_label)
             #p1.add_layout(my_label_2)
 
+            hovert = HoverTool(tooltips = [('object altitude', '@alt'), ('time','@time_hover'), ('moon altitude', '@moon_alt'), ('object altitude end', '@alt_end')])
 
+            p1.add_tools(hovert)
             obj_alts = np.array([round(t) for t in altaz.alt.deg])
 
             locs = np.where(obj_alts == 30.)[0]
