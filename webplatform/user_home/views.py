@@ -11,7 +11,7 @@ def get_arxiv(field):
     res_out = []
     for res in results:
         r_temp = {}
-        r_temp['author'] = res['author']
+        r_temp['author'] = res['authors'][0]
         r_temp['title'] = res['title']
         r_temp['summary'] = res['summary']
         r_temp['pdf'] = res['pdf_url']
