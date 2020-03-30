@@ -108,10 +108,21 @@ test[0]
 
 datetime.strptime(test[0],'%Y-%m-%d %H:%M:%S.%f')
 
-test_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f').strftime('%H:%M:%S') for t in test]
+test_arr = np.array([datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in test])
 
-test_arr
+azs = [a.deg for a in sunaltazs_tonight.alt]
 
+np.where(np.array(azs)>=30.)[0]
+
+t1 = test_arr[np.where(np.array(azs)>=30.)[0]]
+
+t2 = t1[-1]-t1[0]
+
+t3 = t2.total_seconds()
+
+t1[-1]
+t1[0]
+t3/3600.
 delta_midnight.astype(float)
 
 
