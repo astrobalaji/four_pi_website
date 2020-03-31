@@ -51,10 +51,10 @@ def get_obs(uname):
 
 
         if sel_users_len != 0:
-            obs['req_frac'] = "{:.2f}".format((req_users_len/sel_users_len)*100.)
-            obs['acc_frac'] = "{:.2f}".format((acc_users_len/sel_users_len)*100.)
-            obs['rej_frac'] = "{:.2f}".format((rej_users_len/sel_users_len)*100.)
-
+            obs['req_frac'] = req_users_len#"{:.2f}".format((req_users_len/sel_users_len)*100.)
+            obs['acc_frac'] = acc_users_len#"{:.2f}".format((acc_users_len/sel_users_len)*100.)
+            obs['rej_frac'] = rej_users_len#"{:.2f}".format((rej_users_len/sel_users_len)*100.)
+            obs['sel_frac'] = sel_users_len
         else:
             obs['req_frac'] = 0.
             obs['acc_frac'] = 0.
