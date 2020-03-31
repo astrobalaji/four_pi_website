@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from django.http import HttpResponseNotFound
 
 from datetime import datetime, timedelta
 import numpy as np
@@ -113,218 +114,226 @@ class obs_calc_views(View):
 
 
     def get(self, request, slug, pk, *args, **kwargs):
-        if pk == '0':
-            data = AmaOB.objects.filter(user_id=slug).iterator()
-            Observer = next(data)
-            min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
-            context = {'obs_title':Observer.obs_name,
-                        'obs_img':Observer.obs_img,
-                        'loc':Observer.location,
-                        'tel_aper':Observer.telescope_aper,
-                        'tel_flen':Observer.telescope_flength,
-                        'det_name':Observer.det_mod,
-                        'fov':Observer.fov,
-                        'SQM':Observer.SQM,
-                        'pix_scale': (200./Observer.telescope_flength)*Observer.det_pix_scale,
-                        'min_temp':min_temp,
-                        'max_temp':max_temp,
-                        'hum':hum,
-                        'clouds':clouds,
-                        }
+        if request.user.is_authenticated:
+            if pk == '0':
+                data = AmaOB.objects.filter(user_id=slug).iterator()
+                Observer = next(data)
+                if request.user.username == Observer.user_id:
+                    min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
+                    context = {'obs_title':Observer.obs_name,
+                                'obs_img':Observer.obs_img,
+                                'loc':Observer.location,
+                                'tel_aper':Observer.telescope_aper,
+                                'tel_flen':Observer.telescope_flength,
+                                'det_name':Observer.det_mod,
+                                'fov':Observer.fov,
+                                'SQM':Observer.SQM,
+                                'pix_scale': (200./Observer.telescope_flength)*Observer.det_pix_scale,
+                                'min_temp':min_temp,
+                                'max_temp':max_temp,
+                                'hum':hum,
+                                'clouds':clouds,
+                                }
 
-            return render(request, 'obs_home_ama.html', context)
-        else:
-            data = Obs_Prop.objects.filter(pk=pk).iterator()
-            Proposal = next(data)
-
-            req_obs = Proposal.requested_users.split(',')
-            acc_obs = Proposal.accepted_users.split(',')
-            if (slug in req_obs) or (slug in acc_obs):
-                requested = True
-                req_exp = literal_eval(Proposal.exps)[slug]
-                req_sets = literal_eval(Proposal.settings)[slug]
+                    return render(request, 'obs_home_ama.html', context)
+                else:
+                    return HttpResponseNotFound("hello")
             else:
-                requested = False
-                req_exp = 0
-                req_sets = ''
+                data = Obs_Prop.objects.filter(pk=pk).iterator()
+                Proposal = next(data)
+                if request.user.username == Proposal.user_id:
+                    req_obs = Proposal.requested_users.split(',')
+                    acc_obs = Proposal.accepted_users.split(',')
+                    if (slug in req_obs) or (slug in acc_obs):
+                        requested = True
+                        req_exp = literal_eval(Proposal.exps)[slug]
+                        req_sets = literal_eval(Proposal.settings)[slug]
+                    else:
+                        requested = False
+                        req_exp = 0
+                        req_sets = ''
 
-            data = AmaOB.objects.filter(user_id=slug).iterator()
-            Observer = next(data)
-            latitude = Observer.lat
-            longitude = Observer.lon
+                    data = AmaOB.objects.filter(user_id=slug).iterator()
+                    Observer = next(data)
+                    latitude = Observer.lat
+                    longitude = Observer.lon
 
-            time_zone = Observer.tz
+                    time_zone = Observer.tz
 
-            RA = Proposal.coords_ra
-            dec = Proposal.coords_dec
+                    RA = Proposal.coords_ra
+                    dec = Proposal.coords_dec
 
-            skycoord = self.sky_coords(RA, dec)
+                    skycoord = self.sky_coords(RA, dec)
 
-            Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
+                    Locat = EarthLocation(lat=latitude*u.deg, lon=longitude*u.deg, height=0.1*u.m)
 
-            midnight = Proposal.start_date
-            midnight_end = Proposal.start_date+timedelta(days = Proposal.no_of_nights)
-            utcoffset = time_zone*u.hour
+                    midnight = Proposal.start_date
+                    midnight_end = Proposal.start_date+timedelta(days = Proposal.no_of_nights)
+                    utcoffset = time_zone*u.hour
 
-            midnight_xaxis = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))
+                    midnight_xaxis = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))
 
-            midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
-            midnight_end = Time(midnight_end.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
-
-
-
-            delta_midnight = np.linspace(-12, 12, 1000)*u.hour
-
-            frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
-            frame_end = AltAz(obstime=midnight_end+delta_midnight,location=Locat)
-
-
-            altaz = self.transform(skycoord, frame_tonight)
-            altaz_end = self.transform(skycoord, frame_end)
-
-
-            sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
-            moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
+                    midnight = Time(midnight.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
+                    midnight_end = Time(midnight_end.strftime('%Y-%m-%d %H:%M:%S'))-utcoffset
 
 
 
-            time_arr = midnight_xaxis+delta_midnight
-            time_arr = time_arr.value
+                    delta_midnight = np.linspace(-12, 12, 1000)*u.hour
+
+                    frame_tonight = AltAz(obstime=midnight+delta_midnight,location=Locat)
+                    frame_end = AltAz(obstime=midnight_end+delta_midnight,location=Locat)
 
 
-            time_str_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr]
-            time_hover = [d.strftime('%H:%M') for d in time_str_arr]
-
-            time_arr_utc = midnight+delta_midnight
-            time_arr_utc = time_arr_utc.value
-            time_str_arr_utc = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr_utc]
-            time_hover_utc = [d.strftime('%H:%M') for d in time_str_arr_utc]
-
-            range_local = Range1d(start=time_str_arr[0], end=time_str_arr[-1])
-            range_utc = Range1d(start=time_str_arr_utc[0], end=time_str_arr_utc[-1])
-
-            SQM = Observer.SQM
-
-            exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.min_snr, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
-            ds = dict(time_arr=time_str_arr_utc,  alt=altaz.alt, alt_end=altaz_end.alt, moon_alt=moonaltazs_tonight.alt, time_hover = time_hover, time_hover_utc = time_hover_utc)
-            source = ColumnDataSource(ds)
+                    altaz = self.transform(skycoord, frame_tonight)
+                    altaz_end = self.transform(skycoord, frame_end)
 
 
-            p1 = figure(x_axis_label='UTC time',y_axis_label='Altitude (degs)')
-
-            #p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
-            p1.line(x= 'time_arr', y = 'moon_alt', source = source, line_color = 'green', legend_label = 'Moon')
-            p1.line(x = 'time_arr', y = 'alt', source = source, line_color = 'blue', legend_label = 'Obj. (starting date)')
-            p1.line(x = 'time_arr', y = 'alt_end',source = source,  line_color = 'blue', line_dash = 'dashed', legend_label = 'Obj. (ending date)')
-            p1.extra_x_ranges = {"local_range": range_local}
-            p1.x_range = range_utc
-            p1.toolbar.logo = None
-            p1.toolbar_location = None
-            p1.y_range = Range1d(0,90)
-
-            p1.legend.label_text_font_size = '10pt'
-            p1.legend.location = 'top_left'
-            twilight_lims_arr = sunaltazs_tonight.alt < -0*u.deg
-            night_lims_arr = sunaltazs_tonight.alt < -18*u.deg
-
-            twilight_lim_lower = np.nonzero(twilight_lims_arr)[0].min()
-            twilight_lim_upper = np.nonzero(twilight_lims_arr)[0].max()
-
-            night_lim_lower = np.nonzero(night_lims_arr)[0].min()
-            night_lim_upper = np.nonzero(night_lims_arr)[0].max()
+                    sunaltazs_tonight = get_sun(midnight+delta_midnight).transform_to(frame_tonight)
+                    moonaltazs_tonight = get_moon(midnight+delta_midnight).transform_to(frame_tonight)
 
 
 
-            twilight_box = BoxAnnotation(left = time_str_arr_utc[twilight_lim_lower], right = time_str_arr_utc[twilight_lim_upper], fill_alpha = 0.4, fill_color = 'grey')
-            night_box = BoxAnnotation(left = time_str_arr_utc[night_lim_lower], right = time_str_arr_utc[night_lim_upper], fill_alpha = 0.4, fill_color = 'black')
-
-            p1.add_layout(twilight_box)
-            p1.add_layout(night_box)
-            hline = Span(location=30, dimension='width', line_color='brown', line_width=3, line_dash = 'dashed')
-            my_label = Label(x=time_str_arr_utc[0], y=30, text='30° alt.')
-
-            #my_label_2 = Label(x=time_str_arr[int(len(time_str_arr)/2)-112], y=87, text='Night time at start')
+                    time_arr = midnight_xaxis+delta_midnight
+                    time_arr = time_arr.value
 
 
-            p1.add_layout(hline)
-            p1.add_layout(my_label)
-            #p1.add_layout(my_label_2)
+                    time_str_arr = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr]
+                    time_hover = [d.strftime('%H:%M') for d in time_str_arr]
 
-            hovert = HoverTool(tooltips = [('object altitude', '@alt'), ('Local time','@time_hover'), ('UTC time', '@time_hover_utc'), ('moon altitude', '@moon_alt'), ('object altitude end', '@alt_end')])
+                    time_arr_utc = midnight+delta_midnight
+                    time_arr_utc = time_arr_utc.value
+                    time_str_arr_utc = [datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr_utc]
+                    time_hover_utc = [d.strftime('%H:%M') for d in time_str_arr_utc]
 
-            p1.add_tools(hovert)
-            obj_alts = np.array([round(t) for t in altaz.alt.deg])
+                    range_local = Range1d(start=time_str_arr[0], end=time_str_arr[-1])
+                    range_utc = Range1d(start=time_str_arr_utc[0], end=time_str_arr_utc[-1])
 
-            locs = np.where(obj_alts == 30.)[0]
-            try:
-                vline_1 = Span(location = time_str_arr_utc[locs[0]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
-                vline_2 = Span(location = time_str_arr_utc[locs[-1]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+                    SQM = Observer.SQM
 
-                p1.add_layout(vline_1)
-                p1.add_layout(vline_2)
-            except:
-                print('not below 30degs')
+                    exps, snr = calculate_SNR(Proposal.magnitude, Observer.telescope_aper, Proposal.min_snr, Observer.detector_dimensions, Observer.det_pix_scale, SQM, Observer.read_noise, Observer.QE)
+                    ds = dict(time_arr=time_str_arr_utc,  alt=altaz.alt, alt_end=altaz_end.alt, moon_alt=moonaltazs_tonight.alt, time_hover = time_hover, time_hover_utc = time_hover_utc)
+                    source = ColumnDataSource(ds)
 
 
-            p1.add_layout(LinearAxis(x_range_name="local_range", axis_label="Local time"), 'above')
+                    p1 = figure(x_axis_label='UTC time',y_axis_label='Altitude (degs)')
 
-            p1.xaxis.formatter=DatetimeTickFormatter(
-                                                    hours=["%H:%M"],
-                                                    days=["%H:%M"],
-                                                    months=["%H:%M"],
-                                                    years=["%H:%M"],
-                                                    )
+                    #p1.line(time_str_arr, sunaltazs_tonight.alt, line_color = 'red', legend_label = 'Sun')
+                    p1.line(x= 'time_arr', y = 'moon_alt', source = source, line_color = 'green', legend_label = 'Moon')
+                    p1.line(x = 'time_arr', y = 'alt', source = source, line_color = 'blue', legend_label = 'Obj. (starting date)')
+                    p1.line(x = 'time_arr', y = 'alt_end',source = source,  line_color = 'blue', line_dash = 'dashed', legend_label = 'Obj. (ending date)')
+                    p1.extra_x_ranges = {"local_range": range_local}
+                    p1.x_range = range_utc
+                    p1.toolbar.logo = None
+                    p1.toolbar_location = None
+                    p1.y_range = Range1d(0,90)
 
+                    p1.legend.label_text_font_size = '10pt'
+                    p1.legend.location = 'top_left'
+                    twilight_lims_arr = sunaltazs_tonight.alt < -0*u.deg
+                    night_lims_arr = sunaltazs_tonight.alt < -18*u.deg
 
-            p2 = figure(x_axis_label = 'Exposure time (s)', y_axis_label='SNR')
+                    twilight_lim_lower = np.nonzero(twilight_lims_arr)[0].min()
+                    twilight_lim_upper = np.nonzero(twilight_lims_arr)[0].max()
 
-            ds2 = dict(exps = exps, snr = snr)
-            source2 = ColumnDataSource(ds2)
-            p2.line(x = 'exps', y = 'snr', source = source2)
-            hovert2 = HoverTool(tooltips = [('Exposure time (s)','@exps'), ('SNR', '@snr')])
-
-            hline_snr = Span(location = Proposal.min_snr, dimension = 'width', line_color = 'black', line_width = 3, line_dash = 'dashed')
-            exp_loc = np.argmin(abs(np.array(snr)-Proposal.min_snr))
-            vline_snr = Span(location = exps[exp_loc], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
-            p2.add_layout(hline_snr)
-            p2.add_layout(vline_snr)
-            p2.add_tools(hovert2)
-            p2.toolbar.logo = None
-            p2.toolbar_location = None
-
-            plot = row(p1, p2)
-
-            script, div = components(plot)
-            coords = RA+' '+dec
+                    night_lim_lower = np.nonzero(night_lims_arr)[0].min()
+                    night_lim_upper = np.nonzero(night_lims_arr)[0].max()
 
 
-            form = self.form_class()
 
-            min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
-            context = {'script':script,
-                        'div':div,
-                        'obs_title':Observer.obs_name,
-                        'obs_img':Observer.obs_img,
-                        'coords':coords,
-                        'date':midnight,
-                        'loc':Observer.location,
-                        'tel_aper':Observer.telescope_aper,
-                        'tel_flen':Observer.telescope_flength,
-                        'det_name':Observer.det_mod,
-                        'fov':"{:.2f}".format(Observer.fov),
-                        'SQM':"{:.2f}".format(Observer.SQM),
-                        'pix_scale': "{:.2f}".format((200./Observer.telescope_flength)*Observer.det_pix_scale),
-                        'min_temp':min_temp,
-                        'max_temp':max_temp,
-                        'hum':hum,
-                        'clouds':clouds,
-                        'form':form,
-                        'requested':requested,
-                        'req_exp': req_exp,
-                        'req_sets': req_sets
-                        }
+                    twilight_box = BoxAnnotation(left = time_str_arr_utc[twilight_lim_lower], right = time_str_arr_utc[twilight_lim_upper], fill_alpha = 0.4, fill_color = 'grey')
+                    night_box = BoxAnnotation(left = time_str_arr_utc[night_lim_lower], right = time_str_arr_utc[night_lim_upper], fill_alpha = 0.4, fill_color = 'black')
 
-            return render(request, 'obs_home.html', context)
+                    p1.add_layout(twilight_box)
+                    p1.add_layout(night_box)
+                    hline = Span(location=30, dimension='width', line_color='brown', line_width=3, line_dash = 'dashed')
+                    my_label = Label(x=time_str_arr_utc[0], y=30, text='30° alt.')
+
+                    #my_label_2 = Label(x=time_str_arr[int(len(time_str_arr)/2)-112], y=87, text='Night time at start')
+
+
+                    p1.add_layout(hline)
+                    p1.add_layout(my_label)
+                    #p1.add_layout(my_label_2)
+
+                    hovert = HoverTool(tooltips = [('object altitude', '@alt'), ('Local time','@time_hover'), ('UTC time', '@time_hover_utc'), ('moon altitude', '@moon_alt'), ('object altitude end', '@alt_end')])
+
+                    p1.add_tools(hovert)
+                    obj_alts = np.array([round(t) for t in altaz.alt.deg])
+
+                    locs = np.where(obj_alts == 30.)[0]
+                    try:
+                        vline_1 = Span(location = time_str_arr_utc[locs[0]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+                        vline_2 = Span(location = time_str_arr_utc[locs[-1]], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+
+                        p1.add_layout(vline_1)
+                        p1.add_layout(vline_2)
+                    except:
+                        print('not below 30degs')
+
+
+                    p1.add_layout(LinearAxis(x_range_name="local_range", axis_label="Local time"), 'above')
+
+                    p1.xaxis.formatter=DatetimeTickFormatter(
+                                                            hours=["%H:%M"],
+                                                            days=["%H:%M"],
+                                                            months=["%H:%M"],
+                                                            years=["%H:%M"],
+                                                            )
+
+
+                    p2 = figure(x_axis_label = 'Exposure time (s)', y_axis_label='SNR')
+
+                    ds2 = dict(exps = exps, snr = snr)
+                    source2 = ColumnDataSource(ds2)
+                    p2.line(x = 'exps', y = 'snr', source = source2)
+                    hovert2 = HoverTool(tooltips = [('Exposure time (s)','@exps'), ('SNR', '@snr')])
+
+                    hline_snr = Span(location = Proposal.min_snr, dimension = 'width', line_color = 'black', line_width = 3, line_dash = 'dashed')
+                    exp_loc = np.argmin(abs(np.array(snr)-Proposal.min_snr))
+                    vline_snr = Span(location = exps[exp_loc], dimension = 'height', line_color = 'black', line_width = 3, line_dash = 'dashed')
+                    p2.add_layout(hline_snr)
+                    p2.add_layout(vline_snr)
+                    p2.add_tools(hovert2)
+                    p2.toolbar.logo = None
+                    p2.toolbar_location = None
+
+                    plot = row(p1, p2)
+
+                    script, div = components(plot)
+                    coords = RA+' '+dec
+
+
+                    form = self.form_class()
+
+                    min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
+                    context = {'script':script,
+                                'div':div,
+                                'obs_title':Observer.obs_name,
+                                'obs_img':Observer.obs_img,
+                                'coords':coords,
+                                'date':midnight,
+                                'loc':Observer.location,
+                                'tel_aper':Observer.telescope_aper,
+                                'tel_flen':Observer.telescope_flength,
+                                'det_name':Observer.det_mod,
+                                'fov':"{:.2f}".format(Observer.fov),
+                                'SQM':"{:.2f}".format(Observer.SQM),
+                                'pix_scale': "{:.2f}".format((200./Observer.telescope_flength)*Observer.det_pix_scale),
+                                'min_temp':min_temp,
+                                'max_temp':max_temp,
+                                'hum':hum,
+                                'clouds':clouds,
+                                'form':form,
+                                'requested':requested,
+                                'req_exp': req_exp,
+                                'req_sets': req_sets
+                                }
+
+                    return render(request, 'obs_home.html', context)
+                else:
+                    return HttpResponseNotFound("hello")
+        else:
+            return redirect('https://4pi-astro.com/accounts/login')
     def post(self, request, slug, pk, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():

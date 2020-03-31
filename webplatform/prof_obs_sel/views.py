@@ -23,6 +23,7 @@ from obs_propose.models import Obs_Prop
 from bokeh.tile_providers import get_provider, Vendors
 
 from django.views.generic import View
+from django.http import HttpResponseNotFound
 
 
 
@@ -167,48 +168,54 @@ def plot_world_map(ds):
     return {'script':script, 'div':div}
 
 def index(request, pk, *args, **kwargs):
-    obj = Obs_Prop.objects.filter(pk=pk)#filter(user_id=request.user.username).order_by('id')
-    proposal = next(obj.iterator())
-    ra = proposal.coords_ra
-    dec = proposal.coords_dec
-    it = AmaOB.objects.filter(fov__gte=proposal.min_fov, fov__lte=proposal.max_fov).iterator()
-    lat = []
-    lon = []
-    lat_n = []
-    lon_n = []
-    name = []
-    tz = []
-    aper = []
-    focal_length = []
-    det_name = []
-    fov = []
-    user_id = []
-    pklist = []
-    for data in it:
-        if check_dates(data.booked_dates, proposal.start_date, proposal.no_of_nights):
-            continue
-        if not check_observability(proposal.pk, data.user_id):
-            continue
-        if (data.user_id in proposal.selected_users.split(',')) or (data.user_id in proposal.unselected_users.split(',')):
-            continue
-        temp_lat, temp_lon = coords2merc(data.lat, data.lon)
-        lat.append(temp_lat)
-        lon.append(temp_lon)
-        lat_n.append(data.lat)
-        lon_n.append(data.lon)
-        name.append(data.location)
-        tz.append(data.tz)
-        aper.append(data.telescope_aper)
-        focal_length.append(data.telescope_flength)
-        det_name.append(data.det_mod)
-        fov.append(data.fov)
-        user_id.append(data.user_id)
-        pklist.append(proposal.pk)
-    tz = ['UTC+{0}'.format(t) if t>0 else 'UTC{0}'.format(t) for t in tz]
-    ds = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist)
-    plt = plot_world_map(ds)
-    plt['pk'] = proposal.pk
-    return render(request, 'obs_sel.html', plt)
+    if request.user.is_authenticated:
+        obj = Obs_Prop.objects.filter(pk=pk)#filter(user_id=request.user.username).order_by('id')
+        proposal = next(obj.iterator())
+        if request.user.username == proposal.user_id:
+            ra = proposal.coords_ra
+            dec = proposal.coords_dec
+            it = AmaOB.objects.filter(fov__gte=proposal.min_fov, fov__lte=proposal.max_fov).iterator()
+            lat = []
+            lon = []
+            lat_n = []
+            lon_n = []
+            name = []
+            tz = []
+            aper = []
+            focal_length = []
+            det_name = []
+            fov = []
+            user_id = []
+            pklist = []
+            for data in it:
+                if check_dates(data.booked_dates, proposal.start_date, proposal.no_of_nights):
+                    continue
+                if not check_observability(proposal.pk, data.user_id):
+                    continue
+                if (data.user_id in proposal.selected_users.split(',')) or (data.user_id in proposal.unselected_users.split(',')):
+                    continue
+                temp_lat, temp_lon = coords2merc(data.lat, data.lon)
+                lat.append(temp_lat)
+                lon.append(temp_lon)
+                lat_n.append(data.lat)
+                lon_n.append(data.lon)
+                name.append(data.location)
+                tz.append(data.tz)
+                aper.append(data.telescope_aper)
+                focal_length.append(data.telescope_flength)
+                det_name.append(data.det_mod)
+                fov.append(data.fov)
+                user_id.append(data.user_id)
+                pklist.append(proposal.pk)
+            tz = ['UTC+{0}'.format(t) if t>0 else 'UTC{0}'.format(t) for t in tz]
+            ds = dict(x=lon, y=lat,lat=lat_n, lon=lon_n, name=name, tz=tz, aper=aper, focal_length=focal_length, det_name=det_name, fov=fov, uid=user_id, pid=pklist)
+            plt = plot_world_map(ds)
+            plt['pk'] = proposal.pk
+            return render(request, 'obs_sel.html', plt)
+        else:
+            return HttpResponseNotFound("hello")
+    else:
+        return redirect('https://4pi-astro.com/accounts/login')
 
 class SelectObservatory(View):
     def get(self, request, slug, pk, *args, **kwargs):
