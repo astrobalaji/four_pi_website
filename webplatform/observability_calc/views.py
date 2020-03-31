@@ -358,7 +358,7 @@ def send_req_email(ama_uname, obs_title, obs_desc, obs_pk):
     fname = obs_obj.first_name
     lname = obs_obj.last_name
     full_name = fname+' '+lname
-    subject = 'You have received an observtion request'
+    subject = 'You have received an observation request'
     message = render_to_string('emails/request_email.html', {
         'user_fname': full_name,
         'obs_title': obs_title,

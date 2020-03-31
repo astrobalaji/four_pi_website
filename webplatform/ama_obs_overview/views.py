@@ -16,6 +16,8 @@ from background_task import background
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.http import HttpResponseNotFound
+
 
 
 obs_choices = {'r':'Regular', 'sos':'SOS'}
@@ -60,42 +62,48 @@ def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
 class ama_overview_views(View):
     form_class = File_Upload
     def get(self, request, pk, *args, **kwargs):
-        res = Obs_Prop.objects.filter(pk=pk).iterator()
-        Proposal = next(res)
-        prop_data = {}
-        prop_data['title'] = Proposal.obs_title
-        prop_data['description'] = Proposal.description
-        prop_data['obs_type'] = obs_choices[Proposal.obs_type]
-        prop_data['field_type'] = field_choices[Proposal.field_type]
-        prop_data['min_fov'] = Proposal.min_fov
-        prop_data['max_fov'] = Proposal.max_fov
-        prop_data['mag'] = Proposal.magnitude
-        prop_data['ra'] = Proposal.coords_ra
-        prop_data['dec'] = Proposal.coords_dec
-        prop_data['settings'] = literal_eval(Proposal.settings)[request.user.username]
-        prop_data['req_users'] = Proposal.requested_users
-        prop_data['accepted_users'] = Proposal.accepted_users
-        prop_data['exps'] = literal_eval(Proposal.exps)[request.user.username]
+        if request.user.is_authenticated:
+            res = Obs_Prop.objects.filter(pk=pk).iterator()
+            Proposal = next(res)
+            if (request.user.username in Proposal.selected_users):
+                prop_data = {}
+                prop_data['title'] = Proposal.obs_title
+                prop_data['description'] = Proposal.description
+                prop_data['obs_type'] = obs_choices[Proposal.obs_type]
+                prop_data['field_type'] = field_choices[Proposal.field_type]
+                prop_data['min_fov'] = Proposal.min_fov
+                prop_data['max_fov'] = Proposal.max_fov
+                prop_data['mag'] = Proposal.magnitude
+                prop_data['ra'] = Proposal.coords_ra
+                prop_data['dec'] = Proposal.coords_dec
+                prop_data['settings'] = literal_eval(Proposal.settings)[request.user.username]
+                prop_data['req_users'] = Proposal.requested_users
+                prop_data['accepted_users'] = Proposal.accepted_users
+                prop_data['exps'] = literal_eval(Proposal.exps)[request.user.username]
 
-        if request.user.username in prop_data['req_users']:
-            req = True
+                if request.user.username in prop_data['req_users']:
+                    req = True
+                else:
+                    req = False
+                if request.user.username in prop_data['accepted_users']:
+                    accept = True
+                else:
+                    accept = False
+
+                prop_data['requested'] = req
+                prop_data['accepted'] = accept
+
+                prop_data['pk'] = pk
+                prop_data['uname'] = request.user.username
+
+                if accept:
+                    form = self.form_class()
+                    prop_data['form'] = form
+                return render(request, 'obs_overview_ama.html', prop_data)
+            else:
+                return HttpResponseNotFound("hello")
         else:
-            req = False
-        if request.user.username in prop_data['accepted_users']:
-            accept = True
-        else:
-            accept = False
-
-        prop_data['requested'] = req
-        prop_data['accepted'] = accept
-
-        prop_data['pk'] = pk
-        prop_data['uname'] = request.user.username
-
-        if accept:
-            form = self.form_class()
-            prop_data['form'] = form
-        return render(request, 'obs_overview_ama.html', prop_data)
+            return redirect('http://4pi-astro.com/accounts/login')
     def post(self, request, pk, *args, **kwargs):
         data = next(Obs_Prop.objects.filter(pk=pk).iterator())
         form = self.form_class(request.POST, request.FILES)

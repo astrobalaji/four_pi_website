@@ -19,6 +19,8 @@ class ObsPropViews(View):
             full_name = fname+' '+lname
             context = {'form':form}
             return render(request, 'obsprop.html', context)
+        else:
+            return redirect('https://4pi-astro.com/accounts/login')
 
     def post(self, request):
         form = self.form_class(request.POST)

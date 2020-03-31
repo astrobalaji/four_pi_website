@@ -80,6 +80,8 @@ class AmaOBViews(View):
             full_name = fname+' '+lname
             context = {'form':form, 'full_name':full_name}
             return render(request, 'Onboarding/AmaOb.html', context)
+        else:
+            return redirect('https://4pi-astro.com/accounts/login')
 
     def post(self, request):
         form = self.form_class(request.POST ,request.FILES)

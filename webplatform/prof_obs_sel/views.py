@@ -107,13 +107,15 @@ def check_observability(prop_pk, user_id):
 
     ### checking time for obj alts
     time_str_arr = midnight+delta_midnight
-    time_arr = np.array([datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_arr.value])
+    time_arr = np.array([datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in time_str_arr.value])
 
     time_arr_lims = time_arr[np.where(np.array(alts)>=30.)]
+    if len(time_arr_lims) > 1.:
+        time_diff = time_arr_lims[-1]-time_arr_lims[0]
 
-    time_diff = time_arr_lims[-1]-time_arr_lims[0]
-
-    time_diff_check = (time_diff.total_seconds()/3600.) >= 4.0
+        time_diff_check = (time_diff.total_seconds()/3600.) >= 4.0
+    else:
+        time_diff_check = False
 
     if checksunaz and checkmoonaz and checkalt and check_night_time and time_diff_check:
         return True
