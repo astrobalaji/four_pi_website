@@ -132,7 +132,7 @@ class obs_calc_views(View):
                                 'min_temp':min_temp,
                                 'max_temp':max_temp,
                                 'hum':hum,
-                                'clouds':clouds,
+                                'clouds':clouds
                                 }
 
                     return render(request, 'obs_home_ama.html', context)
@@ -326,7 +326,8 @@ class obs_calc_views(View):
                                 'form':form,
                                 'requested':requested,
                                 'req_exp': req_exp,
-                                'req_sets': req_sets
+                                'req_sets': req_sets,
+                                'pk':pk
                                 }
 
                     return render(request, 'obs_home.html', context)
