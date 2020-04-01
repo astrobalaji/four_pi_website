@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html  >
 <head>
@@ -70,7 +71,7 @@
                     Location:{{loc}}<br>Coords:{{coords}}<br>Date:{{date}}</h3>
                     <form method="post">
                         {% csrf_token %}
-                        {% include 'includes/bs4_form.html' with form=form %}
+                        {{ form|crispy }}
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <br><br>
                     </form>

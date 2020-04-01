@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html  >
 <head>
@@ -208,7 +209,7 @@
                   Upload your final zip file here.</p>
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {% include 'includes/bs4_form.html' with form=form %}
+                {{ form|crispy }}
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
                 </div>

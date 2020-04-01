@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'background_task',
-    'widget_tweaks',
-    'bootstrap4',
     'bootstrap_datepicker_plus',
     'signup',
     'coming_soon',
@@ -51,8 +49,11 @@ INSTALLED_APPS = [
     'proOnboarding',
     'obs_propose',
     'ama_obs_overview',
-
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
