@@ -57,14 +57,20 @@ class Obs_Overview_views(View):
                         if u in comp_users:
                             ob_data['comp'] = True
                             ob_data['req'] = False
+                            ob_data['not_rej'] = True
                             data_download = next(File_Details.objects.filter(obs_id=pk, ama_id=u).iterator())
                             #ob_data['data'] = data_download.filename
                             some_file  = open('media/data_files/'+data_download.filename, "r")
                             django_file = File(some_file)
                             ob_data['data'] = django_file
+                        elif u in rej_users:
+                            ob_data['comp'] = False
+                            ob_data['req'] = True
+                            ob_data['not_rej'] = False
                         else:
                             ob_data['comp'] = False
                             ob_data['req'] = True
+                            ob_data['not_rej'] = True
                         if u in req_users:
                             obs_status = 'Requested'
                         elif u in acc_users:
