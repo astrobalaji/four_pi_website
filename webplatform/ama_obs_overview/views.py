@@ -161,8 +161,7 @@ class accept_obs(View):
             user_res.booked_dates = ','.join(booked_dates)
         user_res.save()
         send_acc_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
-        render(request, 'autoclose.html')
-        return redirect('https://4pi-astro.com/user/home')
+        return redirect('https://4pi-astro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
 
 class reject_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
@@ -181,9 +180,9 @@ class reject_obs(View):
             rej_users.append(slug)
             rej_users = list(set(rej_users))
             Proposal.rejected_users = ','.join(rej_users)
-            Proposal.save()
+        Proposal.save()
         send_rej_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
-        return render(request, 'autoclose.html')
+        return redirect('https://4pi-astro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
 
 
 @background(schedule=1)
