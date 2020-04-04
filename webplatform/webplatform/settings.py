@@ -24,7 +24,7 @@ with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['*', '4pi-astro.com', 'www.4pi-astro.com','localhost', '127.0.0.1', '[::1]']
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'background_task',
+    'bootstrap4',
     'bootstrap_datepicker_plus',
     'signup',
     'coming_soon',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'obs_propose',
     'ama_obs_overview',
     'crispy_forms',
+    'bootstrap_datepicker',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

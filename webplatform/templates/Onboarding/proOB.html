@@ -5,7 +5,7 @@
     <div class="row justify-content-md-center">
         <div class="mbr-white col-md-10">
             <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
-              Hello {{full_name}}! :)</h1>
+              <br> Hello {{full_name}}! :)</h1>
               <p class="mbr-text pb-3 mbr-fonts-style display-5">
                   Welcome to our Network! The amateurs are armed and ready for your targets</p>
               <p class="mbr-text pb-3 mbr-fonts-style display-5">
@@ -16,7 +16,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button><button type="cancel" class="btn btn-primary">Cancel</button>
     <br><br>
 </form>
 {% endblock content %}
