@@ -144,7 +144,8 @@ class obs_calc_views(View):
                 if request.user.username == Proposal.user_id:
                     req_obs = Proposal.requested_users.split(',')
                     acc_obs = Proposal.accepted_users.split(',')
-                    if (slug in req_obs) or (slug in acc_obs):
+                    rej_obs = Proposal.rejected_users.split(',')
+                    if (slug in req_obs) or (slug in acc_obs) or (slug in rej_obs):
                         requested = True
                         req_exp = literal_eval(Proposal.exps)[slug]
                         req_sets = literal_eval(Proposal.settings)[slug]

@@ -44,7 +44,7 @@ class Obs_Overview_views(View):
                 acc_users = proposal.accepted_users.split(',')
                 comp_users = proposal.completed_users.split(',')
                 req_users = proposal.requested_users.split(',')
-
+                rej_users = proposal.rejected_users.split(',')
                 sel_users = proposal.selected_users.split(',')
                 obs_data = []
                 if sel_users == ['']:
@@ -71,6 +71,8 @@ class Obs_Overview_views(View):
                             obs_status = 'Accepted'
                         elif u in comp_users:
                             obs_status = 'Completed'
+                        elif u in rej_users:
+                            obs_status = 'Rejected'
                         else:
                             obs_status = 'Selected'
                         if obs_status == 'Selected':
