@@ -110,6 +110,11 @@ datetime.strptime(test[0],'%Y-%m-%d %H:%M:%S.%f')
 
 test_arr = np.array([datetime.strptime(t,'%Y-%m-%d %H:%M:%S.%f') for t in test])
 
+
+test_arr[0]
+test_arr[-1]
+
+
 azs = [a.deg for a in sunaltazs_tonight.alt]
 
 np.where(np.array(azs)>=30.)[0]
