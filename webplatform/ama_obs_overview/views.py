@@ -80,6 +80,8 @@ class ama_overview_views(View):
                 prop_data['req_users'] = Proposal.requested_users
                 prop_data['accepted_users'] = Proposal.accepted_users
                 prop_data['exps'] = literal_eval(Proposal.exps)[request.user.username]
+                prop_data['start_date'] = Proposal.start_date
+                prop_data['end_date'] = Proposal.start_date+timedelta(days = Proposal.no_of_nights)
 
                 if request.user.username in prop_data['req_users']:
                     req = True
