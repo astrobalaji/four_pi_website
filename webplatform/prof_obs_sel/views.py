@@ -225,7 +225,6 @@ class obs_sel_views(View):
                     users_booked_check = True
                 elif all(observability_checks) and (len(observability_checks) !=0):
                     obs_not_checks = True
-                users_booked_check = True
                 if users_booked_check or obs_not_checks:
                     init_data = {'start_date':proposal.start_date, 'no_of_nights':proposal.no_of_nights}
                     form = self.form_class(initial = init_data)
