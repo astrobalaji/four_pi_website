@@ -85,6 +85,26 @@ class Obs_Overview_views(View):
                             ob_data['sel_not_req'] = True
                         else:
                             ob_data['sel_not_req'] = False
+                        if obs_status == 'Selected':
+                            ob_data['sel_color'] = True
+                            ob_data['req_color'] = False
+                            ob_data['acc_color'] = False
+                            ob_data['rej_color'] = False
+                        elif obs_status == 'Requested':
+                            ob_data['sel_color'] = False
+                            ob_data['req_color'] = True
+                            ob_data['acc_color'] = False
+                            ob_data['rej_color'] = False
+                        elif obs_status == 'Accepted':
+                            ob_data['sel_color'] = False
+                            ob_data['req_color'] = False
+                            ob_data['acc_color'] = True
+                            ob_data['rej_color'] = False
+                        else:
+                            ob_data['sel_color'] = False
+                            ob_data['req_color'] = False
+                            ob_data['acc_color'] = False
+                            ob_data['rej_color'] = True
                         ob_data['obs_name'] = obs.obs_name
                         ob_data['location'] = obs.location
                         ob_data['aper'] = obs.telescope_aper

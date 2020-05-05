@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html  >
 <head>
@@ -64,8 +65,48 @@
 
 
 
+    {% if obs_not_checks %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10 align-center">
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
+                    We're sorry :( </h1>
 
+                <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                    None of the observatories can observe your target at the requested epoch</p>
+                <p class="mbr-text pb-3 mbr-fonts-style display-7">
+                    We characterize a target as "visible" if it is above 30 degrees of elevation for more than 4 hours per location at the starting date. Your target does not fulfill this requirement. Please try a later/earlier date. </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Reload</button>
+                        <br><br>
+                    </form>
+                <a class="btn btn-md btn-black display-4" href="https://4pi-astro.com/user/home">Back to Home</a></div>
+            </div>
+        </div>
+    </div>
+    {% elif users_booked_check %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10 align-center">
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
+                    We're Sorry! :( </h1>
 
+                <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                    All observatories are booked for the requested epoch. Please try a different starting date.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <br><br>
+                    </form>
+                <a class="btn btn-md btn-black display-4" href="https://4pi-astro.com/user/home">Back to Home</a></div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-md-10 align-center">
@@ -78,7 +119,7 @@
             </div>
         </div>
     </div>
-
+    {% endif %}
 </section>
 
 
@@ -96,7 +137,6 @@
 
 
   <input name="animation" type="hidden">
-
   {{ div | safe }}
   </body>
 </html>
