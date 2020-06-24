@@ -170,4 +170,4 @@ def index(request):
 
 def delete_obs(request, pk , *args, **kwargs):
     Obs_Prop.objects.filter(pk = pk).delete()
-    return render(request, 'autoclose.html')
+    return redirect('/user/home')
