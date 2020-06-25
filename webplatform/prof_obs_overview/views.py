@@ -115,6 +115,9 @@ class Obs_Overview_views(View):
                             ob_data['acc_color'] = False
                             ob_data['rej_color'] = True
                             ob_data['comp_color'] = False
+                        if obs_status == 'Completed':
+                            comp_info = File_Details.objects.filter(obs_id=pk, ama_id = u).iterator()
+                            ob_data['comp_date'] = next(comp_info).uploaded_at
                         ob_data['obs_name'] = obs.obs_name
                         ob_data['location'] = obs.location
                         ob_data['aper'] = obs.telescope_aper

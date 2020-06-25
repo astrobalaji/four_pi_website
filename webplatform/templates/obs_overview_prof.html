@@ -216,6 +216,7 @@
                         <p style="color:red;"> <strong>Status: {{obs.status}}</strong> </p>
                         {% elif obs.comp_color %}
                         <p style="color:blue;"> <strong>Status: {{obs.status}}</strong> </p>
+                        <p style="color:grey;">Completed on: {{obs.comp_date}} </p>
                         {% endif %}
                         <p class="mbr-text mbr-fonts-style display-7" style="padding-top:0;">
                            <br>Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}} <br> Pixel Scale (arcsec/pix): {{obs.pix_scale}} <br>Light Pollution Level (mag/arcsec^2): {{obs.lp}} &nbsp;</p>

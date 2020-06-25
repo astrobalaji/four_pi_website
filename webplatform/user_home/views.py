@@ -5,6 +5,7 @@ from obs_propose.models import Obs_Prop
 import arxiv
 import ast
 from datetime import datetime, timedelta
+from ama_obs_overview.models import File_Details
 
 def get_arxiv(field):
     results = arxiv.query(query=field, sort_by='submittedDate', sort_order = 'descending', max_results = 10)
@@ -108,6 +109,9 @@ def get_ama_comp_obs(uname):
         obs['title'] = i.obs_title
         obs['description'] = i.description
         obs['credits'] = 0
+        comp_data = next(File_Details.objects.filter(obs_id = i.pk, ama_id = uname).iterator())
+        obs['comp_date'] = comp_data.uploaded_at
+
         obsers.append(obs)
     return obsers
 
