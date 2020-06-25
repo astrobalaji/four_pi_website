@@ -34,6 +34,7 @@ def get_obs(uname):
         sel_users = i.selected_users.split(',')
         acc_users = i.accepted_users.split(',')
         rej_users = i.rejected_users.split(',')
+        comp_users = i.completed_users.split(',')
 
         if '' in req_users:
             req_users.remove('')
@@ -43,22 +44,26 @@ def get_obs(uname):
             acc_users.remove('')
         if '' in rej_users:
             rej_users.remove('')
+        if '' in comp_users:
+            comp_users.remove('')
 
         req_users_len = len(req_users)
         sel_users_len = len(sel_users)
         acc_users_len = len(acc_users)
         rej_users_len = len(rej_users)
-
+        comp_users_len = len(comp_users)
 
         if sel_users_len != 0:
             obs['req_frac'] = req_users_len#+acc_users_len+rej_users_len#"{:.2f}".format((req_users_len/sel_users_len)*100.)
             obs['acc_frac'] = acc_users_len#"{:.2f}".format((acc_users_len/sel_users_len)*100.)
             obs['rej_frac'] = rej_users_len#"{:.2f}".format((rej_users_len/sel_users_len)*100.)
             obs['sel_frac'] = sel_users_len
+            obs['comp_frac'] = comp_users_len
         else:
             obs['req_frac'] = 0.
             obs['acc_frac'] = 0.
             obs['rej_frac'] = 0.
+            obs['comp_frac'] = 0.
 
 
 
