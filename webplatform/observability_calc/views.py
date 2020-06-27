@@ -26,6 +26,7 @@ from bokeh.models import HoverTool, TapTool, OpenURL, BoxAnnotation, Range1d, Bo
 from bokeh.embed import components
 from bokeh.layouts import row
 
+from obs_review.models import obs_rev
 
 from .forms import ObsSettings
 
@@ -120,6 +121,29 @@ class obs_calc_views(View):
                 Observer = next(data)
                 if request.user.username == Observer.user_id:
                     min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
+
+                    obs_reviews = obs_rev.objects.filter(obs_id = slug).iterator()
+                    revs_list = []
+                    '''
+                    snr = models.IntegerField()
+                    accuracy = models.IntegerField()
+                    quality_calib = models.IntegerField()
+                    instructs_follow
+                    '''
+                    for revs in obs_reviews:
+                        cont = {'review': revs.review,
+                                'snr':revs.snr,
+                                'accuracy': revs.accuracy,
+                                'quality_calib':revs.quality_calib,
+                                'instructs_follow':revs.instructs_follow,
+                                'posted_at': revs.posted_at
+                                }
+                        revs_list.append(cont)
+                    if len(revs_list)!=0:
+                        revs_check = True
+                    else:
+                        revs_check = False
+
                     context = {'obs_title':Observer.obs_name,
                                 'obs_img':Observer.obs_img,
                                 'loc':Observer.location,
@@ -132,7 +156,9 @@ class obs_calc_views(View):
                                 'min_temp':min_temp,
                                 'max_temp':max_temp,
                                 'hum':hum,
-                                'clouds':clouds
+                                'clouds':clouds,
+                                'revs': revs_list,
+                                'revs_check': revs_check
                                 }
 
                     return render(request, 'obs_home_ama.html', context)
@@ -307,6 +333,22 @@ class obs_calc_views(View):
                     form = self.form_class()
 
                     min_temp, max_temp, hum, clouds = get_weather(Observer.lat, Observer.lon)
+
+                    obs_reviews = obs_rev.objects.filter(obs_id = slug).iterator()
+                    revs_list = []
+                    for revs in obs_reviews:
+                        cont = {'review': revs.review,
+                                'snr':revs.snr,
+                                'accuracy': revs.accuracy,
+                                'quality_calib':revs.quality_calib,
+                                'instructs_follow':revs.instructs_follow,
+                                'posted_at': revs.posted_at
+                                }
+                        revs_list.append(cont)
+                    if len(revs_list)!=0:
+                        revs_check = True
+                    else:
+                        revs_check = False
                     context = {'script':script,
                                 'div':div,
                                 'obs_title':Observer.obs_name,
@@ -328,7 +370,9 @@ class obs_calc_views(View):
                                 'requested':requested,
                                 'req_exp': req_exp,
                                 'req_sets': req_sets,
-                                'pk':pk
+                                'pk':pk,
+                                'revs': revs_list,
+                                'revs_check': revs_check
                                 }
 
                     return render(request, 'obs_home.html', context)

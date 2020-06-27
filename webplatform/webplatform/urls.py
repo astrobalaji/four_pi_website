@@ -20,7 +20,7 @@ from observability_calc.views import obs_calc_views
 from ama_obs_overview.views import *
 from logout_account import views as logoutview
 from error_pages import views as err_views
-
+from obs_review.views import review_view
 
 
 urlpatterns = [
@@ -49,6 +49,7 @@ urlpatterns = [
     path(r'accounts/logout', logoutview.logout_view),
     path(r'delobs/<pk>', home_view.delete_obs),
     path(r'obs/overview/delete/<slug>-<pk>', remove_obser.as_view()),
+    path(r'review/obs/<slug>-<pk>', review_view.as_view())
 
 ]
 

@@ -224,7 +224,7 @@
                         {% if obs.req %}
                         {% if obs.not_rej %} <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} class="btn btn-warning-outline display-4">Check Observatory</a>{% endif %}{% if obs.sel_not_req %}<a href="https://4pi-astro.com/obs/overview/delete/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-secondary-outline display-4">Delete Observatory</a> {% endif %}</div>
                         {% elif obs.comp %}
-                        <div class="mbr-section-btn align-left"><a href="https://4pi-astro.com/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a></div>
+                        <div class="mbr-section-btn align-left"><a href="https://4pi-astro.com/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a> <br> <br> <br> <br> <br> <a href="https://4pi-astro.com/review/obs/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-warning-outline display-4">Review Observatory</a></div>
                         {% endif %}
 
                     </div>

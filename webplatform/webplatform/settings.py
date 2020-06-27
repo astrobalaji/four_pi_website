@@ -50,8 +50,11 @@ INSTALLED_APPS = [
     'proOnboarding',
     'obs_propose',
     'ama_obs_overview',
+    'obs_review',
     'crispy_forms',
     'bootstrap_datepicker',
+    'likert_field',
+    'django_starfield',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -81,6 +84,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+            'string_multiply': 'observability_calc.templatetags.string_multiply',
+
+            }
         },
     },
 ]
@@ -92,6 +99,7 @@ BOOTSTRAP4 = {
     'include_jquery': True,
 }
 
+FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

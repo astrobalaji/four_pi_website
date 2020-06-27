@@ -316,7 +316,34 @@
 </section>
 {% endif %}
 
+{% if revs_check %}
+<section class="testimonials4 cid-s31fWPwtmV" id="testimonials4-35">
 
+  <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);">
+  </div>
+  <div class="container">
+    <h2 class="pb-3 mbr-fonts-style mbr-white align-center display-2">
+        What other astronomers say</h2>
+
+    <div class="col-md-10 testimonials-container">
+
+
+    {% for rev in revs %}
+    <div class="testimonials-item">
+        <div class="user row">
+
+          <div class="testimonials-caption">
+            <div class="user_text ">
+              <p class="mbr-fonts-style  display-7">
+                 <em>Signal-to-noise Ratio:&nbsp;</em> {{rev.snr}}/10 ⭐<br><em>Tracking accuracy:&nbsp;</em> {{rev.accuracy}}/10 ⭐ <br><em>Quality of Calibration data:&nbsp;</em> {{rev.quality_calib}}/10 ⭐ <br><em>Following the instructions:&nbsp;</em> {{rev.instructs_follow}}/10 ⭐ <br> <br> <strong><em>"{{rev.review}}"</em></strong><br> <p style="color:grey;">Posted on: {{rev.posted_at}} </p></p>
+            </div>
+          </div>
+        </div>
+      </div> {% endfor %} </div>
+  </div>
+
+</section>
+{% endif %}
   <script src="{% static 'coming_soon/web/assets/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'coming_soon/popper/popper.min.js' %}"></script>
   <script src="{% static 'coming_soon/tether/tether.min.js' %}"></script>
