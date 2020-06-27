@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'obs_review',
     'crispy_forms',
     'bootstrap_datepicker',
-    'likert_field',
     'django_starfield',
 ]
 

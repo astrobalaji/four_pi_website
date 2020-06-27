@@ -1,7 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from likert_field.models import LikertField
 from .models import obs_rev
 from django_starfield import Stars
 

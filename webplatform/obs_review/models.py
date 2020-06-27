@@ -1,6 +1,4 @@
 from django.db import models
-from likert_field.models import LikertField
-
 
 
 # Create your models here.
