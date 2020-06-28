@@ -24,7 +24,7 @@ with open('webplatform/secret_key.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ['*', '4pi-astro.com', 'www.4pi-astro.com','localhost', '127.0.0.1', '[::1]']
@@ -180,7 +180,7 @@ EMAIL_HOST_USER = 'astrobot@4pi-astro.com'
 DEFAULT_FROM_EMAIL = 'astrobot@4pi-astro.com'
 EMAIL_HOST_PASSWORD = os.environ.get("HELLOPASS")
 EMAIL_PORT = 587
-
+'''
 BACKGROUND_TASK_RUN_ASYNC = True
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -190,3 +190,4 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
+'''

@@ -409,7 +409,7 @@ class obs_calc_views(View):
 
 def send_req_email(ama_uname, obs_title, obs_desc, obs_pk):
     obs_obj = next(User.objects.filter(username=ama_uname).iterator())
-    subject = 'Activate Your 4pi Account'
+    #subject = 'Activate Your 4pi Account'
     fname = obs_obj.first_name
     lname = obs_obj.last_name
     full_name = fname+' '+lname

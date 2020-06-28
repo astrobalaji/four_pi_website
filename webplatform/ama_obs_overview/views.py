@@ -58,6 +58,23 @@ def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
     send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
 
 
+
+def send_comp_email(ama_uname, obs_title, obs_pk):
+    prof_obj = next(User.objects.filter(username=prof_uname).iterator())
+    obs_obj = next(AmaOB.objects.filter(user_id = ama_uname).iterator())
+    fname = prof_obj.first_name
+    lname = prof_obj.last_name
+    full_name = fname+' '+lname
+    obs_name = obs_obj.obs_name
+    subject = '{0} has completed the observation'.format(obs_name)
+    message = render_to_string('emails/completed_email.html', {
+        'user_fname': full_name,
+        'obs_name': obs_name,
+        'obs_title': obs_title,
+        'obs_id': obs_pk,
+    })
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
+
 # Create your views here.
 class ama_overview_views(View):
     form_class = File_Upload
@@ -126,6 +143,7 @@ class ama_overview_views(View):
         data.save()
         form.save()
         file_det.save()
+        send_comp_email(request.user.username, data.obs_title, pk)
         extract_files(pk, request.user.username, filename.name)
         return redirect('/user/home')
 
