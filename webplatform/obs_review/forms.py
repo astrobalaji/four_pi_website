@@ -11,7 +11,7 @@ class obs_rev_form(forms.ModelForm):
     accuracy = forms.IntegerField(label = 'Tracking accuracy', widget = Stars(stars=10), help_text='How do you rate the PSF of the data?')
     quality_calib = forms.IntegerField(label = 'Quality of Calibration data', widget = Stars(stars=10), help_text = 'How do you rate the quality of the calibration data  (e.g. Dark, Flat-Field data etc.)?')
     instructs_follow = forms.IntegerField(label = 'Following the instructions', widget = Stars(stars=10), help_text ="How do you rate the observer's instruction following ability?")
-
+    title = forms.CharField(label = 'Title of the Review')
     review = forms.CharField(widget = forms.Textarea(attrs={'style': 'width: 100%'}), label = 'Write your review')
     class Meta:
         model = obs_rev

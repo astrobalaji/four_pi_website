@@ -11,6 +11,7 @@ class obs_rev(models.Model):
     accuracy = models.IntegerField()
     quality_calib = models.IntegerField()
     instructs_follow = models.IntegerField()
+    title = models.CharField(max_length = 2000)
     review = models.CharField(max_length=2000)
     posted_at = models.DateTimeField(auto_now_add=True)
     #prof_name = models.CharField(max_length = 2000)

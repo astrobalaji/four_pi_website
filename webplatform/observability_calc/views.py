@@ -132,6 +132,7 @@ class obs_calc_views(View):
                     '''
                     for revs in obs_reviews:
                         cont = {'review': revs.review,
+                                'title': revs.title,
                                 'snr':revs.snr,
                                 'accuracy': revs.accuracy,
                                 'quality_calib':revs.quality_calib,
@@ -338,6 +339,7 @@ class obs_calc_views(View):
                     revs_list = []
                     for revs in obs_reviews:
                         cont = {'review': revs.review,
+                                'title': revs.title,
                                 'snr':revs.snr,
                                 'accuracy': revs.accuracy,
                                 'quality_calib':revs.quality_calib,
