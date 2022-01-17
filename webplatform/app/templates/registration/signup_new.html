@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- Site made with Mobirise Website Builder v4.10.8, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.8, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="{% static 'coming_soon/images/4pi-85x127.png' %}" type="image/x-icon">
+  <meta name="description" content="Web Page Generator Description">
+
+  <title>4Pi Astronomics</title>
+  <link rel="stylesheet" href="{% static 'coming_soon/web/assets/mobirise-icons/mobirise-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/tether/tether.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-grid.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-reboot.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/dropdown/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/animatecss/animate.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/theme/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/formoid/recaptcha.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/mobirise/css/mbr-additional.css' %}" type="text/css">
+
+
+
+</head>
+<body>
+  <section class="menu cid-rGXJOGQQLu" once="menu" id="menu1-7">
+
+
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="https://4pi-astro.com">
+                         <img src="{% static 'coming_soon/images/4pi-85x127.png' %}" alt="Mobirise" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4pi-astro.com">4Pi Astronomics</a></span>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4pi-astro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a></div>
+        </div>
+    </nav>
+</section>
+
+<section class="engine"><a href="https://mobirise.info/w">free html5 templates</a></section><section class="cid-rOwAFxJaqI mbr-fullscreen mbr-parallax-background" id="header2-8">
+
+
+
+    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);"></div>
+
+            <div class="mbr-white col-md-10">
+              <form method="post">
+                  {% csrf_token %}
+                  {% include 'includes/bs4_form.html' with form=form %}
+                  <button type="submit" class="btn btn-primary">Register</button>
+                  <br><br>
+              </form>
+            </div>
+
+</section>
+
+
+  <script src="{% static 'coming_soon/web/assets/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'coming_soon/popper/popper.min.js' %}"></script>
+  <script src="{% static 'coming_soon/tether/tether.min.js' %}"></script>
+  <script src="{% static 'coming_soon/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'coming_soon/smoothscroll/smooth-scroll.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/nav-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/navbar-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/parallax/jarallax.min.js' %}"></script>
+  <script src="{% static 'coming_soon/touchswipe/jquery.touch-swipe.min.js' %}"></script>
+  <script src="{% static 'coming_soon/viewportchecker/jquery.viewportchecker.js' %}"></script>
+  <script src="{% static 'coming_soon/theme/js/script.js' %}"></script>
+  <script src="{% static 'coming_soon/formoid/formoid.min.js' %}"></script>
+
+
+  <input name="animation" type="hidden">
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{% autoescape off %}
+Hi {{ user_fname }},
+
+
+{{obs_name}} has unfortunately rejected your observation request "{{obs_title}}".
+
+You can still keep requesting for more observatories here,
+
+https://4pi-astro.com/obs_calc/obs/overview/{{obs_pk}}
+
+We will remove the observatory from your observation overview.
+
+Wishing you clear skies!!
+
+4pi Team
+{% endautoescape %}

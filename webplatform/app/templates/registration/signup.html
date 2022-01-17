@@ -1,0 +1,14 @@
+{% extends 'gen_base.html' %}
+
+{% block title %}Sign Page{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2><br> <br> Sign up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Register</button>
+        <br><br>
+    </form>
+{% endblock content %}

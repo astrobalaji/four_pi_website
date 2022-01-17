@@ -1,0 +1,243 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- Site made with Mobirise Website Builder v4.10.8, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.8, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="{% static 'coming_soon/images/4pi-85x127.png' %}" type="image/x-icon">
+  <meta name="description" content="Web Page Maker Description">
+
+  <title>4pi Astronomics</title>
+  <link rel="stylesheet" href="{% static 'coming_soon/web/assets/mobirise-icons/mobirise-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/tether/tether.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-grid.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-reboot.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/dropdown/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/datatables/data-tables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/animatecss/animate.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/theme/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/formoid/recaptcha.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/mobirise/css/mbr-additional.css' %}" type="text/css">
+
+
+
+</head>
+<body>
+  <section class="menu cid-rGXJOGQQLu" once="menu" id="menu1-19">
+
+
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="https://4pi-astro.com">
+                         <img src="{% static 'coming_soon/images/4pi-85x127.png' %}" alt="Mobirise" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4pi-astro.com">4Pi Astronomics</a></span>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4pi-astro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4pi-astro.com/accounts/logout">Logout</a></div>
+        </div>
+    </nav>
+</section>
+
+<section class="engine"><a href="https://mobirise.info/d">free web maker</a></section><section class="mbr-section content5 cid-rRl4FNE2TZ mbr-parallax-background" id="content5-1d">
+
+
+
+
+
+    <div class="container">
+        <div class="media-container-row">
+            <div class="title col-12 col-md-8">
+                <h2 class="align-center mbr-bold mbr-white pb-3 mbr-fonts-style display-1"><br>Observations</h2>
+                <h3 class="mbr-section-subtitle align-center mbr-light mbr-white pb-3 mbr-fonts-style display-5">
+                    You can work on your observations here.&nbsp;</h3>
+
+                <div class="mbr-section-btn align-center"><a class="btn btn-primary display-4" href="https://4pi-astro.com/user/home">Back to Home</a></div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mbr-section content4 cid-rRl4P1Am44" id="content4-1e">
+
+
+
+    <div class="container">
+        <div class="media-container-row">
+            <div class="title col-12 col-md-8">
+                <h2 class="align-center pb-3 mbr-fonts-style display-2">
+                    {{title}}</h2>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mbr-section article content10 cid-rRl4UDVAxU" id="content10-1f">
+
+
+
+    <div class="container">
+        <div class="inner-container" style="width: 66%;">
+            <hr class="line" style="width: 25%;">
+            <div class="section-text align-center mbr-white mbr-fonts-style display-5">
+                    {{description}}</div>
+            <hr class="line" style="width: 25%;">
+        </div>
+    </div>
+</section>
+
+<section class="section-table cid-rRl50b6xXi" id="table1-1g">
+
+
+
+  <div class="container container-table">
+      <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
+          Settings</h2>
+
+      <div class="table-wrapper">
+        <div class="container">
+
+        </div>
+
+        <div class="container scroll">
+          <table class="table" cellspacing="0">
+            <thead>
+              <tr class="table-heads ">
+
+
+
+
+              <th class="head-item mbr-fonts-style display-7">Parameter</th><th class="head-item mbr-fonts-style display-7">
+                      Value</th></tr>
+            </thead>
+
+            <tbody>
+
+
+
+
+            <tr>
+
+
+
+
+              <td class="body-item mbr-fonts-style display-7">Observation Type</td><td class="body-item mbr-fonts-style display-7">{{obs_type}}</td></tr><tr>
+
+
+
+
+              <td class="body-item mbr-fonts-style display-7">Field Type&nbsp;</td><td class="body-item mbr-fonts-style display-7">{{field_type}}</td></tr><tr>
+
+
+
+              <td class="body-item mbr-fonts-style display-7">Observation Period&nbsp;</td><td class="body-item mbr-fonts-style display-7">from: {{start_date}}  to: {{end_date}}</td></tr><tr>
+
+
+              <td class="body-item mbr-fonts-style display-7">Desired Field of View &nbsp;</td><td class="body-item mbr-fonts-style display-7">min:{{min_fov}}, max:{{max_fov}}</td></tr><tr>
+
+
+
+              <td class="body-item mbr-fonts-style display-7">V Band Magnitude&nbsp;</td><td class="body-item mbr-fonts-style display-7">{{mag}}</td></tr><tr>
+
+
+              <td class="body-item mbr-fonts-style display-7">Exposure time&nbsp;</td><td class="body-item mbr-fonts-style display-7">{{exps}}</td></tr><tr>
+
+
+
+              <td class="body-item mbr-fonts-style display-7">Coordinates&nbsp;</td><td class="body-item mbr-fonts-style display-7">{{ra}} {{dec}}</td></tr></tbody>
+          </table>
+        </div>
+        <div class="container table-info-container">
+
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="mbr-section article content9 cid-rRlj6Vqa5G" id="content9-1i">
+
+
+
+    <div class="container">
+        <div class="inner-container" style="width: 100%;">
+            <hr class="line" style="width: 25%;">
+            <div class="section-text align-center mbr-fonts-style display-5">
+                    {{settings}}
+                </div>
+            <hr class="line" style="width: 25%;">
+        </div>
+        </div>
+</section>
+
+<section class="mbr-section content8 cid-rRljhAIKQ0" id="content8-1j">
+
+
+    {% if requested %}
+    <div class="container">
+        <div class="media-container-row title">
+            <div class="col-12 col-md-8">
+                <div class="mbr-section-btn align-center"><a class="btn btn-primary display-4" href="https://4pi-astro.com/accept/{{uname}}-{{pk}}">Accept Observation</a>
+                    <a class="btn btn-black-outline display-4" href="https://4pi-astro.com/reject/{{uname}}-{{pk}}">Reject</a></div>
+            </div>
+        </div>
+    </div>
+    {% elif accepted %}
+    <div class="container">
+        <div class="media-container-row title">
+            <div class="col-12 col-md-8">
+              <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                  Upload your final zip file here.</p>
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+
+  <script src="{% static 'coming_soon/web/assets/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'coming_soon/popper/popper.min.js' %}"></script>
+  <script src="{% static 'coming_soon/tether/tether.min.js' %}"></script>
+  <script src="{% static 'coming_soon/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'coming_soon/smoothscroll/smooth-scroll.js' %}"></script>
+  <script src="{% static 'coming_soon/parallax/jarallax.min.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/nav-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/navbar-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/datatables/jquery.data-tables.min.js' %}"></script>
+  <script src="{% static 'coming_soon/datatables/data-tables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'coming_soon/viewportchecker/jquery.viewportchecker.js' %}"></script>
+  <script src="{% static 'coming_soon/touchswipe/jquery.touch-swipe.min.js' %}"></script>
+  <script src="{% static 'coming_soon/theme/js/script.js' %}"></script>
+  <script src="{% static 'coming_soon/formoid/formoid.min.js' %}"></script>
+
+
+  <input name="animation" type="hidden">
+  </body>
+</html>

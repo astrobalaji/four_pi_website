@@ -1,0 +1,321 @@
+https://4pi-astro.com{% load static %}
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- Site made with Mobirise Website Builder v4.10.8, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.8, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="{% static 'coming_soon/images/4pi-85x127.png' %}" type="image/x-icon">
+  <meta name="description" content="Website Builder Description">
+
+  <title>user home</title>
+  <link rel="stylesheet" href="{% static 'coming_soon/web/assets/mobirise-icons/mobirise-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/tether/tether.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-grid.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/bootstrap/css/bootstrap-reboot.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/dropdown/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/socicon/css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/datatables/data-tables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/animatecss/animate.min.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/theme/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/formoid/recaptcha.css' %}">
+  <link rel="stylesheet" href="{% static 'coming_soon/mobirise/css/mbr-additional.css' %}" type="text/css">
+
+
+
+</head>
+<body>
+  <section class="menu cid-rGXJOGQQLu" once="menu" id="menu1-c">
+
+
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="https://4pi-astro.com">
+                         <img src="{% static 'coming_soon/images/4pi-85x127.png' %}" alt="Mobirise" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4pi-astro.com">4Pi Astronomics</a></span>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4pi-astro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4pi-astro.com/accounts/logout">Logout</a></div>
+        </div>
+    </nav>
+</section>
+
+<section class="engine"><a href="https://mobirise.info/i">website creation software</a></section><section class="cid-rQjne06J8N mbr-fullscreen mbr-parallax-background" id="header2-d">
+
+
+
+
+    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(35, 35, 35);"></div>
+
+    <div class="container align-center">
+        <div class="row justify-content-md-center">
+            <div class="mbr-white col-md-10">
+                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
+                    Hey {{fname}}!</h1>
+
+                <p class="mbr-text pb-3 mbr-fonts-style display-5">
+                    Scroll down to review your observations and browse some papers</p>
+                <div class="mbr-section-btn"><a class="btn btn-md btn-secondary display-4" href="https://4pi-astro.com/obsprop">Request Observations</a>
+                    <a class="btn btn-md btn-white-outline display-4" href="page4.html#accordion1-i">FAQ</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
+        <a href="#next">
+            <i class="mbri-down mbr-iconfont"></i>
+        </a>
+    </div>
+</section>
+
+
+<section class="section-table cid-rQtqnWyONe" id="table1-f">
+
+
+  {% if tab_disp %}
+  <div class="container container-table">
+      <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">Current and past observations</h2>
+
+      <div class="table-wrapper">
+        <div class="container">
+
+        </div>
+
+        <div class="container scroll">
+          <table class="table" cellspacing="0">
+            <thead>
+              <tr class="table-heads ">
+
+
+
+
+              <th class="head-item mbr-fonts-style display-7">
+                      Observation title</th><th class="head-item mbr-fonts-style display-7">
+                      Submitted on</th><th class="head-item mbr-fonts-style display-7">
+                      Start date</th><th class="head-item mbr-fonts-style display-7">
+                      End date</th><th class="head-item mbr-fonts-style display-7">
+                      % of Requested users</th><th class="head-item mbr-fonts-style display-7">
+                      % of Accepted users</th><th class="head-item mbr-fonts-style display-7">
+                      Delete Observation</th></tr>
+            </thead>
+
+            <tbody>
+
+
+
+
+            <tr>
+
+
+
+              {% for obs in obs_res %}
+              {% if obs.obs_del %}
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.req_frac}}</td><td class="body-item mbr-fonts-style display-7">{{obs.acc_frac}}</td><td class="body-item mbr-fonts-style display-7"><a href="{{obs.del_link}}" target="_newtab">Delete</td></tr><tr>
+              {% else %}
+                <td class="body-item mbr-fonts-style display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style display-7">{{obs.start_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.end_date}}</td><td class="body-item mbr-fonts-style display-7">{{obs.req_frac}}</td><td class="body-item mbr-fonts-style display-7">{{obs.acc_frac}}</td><td class="body-item mbr-fonts-style display-7">Not Available</td></tr><tr>
+              {% endif %}
+              {% endfor %}
+          </table>
+        </div>
+        <div class="container table-info-container">
+
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="mbr-text pb-3 mbr-fonts-style display-5">
+        You have no observations yet. Try your first Observation. :)</p>
+    {% endif %}
+</section>
+
+<section class="services5 cid-rQtsYsF8ED" id="services5-g">
+    <!---->
+
+    <!---->
+    <!--Overlay-->
+
+    <!--Container-->
+    <div class="container">
+        <div class="row">
+            <!--Titles-->
+            <div class="title pb-5 col-12">
+                <h2 class="align-left mbr-fonts-style m-0 display-1">Arxiv Feed</h2>
+
+            </div>
+            <!--Card-1-->
+            {% for res in arxiv_res %}
+            <div class="card px-3 col-12">
+                <div class="card-wrapper media-container-row media-container-row">
+                    <div class="card-box">
+                        <div class="top-line pb-3">
+                            <h4 class="card-title mbr-fonts-style display-5">
+                                {{res.title}}</h4>
+                            <p class="mbr-text cost mbr-fonts-style m-0 display-5"><a href="{{res.pdf}}">
+                                PDF</a></p>
+                        </div>
+                        <div class="bottom-line">
+                            <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
+                                {{res.author}} et. al.- abstract: {{res.summary}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!--Card-7-->
+
+            <!--Card-8-->
+
+            <!--Card-9-->
+
+            <!--Card-10-->
+
+            <!--Card-11-->
+
+            <!--Card-12-->
+
+        </div>
+    </div>
+</section>
+
+<section class="accordion1 cid-rQGpqLLc7A" id="accordion1-i">
+
+
+
+
+    <div class="container">
+        <div class="media-container-row">
+            <div class="col-12 col-md-8">
+                <div class="section-head text-center space30">
+                    <h2 class="mbr-section-title pb-5 mbr-fonts-style display-2">FAQ
+                    </h2>
+                </div>
+                <div class="clearfix"></div>
+                <div id="bootstrap-accordion_16" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <a role="button" class="panel-title collapsed text-black" data-toggle="collapse" data-core="" href="#collapse1_16" aria-expanded="false" aria-controls="collapse1">
+                                <h4 class="mbr-fonts-style display-5">
+                                    <span class="sign mbr-iconfont mbri-arrow-down inactive"></span>How does it work?</h4>
+                            </a>
+                        </div>
+                        <div id="collapse1_16" class="panel-collapse noScroll collapse " role="tabpanel" aria-labelledby="headingOne" data-parent="#bootstrap-accordion_16">
+                            <div class="panel-body p-4">
+                                <p class="mbr-fonts-style panel-text display-7">
+                                   Submit an observation request on our network. We will find the best matching observers for your target. You can then pick your favorites based on the observability. The amateurs will then gather the data for you. You will get notifications based on the&nbsp;</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <a role="button" class="collapsed panel-title text-black" data-toggle="collapse" data-core="" href="#collapse2_16" aria-expanded="false" aria-controls="collapse2">
+                                <h4 class="mbr-fonts-style display-5">
+                                    <span class="sign mbr-iconfont mbri-arrow-down inactive"></span>How much should I pay for it?</h4>
+                            </a>
+
+                        </div>
+                        <div id="collapse2_16" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#bootstrap-accordion_16">
+                            <div class="panel-body p-4">
+                                <p class="mbr-fonts-style panel-text display-7">
+                                   Typical observation costs is between €100 to €1000 based on the type of request and the quality of data.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingThree">
+                            <a role="button" class="collapsed text-black panel-title" data-toggle="collapse" data-core="" href="#collapse3_16" aria-expanded="false" aria-controls="collapse3">
+                                <h4 class="mbr-fonts-style display-5">
+                                    <span class="sign mbr-iconfont mbri-arrow-down inactive"></span> Why Mobirise?
+                                </h4>
+                            </a>
+                        </div>
+                        <div id="collapse3_16" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#bootstrap-accordion_16">
+                            <div class="panel-body p-4">
+                                <p class="mbr-fonts-style panel-text display-7">
+                                   Key differences from traditional builders:<br>* Minimalistic, extremely <strong>easy-to-use</strong> interface<br>* <strong>Mobile</strong>-friendliness, latest website blocks and techniques "out-the-box"<br>* <strong>Free</strong> for commercial and non-profit use</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cid-rQGog4NJFP" id="social-buttons2-h">
+
+
+
+
+
+    <div class="container">
+        <div class="media-container-row">
+            <div class="col-md-8 align-center">
+                <h2 class="pb-3 mbr-fonts-style display-2">
+                    FOLLOW US!
+                </h2>
+                <div class="social-list pl-0 mb-0">
+                    <a href="https://twitter.com/mobirise" target="_blank">
+                        <span class="px-2 socicon-twitter socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </a>
+                    <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                        <span class="px-2 socicon-facebook socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </a>
+                    <a href="https://instagram.com/mobirise" target="_blank">
+                        <span class="px-2 mbr-iconfont mbr-iconfont-social socicon-linkedin socicon"></span>
+                    </a>
+                    <a href="https://www.youtube.com/c/mobirise" target="_blank">
+
+                    </a>
+                    <a href="https://www.behance.net/Mobirise" target="_blank">
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="{% static 'coming_soon/web/assets/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'coming_soon/popper/popper.min.js' %}"></script>
+  <script src="{% static 'coming_soon/tether/tether.min.js' %}"></script>
+  <script src="{% static 'coming_soon/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'coming_soon/smoothscroll/smooth-scroll.js' %}"></script>
+  <script src="{% static 'coming_soon/sociallikes/social-likes.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/nav-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/dropdown/js/navbar-dropdown.js' %}"></script>
+  <script src="{% static 'coming_soon/touchswipe/jquery.touch-swipe.min.js' %}"></script>
+  <script src="{% static 'coming_soon/viewportchecker/jquery.viewportchecker.js' %}"></script>
+  <script src="{% static 'coming_soon/ytplayer/jquery.mb.ytplayer.min.js' %}"></script>
+  <script src="{% static 'coming_soon/vimeoplayer/jquery.mb.vimeo_player.js' %}"></script>
+  <script src="{% static 'coming_soon/datatables/jquery.data-tables.min.js' %}"></script>
+  <script src="{% static 'coming_soon/datatables/data-tables.bootstrap4.min.js' %}"></script>
+  <script src="{% static 'coming_soon/mbr-switch-arrow/mbr-switch-arrow.js' %}"></script>
+  <script src="{% static 'coming_soon/theme/js/script.js' %}"></script>
+  <script src="{% static 'coming_soon/formoid/formoid.min.js' %}"></script>
+
+
+  <input name="animation" type="hidden">
+  </body>
+</html>
