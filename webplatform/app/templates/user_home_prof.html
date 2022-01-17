@@ -1,4 +1,4 @@
-https://4pi-astro.com{% load static %}
+https://4piastro.com{% load static %}
 <!DOCTYPE html>
 <html  >
 <head>
@@ -44,16 +44,16 @@ https://4pi-astro.com{% load static %}
         <div class="menu-logo">
             <div class="navbar-brand">
                 <span class="navbar-logo">
-                    <a href="https://4pi-astro.com">
+                    <a href="https://4piastro.com">
                          <img src="{% static 'coming_soon/images/4pi-85x127.png' %}" alt="Mobirise" title="" style="height: 3.8rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4pi-astro.com">4Pi Astronomics</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4piastro.com">4Pi Astronomics</a></span>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4pi-astro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4pi-astro.com/accounts/logout">Logout</a></div>
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4piastro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4piastro.com/accounts/logout">Logout</a></div>
         </div>
     </nav>
 </section>
@@ -73,7 +73,7 @@ https://4pi-astro.com{% load static %}
 
                 <p class="mbr-text pb-3 mbr-fonts-style display-5">
                     Scroll down to review your observations and browse some papers</p>
-                <div class="mbr-section-btn"><a class="btn btn-md btn-secondary display-4" href="https://4pi-astro.com/obsprop">Request Observations</a>
+                <div class="mbr-section-btn"><a class="btn btn-md btn-secondary display-4" href="https://4piastro.com/obsprop">Request Observations</a>
                     <a class="btn btn-md btn-white-outline display-4" href="page4.html#accordion1-i">FAQ</a></div>
             </div>
         </div>
@@ -126,9 +126,9 @@ https://4pi-astro.com{% load static %}
 
               {% for obs in obs_res %}
               {% if obs.obs_del %}
-                <td class="body-item mbr-fonts-style align-center display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.start_date}} to {{obs.end_date}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style align-center display-7">Selected:{{obs.sel_frac}} <br /> Pending:{{obs.req_frac}} <br /> Accepted:{{obs.acc_frac}} <br /> Rejected:{{obs.rej_frac}} <br /> Completed: {{obs.comp_frac}}</td><td class="body-item mbr-fonts-style align-center display-7"><a href="{{obs.del_link}}">Delete</td></tr><tr>
+                <td class="body-item mbr-fonts-style align-center display-7"><a href="https://4piastro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.start_date}} to {{obs.end_date}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style align-center display-7">Selected:{{obs.sel_frac}} <br /> Pending:{{obs.req_frac}} <br /> Accepted:{{obs.acc_frac}} <br /> Rejected:{{obs.rej_frac}} <br /> Completed: {{obs.comp_frac}}</td><td class="body-item mbr-fonts-style align-center display-7"><a href="{{obs.del_link}}">Delete</td></tr><tr>
               {% else %}
-                <td class="body-item mbr-fonts-style align-center display-7"><a href="https://4pi-astro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.start_date}} to {{obs.end_date}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style align-center display-7">Selected:{{obs.sel_frac}} <br /> Pending:{{obs.req_frac}} <br /> Accepted:{{obs.acc_frac}} <br /> Rejected:{{obs.rej_frac}} <br /> Completed: {{obs.comp_frac}}</td><td class="body-item mbr-fonts-style align-center display-7">Not Available</td></tr><tr>
+                <td class="body-item mbr-fonts-style align-center display-7"><a href="https://4piastro.com/obs/overview/{{obs.pk}}">{{obs.title}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.submitted_on}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.start_date}} to {{obs.end_date}}</td><td class="body-item mbr-fonts-style align-center display-7">{{obs.desc}}</td><td class="body-item mbr-fonts-style align-center display-7">Selected:{{obs.sel_frac}} <br /> Pending:{{obs.req_frac}} <br /> Accepted:{{obs.acc_frac}} <br /> Rejected:{{obs.rej_frac}} <br /> Completed: {{obs.comp_frac}}</td><td class="body-item mbr-fonts-style align-center display-7">Not Available</td></tr><tr>
               {% endif %}
               {% endfor %}
           </table>
@@ -281,7 +281,7 @@ https://4pi-astro.com{% load static %}
                     <a href="https://www.facebook.com/4piastro/" target="_blank">
                         <span class="px-2 socicon-facebook socicon mbr-iconfont mbr-iconfont-social"></span>
                     </a>
-                    <a href="https://www.linkedin.com/company/4pi-astro" target="_blank">
+                    <a href="https://www.linkedin.com/company/4piastro" target="_blank">
                         <span class="px-2 mbr-iconfont mbr-iconfont-social socicon-linkedin socicon"></span>
                     </a>
                 </div>

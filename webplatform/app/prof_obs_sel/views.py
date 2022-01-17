@@ -163,7 +163,7 @@ def plot_world_map(ds):
     taptool = p.select(type=TapTool)
     p.toolbar.logo = None
     p.toolbar_location = None
-    url = "https://4pi-astro.com/obssel/@uid-@pid"
+    url = "https://4piastro.com/obssel/@uid-@pid"
     taptool.callback = OpenURL(url=url)
 
     script, div = components(p)
@@ -242,7 +242,7 @@ class obs_sel_views(View):
             else:
                 return HttpResponseNotFound("hello")
         else:
-            return redirect('https://4pi-astro.com/accounts/login')
+            return redirect('https://4piastro.com/accounts/login')
     def post(self, request,  pk, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():

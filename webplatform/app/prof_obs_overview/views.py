@@ -48,7 +48,7 @@ class Obs_Overview_views(View):
                 sel_users = proposal.selected_users.split(',')
                 obs_data = []
                 if sel_users == ['']:
-                    return redirect('https://4pi-astro.com/obs_sel/'+str(pk))
+                    return redirect('https://4piastro.com/obs_sel/'+str(pk))
                 else:
                     for u in sel_users:
                         obj = AmaOB.objects.filter(user_id=u)
@@ -127,7 +127,7 @@ class Obs_Overview_views(View):
                         ob_data['uname'] = u
                         ob_data['obs_img'] = obs.obs_img
                         ob_data['status'] = obs_status
-                        ob_data['obs_link'] = 'https://4pi-astro.com/obs_calc/'+u+'-'+pk
+                        ob_data['obs_link'] = 'https://4piastro.com/obs_calc/'+u+'-'+pk
                         ob_data['ama_id'] = obs.user_id
                         lp = obs.SQM
                         if lp == 0.:
@@ -141,7 +141,7 @@ class Obs_Overview_views(View):
             else:
                 return HttpResponseNotFound("hello")
         else:
-            return redirect('https://4pi-astro.com/accounts/login')
+            return redirect('https://4piastro.com/accounts/login')
 
 
 class remove_obser(View):
@@ -158,4 +158,4 @@ class remove_obser(View):
             unsel_users = list(set(unsel_users))
             Proposal.unselected_users = ','.join(unsel_users)
         Proposal.save()
-        return redirect('https://4pi-astro.com/obs/overview/{0}'.format(pk))
+        return redirect('https://4piastro.com/obs/overview/{0}'.format(pk))

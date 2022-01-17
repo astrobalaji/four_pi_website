@@ -39,7 +39,7 @@ def send_acc_email(ama_uname,prof_uname,  obs_title, obs_pk):
         'obs_id': obs_pk,
         'ama_id':ama_uname
     })
-    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4piastro.com', recipient_list = [prof_obj.email])
 
 def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
     prof_obj = next(User.objects.filter(username=prof_uname).iterator())
@@ -55,7 +55,7 @@ def send_rej_email(ama_uname,prof_uname,  obs_title, obs_pk):
         'obs_title': obs_title,
         'obs_id': obs_pk,
     })
-    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4piastro.com', recipient_list = [prof_obj.email])
 
 
 
@@ -73,7 +73,7 @@ def send_comp_email(ama_uname, obs_title, obs_pk):
         'obs_title': obs_title,
         'obs_id': obs_pk,
     })
-    send_mail(subject = subject, message = message, from_email = 'astrobot@4pi-astro.com', recipient_list = [prof_obj.email])
+    send_mail(subject = subject, message = message, from_email = 'astrobot@4piastro.com', recipient_list = [prof_obj.email])
 
 # Create your views here.
 class ama_overview_views(View):
@@ -122,7 +122,7 @@ class ama_overview_views(View):
             else:
                 return HttpResponseNotFound("hello")
         else:
-            return redirect('http://4pi-astro.com/accounts/login')
+            return redirect('http://4piastro.com/accounts/login')
     def post(self, request, pk, *args, **kwargs):
         data = next(Obs_Prop.objects.filter(pk=pk).iterator())
         form = self.form_class(request.POST, request.FILES)
@@ -181,7 +181,7 @@ class accept_obs(View):
             user_res.booked_dates = ','.join(booked_dates)
         user_res.save()
         send_acc_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
-        return redirect('https://4pi-astro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
+        return redirect('https://4piastro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
 
 class reject_obs(View):
     def get(self, request, slug, pk, *args, **kwargs):
@@ -202,7 +202,7 @@ class reject_obs(View):
             Proposal.rejected_users = ','.join(rej_users)
         Proposal.save()
         send_rej_email(slug, Proposal.user_id,  Proposal.obs_title, pk)
-        return redirect('https://4pi-astro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
+        return redirect('https://4piastro.com/obs_rev_ama/{0}'.format(pk))#render(request, 'autoclose.html')
 
 
 def extract_files(pk, ama_id, filename):

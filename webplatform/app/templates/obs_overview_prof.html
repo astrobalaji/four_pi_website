@@ -43,16 +43,16 @@
         <div class="menu-logo">
             <div class="navbar-brand">
                 <span class="navbar-logo">
-                    <a href="https://4pi-astro.com">
+                    <a href="https://4piastro.com">
                          <img src="{% static 'coming_soon/images/4pi-85x127.png' %}" alt="Mobirise" title="" style="height: 3.8rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4pi-astro.com">4Pi Astronomics</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="https://4piastro.com">4Pi Astronomics</a></span>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4pi-astro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4pi-astro.com/accounts/logout">Logout</a></div>
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-primary display-4" href="mailto:hello@4piastro.com"><span class="mbri-letter mbr-iconfont mbr-iconfont-btn"></span>Contact us</a><a class="btn btn-sm btn-white-outline display-4" href="https://4piastro.com/accounts/logout">Logout</a></div>
         </div>
     </nav>
 </section>
@@ -222,9 +222,9 @@
                            <br>Location: {{obs.location}}&nbsp;<br>Aperture(mm): {{obs.aper}}<br>Focal Length(mm): {{obs.flen}}<br>Detector: {{obs.det}}<br>Field of View(arcminutes): {{obs.fov}} <br> Pixel Scale (arcsec/pix): {{obs.pix_scale}} <br>Light Pollution Level (mag/arcsec^2): {{obs.lp}} &nbsp;</p>
                         <!--Btn-->
                         {% if obs.req %}
-                        {% if obs.not_rej %} <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} class="btn btn-warning-outline display-4">Check Observatory</a>{% endif %}{% if obs.sel_not_req %}<a href="https://4pi-astro.com/obs/overview/delete/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-secondary-outline display-4">Delete Observatory</a> {% endif %}</div>
+                        {% if obs.not_rej %} <div class="mbr-section-btn align-left"><a href={{obs.obs_link}} class="btn btn-warning-outline display-4">Check Observatory</a>{% endif %}{% if obs.sel_not_req %}<a href="https://4piastro.com/obs/overview/delete/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-secondary-outline display-4">Delete Observatory</a> {% endif %}</div>
                         {% elif obs.comp %}
-                        <div class="mbr-section-btn align-left"><a href="https://4pi-astro.com/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a> <br> <br> <br> <br> <br> <a href="https://4pi-astro.com/review/obs/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-warning-outline display-4">Review Observatory</a></div>
+                        <div class="mbr-section-btn align-left"><a href="https://4piastro.com/{{MEDIA_URL}}{{obs.data}}" target="_newtab" class="btn btn-warning-outline display-4">Download</a> <br> <br> <br> <br> <br> <a href="https://4piastro.com/review/obs/{{obs.ama_id}}-{{obs_pk}}" class="btn btn-warning-outline display-4">Review Observatory</a></div>
                         {% endif %}
 
                     </div>
@@ -248,7 +248,7 @@
 
 
 
-                <div class="mbr-section-btn"><a class="btn btn-md btn-primary display-4" href="https://4pi-astro.com/user/home">Go back to Home</a> <a class="btn btn-md btn-primary display-4" href="https://4pi-astro.com/obs_sel/{{obs_pk}}">Add more observatories</a></div>
+                <div class="mbr-section-btn"><a class="btn btn-md btn-primary display-4" href="https://4piastro.com/user/home">Go back to Home</a> <a class="btn btn-md btn-primary display-4" href="https://4piastro.com/obs_sel/{{obs_pk}}">Add more observatories</a></div>
             </div>
         </div>
     </div>

@@ -131,9 +131,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = '4pi-astro.com'
-EMAIL_HOST_USER = 'hello@4pi-astro.com'
-DEFAULT_FROM_EMAIL = 'hello@4pi-astro.com'
+EMAIL_HOST = '4piastro.com'
+EMAIL_HOST_USER = 'hello@4piastro.com'
+DEFAULT_FROM_EMAIL = 'hello@4piastro.com'
 EMAIL_HOST_PASSWORD = 'Ad_Astra_42'
 EMAIL_PORT = 587
 

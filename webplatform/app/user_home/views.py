@@ -70,7 +70,7 @@ def get_obs(uname):
 
         if (i.requested_users == '') and (i.accepted_users == ''):
             obs['obs_del'] = True
-            obs['del_link'] = 'https://4pi-astro.com/delobs/'+str(i.pk)
+            obs['del_link'] = 'https://4piastro.com/delobs/'+str(i.pk)
         else:
             obs['obs_del'] = False
             obs['del_link'] = ''
@@ -168,7 +168,7 @@ def index(request):
                 compobsdisp = False
             else:
                 compobsdisp = True
-            obs_home_link = 'https://4pi-astro.com/obs_calc/'+uname+'-0'
+            obs_home_link = 'https://4piastro.com/obs_calc/'+uname+'-0'
             context = {'fname':full_name, 'newobsdisp':newobsdisp, 'selobsdisp':selobsdisp, 'compobsdisp':compobsdisp, 'newobs':newobs, 'selobs':selobs, 'compobs':compobs, 'obs_home_link':obs_home_link, 'total_credits':0}
             return render(request, 'user_home_ama.html', context)
         else:

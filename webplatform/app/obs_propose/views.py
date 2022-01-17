@@ -20,7 +20,7 @@ class ObsPropViews(View):
             context = {'form':form, 'edit':False}
             return render(request, 'obsprop.html', context)
         else:
-            return redirect('https://4pi-astro.com/accounts/login')
+            return redirect('https://4piastro.com/accounts/login')
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -53,7 +53,7 @@ class ObsPropEdit(View):
             context = {'form':form, 'edit':True}
             return render(request, 'obsprop.html', context)
         else:
-            return redirect('https://4pi-astro.com/accounts/login')
+            return redirect('https://4piastro.com/accounts/login')
 
     def post(self, request, pk, *args, **kwargs):
         form = self.form_class(request.POST)
